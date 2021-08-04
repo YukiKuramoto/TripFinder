@@ -110,6 +110,7 @@
   .item {
     width: 100%;
     height: 100%;
+    padding: 0 5%;
     background-color: #fff;
     box-shadow: 0 0 8px 0 rgb(0 0 0 / 15%);
     
@@ -120,15 +121,86 @@
     
   &__item {
     display: inline-block;
+    vertical-align: top;
     padding: 50px 100px 25px 100px;
     width: 100%;
     height: 100%;
     font-size: 16px;
     
-    .content-spot-number {
+    .content-title {
       text-align: center;
       padding: 30px 0;
       font-size: 30px;
+    }
+    
+    .title-area {
+      margin-top: 30px;
+      
+      input {
+        width: calc(100% - 130px);
+      }
+    }
+    
+    .plan-textarea-title {
+      margin-top: 50px;
+    }
+    
+    textarea {
+      width: 100%;
+    }
+    
+    .plan-information-textarea {
+      height: 150px;
+    }
+    
+    .spot-detail-wrapper {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 60px;
+      height: 300px;
+      
+      .spot-detail-area {
+        width: 65%;
+        
+        .spot-address-area {
+          margin-top: 30px;
+          
+          input {
+            width: calc(100% - 80px);
+          }
+        }
+        
+        .spot-tag-area {
+          margin-top: 50px;
+          
+          textarea {
+            width: 100%;
+            height: 80px;
+          }
+        }
+        
+        .spot-area-title {
+          display: inline-block;
+          width: 80px;
+        }
+      }
+      
+      .spot-image-area {
+        width: 30%;
+        
+        .spot-image-view {
+          height: calc(100% - 35px);
+          
+          img {
+            height: 100%;
+            border: solid;
+          }
+        }
+      }
+    }
+    
+    .spot-information-textarea {
+      height: 150px;
     }
   }
 }

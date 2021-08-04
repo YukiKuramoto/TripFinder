@@ -35,9 +35,11 @@ new Vue({
         }],
       }],
       contentsInfo: [{
+        contentsStatus: 'IS_NEW',
         contentsKey: 0,
         daykey: 0,
         spotkey: 0,
+        spotImage: [],
       }],
       currentNum: 0,
       planOutline: {
@@ -52,6 +54,12 @@ new Vue({
         transform: `translatex(${-100 * this.currentNum}%)`,
       };
     },
+    IS_NEW: function(Status){
+      return Status === 'IS_NEW';
+    },
+    IS_SELECTED: function(Status){
+      return Status === 'IS_SELECTED';
+    }
   },
   methods: {
     carouselMove: function(spotKey){
@@ -94,6 +102,7 @@ new Vue({
       this.contentsInfo.splice(spotIndex + 1,0,{
         daykey: dayIndex,
         contentsTitle: `AddedPage${spotIndex + 1}`,
+        contentsStatus: 'IS_NEW',
       });
       
       this.assignKey();
@@ -136,6 +145,12 @@ new Vue({
         }
       }
     },
+    SelectImage: function(Image, Target, Status){
+      Image = Target;
+      this.contentsInfo[0].spotImage = Target;
+      console.log(Target);
+      console.log(this.contentsInfo[0].spotImage);
+    },
     showSpot: function(e) {
       e.preventDefault();
 
@@ -162,7 +177,6 @@ new Vue({
                     <h2 class="accordion-title"><a href="#" v-on:click="showSpot">PlanOutline</a></h2>
                     <div class="accordion-content accordion-content-active" v-on:click="carouselMove(-1)">PlanOutline</div>
                 </section>
-                
                 <section v-for="day in dayInfo">
                     <h2 class="accordion-title"><a href="#!" v-on:click="showSpot">Day{{ day.dayKey + 1 }}</a></h2>
                     <div v-for="spot in day.spotInfo">
@@ -187,43 +201,94 @@ new Vue({
                 <div class="list" v-bind:style="_listStyle">
                   <div class="list__item">
                     <div class="item">
-                      <div class="content-spot-number">PlanOutline</div>
-                      <input type="text">
+                      <div class="content-title">PlanOutline</div>
+                        <div class="title-area">
+                          プランタイトル：
+                          <input type="text"
+                          v-on:input="planOutline.planTitle = $event.target.value"
+                          v-bind:value="planOutline.planTitle">
+                        </div>
+                        <div class="plan-tag-area">
+                          <div class="plan-textarea-title">
+                            ハッシュタグ
+                          </div>
+                          <textarea
+                          v-on:input="planOutline.hashTag = $event.target.value"
+                          v-bind:value="planOutline.hashTag"
+                          placeholder=" #日帰り  #おしゃれカフェ  #デート">
+                          </textarea>
+                        </div>
+                        <div class="plan-information-area">
+                          <div class="plan-textarea-title">
+                            PLAN INFORMATION
+                          </div>
+                          <textarea class="plan-information-textarea"
+                          v-on:input="planOutline.information = $event.target.value"
+                          v-bind:value="planOutline.information"
+                          placeholder="プランの見所を投稿しよう！">
+                          </textarea>
+                        </div>
                     </div>
                   </div>
                   <template class="spot-content" v-for="content in contentsInfo">
                     <div class="list__item">
                       <div class="item">
-                        <div class="content-spot-number">Spot{{ content.contentsKey + 1 }}</div>
-                          <div class="spot-title-area">
+                        <div class="content-title">Spot{{ content.contentsKey + 1 }}</div>
+                          <div class="title-area">
                             スポットタイトル： 
                             <input type="text"
                             v-on:input="content.contentsTitle = $event.target.value" 
                             v-bind:value="content.contentsTitle">
                           </div>
-                          <div class="spot-detail-area">
-                            <div class="spot-address-area">
-                              所在地：
-                              <input type="text"
-                              v-on:input="content.contentsAddress = $event.target.value" 
-                              v-bind:value="content.contentsAddress">
+                          <div class="spot-detail-wrapper">
+                            <div class="spot-detail-area">
+                              <div class="spot-stay-area">
+                                <div class="spot-area-title">
+                                  滞在時間：
+                                </div>
+                                <input type="text"
+                                v-on:input="content.contentsStay = $event.target.value" 
+                                v-bind:value="content.contentsStay">
+                              </div>
+                              <div class="spot-address-area">
+                                <div class="spot-area-title">
+                                  所在地：
+                                </div>
+                                <input type="text"
+                                v-on:input="content.contentsAddress = $event.target.value" 
+                                v-bind:value="content.contentsAddress">
+                              </div>
+                              <div class="spot-tag-area">
+                                <div>
+                                  スポットタグ
+                                </div>
+                                <textarea
+                                v-on:input="content.contentsTag = $event.target.value" 
+                                v-bind:value="content.contentsTag"
+                                placeholder="タグをつけよう！">
+                                </textarea>
+                              </div>
                             </div>
-                            <div class="spot-time-area">
-                              滞在時間：
-                              <input type="text"
-                              v-on:input="content.contentsAddress = $event.target.value" 
-                              v-bind:value="content.contentsAddress">
+                            <div class="spot-image-area">
+                              <div class="spot-image-select">
+                                写真を投稿:
+                                <input type="file"
+                                class="file-select"
+                                v-on:input="SelectImage(content.spotImage, $event.target.value, content.contentsStatus)"
+                                v-bind:value="content.spotImage"
+                                multiple="multiple">
+                              </div>
+                              <div class="spot-image-view">
+                                <img v-if="content.contentsStatus === 'IS_NEW'" src="../../image/sample.png">
+                                <img v-else-if="content.contentsStatus === 'IS_NEW'" v-bind:src="content.SpotImage[0]">
+                              </div>
                             </div>
                           </div>
-                          <div class="spot-image-area">
-                            写真を投稿：
-                            <input type="file"
-                            v-on:input="content.contentsAddress = $event.target.value" 
-                            v-bind:value="content.contentsAddress">
-                          </div>
-                          <div class="spot-info-area">
-                            SpotInfo：
-                            <textarea
+                          <div class="spot-information-area">
+                            <div>
+                              SPOT INFORMATION
+                            </div>
+                            <textarea class="spot-information-textarea"
                             v-on:input="content.contentsInfo = $event.target.value"
                             v-bind:value="content.contentsInfo"
                             placeholder="スポットの情報を投稿しよう！" >
