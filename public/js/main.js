@@ -228,8 +228,9 @@ new Vue({
       }
     },
     SelectImage: function SelectImage(Image, Target, Status) {
-      Image = Target;
-      this.contentsInfo[0].spotImage = Target;
+      Image.push(Target); // Image = Target;
+      // this.contentsInfo[0].spotImage = Target;
+
       console.log(Target);
       console.log(this.contentsInfo[0].spotImage);
     },
