@@ -1,0 +1,227 @@
+@charset "UTF-8";
+
+.mypage {
+  display: flex;
+  justify-content: center;
+}
+
+.contents-outer {
+  background-color: #fff;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+  margin: 120px 0 60px 0;
+  min-height: 870px;
+  min-width: 1400px;
+}
+
+.contents-outer .contents-title {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.contents-outer .contents-wrapper {
+  display: flex;
+  justify-content: center;
+  height: 85%;
+  margin-top: 50px;
+}
+
+.contents-outer .contents-wrapper .contents-profile {
+  margin-top: 40px;
+  width: 30%;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area {
+  border: solid 0.1px rgba(204, 204, 204, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area h3 {
+  margin: 20px 0 35px 0;
+  text-align: center;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-info-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-info-area .profile-image-area {
+  width: 35%;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-info-area .profile-image-area img {
+  width: 155px;
+  height: 155px;
+  border-radius: 50%;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-info-area .profile-count-area {
+  width: 55%;
+  display: flex;
+  justify-content: center;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-info-area .profile-count-area h4 {
+  text-align: center;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-info-area .profile-count-area .post-count-area {
+  width: 50%;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-info-area .profile-count-area .followed-count-area {
+  width: 50%;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-name-area {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-name-area p {
+  margin: 0 0 0 30px;
+  font-size: 30px;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-name-area button {
+  font-size: 12px;
+  margin-right: 20px;
+}
+
+.contents-outer .contents-wrapper .contents-profile .profile-area .profile-introduction-area {
+  margin: 35px 30px;
+}
+
+.contents-outer .contents-wrapper .contents-post {
+  height: 100%;
+  width: 55%;
+  padding-left: 30px;
+  /* ulのデフォルトスタイルを消去 */
+  /* タブの基本スタイル */
+  /* 非選択のタブにマウスカーソルを乗せたら色を変える */
+  /* 選択中のタブの色を設定 */
+  /* タブコンテンツ表示エリア */
+  /* 各タブのコンテンツはデフォルトで非表示 */
+}
+
+.contents-outer .contents-wrapper .contents-post .tabs-menu {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  margin: 0 auto;
+  display: table;
+}
+
+.contents-outer .contents-wrapper .contents-post .tabs-menu li {
+  float: left;
+  text-align: center;
+  width: 160px;
+  margin-bottom: -1px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #999;
+  border-radius: 4px 4px 0 0;
+  /* 各プロパティをふわっと変える演出 */
+  transition: all 0.15s;
+}
+
+.contents-outer .contents-wrapper .contents-post .tabs-menu a {
+  display: block;
+  padding: 10px 20px;
+  color: #557F95;
+  text-decoration: none;
+}
+
+.contents-outer .contents-wrapper .contents-post .tabs-menu li:not(.active) {
+  background-color: #f3f3f3;
+}
+
+.contents-outer .contents-wrapper .contents-post .tabs-menu .active {
+  border-color: #999 #999 transparent #999;
+  background-color: #fff;
+}
+
+.contents-outer .contents-wrapper .contents-post .tabs-menu .active a {
+  color: #3F4548;
+}
+
+.contents-outer .contents-wrapper .contents-post .tabs-content {
+  clear: both;
+  border-top: 1px solid #999;
+  border-radius: 0 4px 4px 4px;
+  padding: 10px;
+}
+
+.contents-outer .contents-wrapper .contents-post .tabs-content section {
+  display: none;
+}
+
+.plan-item-wrapper {
+  padding: 30px 0px;
+}
+
+.plan-item-wrapper .plan-item {
+  height: 180px;
+  padding: 20px 15px;
+  margin-bottom: 15px;
+  border: solid 0.1px rgba(204, 204, 204, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.5);
+  display: flex;
+  text-decoration: none;
+  color: black;
+}
+
+.plan-item-wrapper .plan-item .plan-image {
+  height: 100%;
+  width: 120px;
+  border-radius: 10px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.plan-item-wrapper .plan-item .plan-tag {
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 100vh;
+  padding: 2px 10px;
+  color: #fff;
+  background-color: #7dcafa;
+}
+
+.plan-item-wrapper .plan-item .plan-outline-wrapper {
+  padding-left: 30px;
+}
+
+.plan-item-wrapper .plan-item .plan-outline-wrapper .plan-title {
+  display: inline-block;
+  font-size: 20px;
+  margin: 0 0 7px 0;
+  padding: 0;
+  -webkit-text-decoration: underline 0.5px;
+          text-decoration: underline 0.5px;
+}
+
+.plan-item-wrapper .plan-item .plan-outline-wrapper .icon-area {
+  margin: 5px 0 7px 0;
+}
+
+.plan-item-wrapper .plan-item .plan-outline-wrapper .icon-area .bi {
+  margin: 0 5px 0 10px;
+}
+
+.plan-item-wrapper .plan-item .plan-outline-wrapper .icon-area .bi-star-fill {
+  color: #ffd700;
+}
+
+.plan-item-wrapper .plan-item .plan-outline-wrapper .icon-area .bi-chat-left-dots-fill {
+  color: #c0c0c0;
+}
+
+.plan-item-wrapper .plan-item:last-child {
+  margin-bottom: 0;
+}
+

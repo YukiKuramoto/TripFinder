@@ -15,7 +15,7 @@
     <body>
         <div id="app">
             <header id="header">
-                <a href=""><img src="{{ asset('image/logo.JPG') }}" alt="TripFinder" id="logo"></a>
+                <a href="{{ action('PostController@index') }}"><img src="{{ asset('image/logo.JPG') }}" alt="TripFinder" id="logo"></a>
                 <div id="header-contents">
                   <nav id="header-list">
                       @guest
@@ -39,7 +39,7 @@
               <div id="nav-content" tabindex="0">
                 <ul>
                   <li><a href="{{ action('Home\HomeController@index') }}">Top</a></li>
-                  <li><a href="">MyPage</a></li>
+                  <li><a href="{{ action('MypageController@index') }}">MyPage</a></li>
                   <li><a href="{{ action('PostController@show') }}">Post Plan</a></li>
                   <li><a href="">Favorite User</a></li>
                   <li><a href="">History</a></li>
@@ -52,7 +52,7 @@
                 @yield('content')
             </div>
         </div>
-        
+
         <!-- Modal -->
         <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">

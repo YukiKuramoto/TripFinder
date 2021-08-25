@@ -13,9 +13,12 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/main.js', 'public/js')
+    .js('resources/js/store.js', 'public/js')
     .js('resources/js/post.js', 'public/js')
+    .js('resources/js/mypage.js', 'public/js')
     .js('resources/js/jquery.tagsinput.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/jquery.tagsinput.scss', 'public/css')
     .sass('resources/sass/post.scss', 'public/css')
-    .sass('resources/sass/home.scss', 'public/css');
+    .sass('resources/sass/home.scss', 'public/css')
+    .sass('resources/sass/mypage.scss', 'public/css');

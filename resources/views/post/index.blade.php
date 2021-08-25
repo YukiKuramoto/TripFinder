@@ -8,7 +8,6 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('js/post.js') }}" defer></script>
     <script src="{{ asset('js/jquery.tagsinput.js') }}" defer></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
@@ -16,5 +15,13 @@
 
 @section('content')
     <div class="contents" id="post-page">
+      <planpost-component
+        :old="{{ json_encode(Session::getOldInput()) }}"
+        :errors= "{{ $errors }}">
+      </planpost-component>
+      <!-- <postpage-component
+        :old="{{ json_encode(Session::getOldInput()) }}"
+        :errors= "{{ $errors }}">
+      </postpage-component> -->
     </div>
 @endsection

@@ -81,51 +81,59 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/main.js":
-/*!******************************!*\
-  !*** ./resources/js/main.js ***!
-  \******************************/
+/***/ "./resources/js/mypage.js":
+/*!********************************!*\
+  !*** ./resources/js/mypage.js ***!
+  \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-/* jshint curly:true, debug:true */
+/**
+ * selectorに該当するタブを表示する関数
+ */
+var showTab = function showTab(selector) {
+  // 引数selectorの中身をコンソールで確認する
+  console.log(selector);
+  /* 1. タブの選択状態のリセット */
+  // いったん、すべての.tabs-menu > liからactiveクラスを削除する
 
-/* globals $ */
+  $('.tabs-menu > li').removeClass('active'); // いったん、すべての.tabs-content > sectionを非表示にする
 
-/* globals Vue */
-// ログイン、新規登録関連操作
-$('#sign-in').on('click', function (e) {
-  e.preventDefault();
-  $('.modal-title').text('新規登録');
-  $('#button-signin').show();
-  $('#button-login').hide();
-});
-$('#log-in').on('click', function (e) {
-  e.preventDefault();
-  $('.modal-title').text('ログイン');
-  $('#button-login').show();
-  $('#button-signin').hide();
-});
-$('.btn-submit').click(function () {
-  $(this).parents('form').attr('action', $(this).data('action'));
-  $(this).parents('form').submit();
-});
+  $('.tabs-content > section').hide();
+  /* 2. 選択されたタブの表示 */
+  // .tabs-menu liのうち、selectorに該当するものにだけactiveクラスを付ける
+
+  $(".tabs-menu a[href=\"".concat(selector, "\"]")).parent('li').addClass('active'); // .tabs-content > sectionのうち、selectorに該当するものだけを表示する
+
+  $(selector).show();
+}; // タブがクリックされたらコンテンツを表示
+
+
+$('.tabs-menu a').on('click', function (e) {
+  // hrefへのページ遷移を止める
+  e.preventDefault(); // hrefの値を受け取った後、showTab()関数に渡す。e.targetはクリックされたタブ（.tabs-menu a）を表す
+
+  var selector = $(e.target).attr('href');
+  showTab(selector);
+}); // 初期状態として1番目のタブを表示
+
+showTab('#tabs-1');
 
 /***/ }),
 
-/***/ 1:
-/*!************************************!*\
-  !*** multi ./resources/js/main.js ***!
-  \************************************/
+/***/ 4:
+/*!**************************************!*\
+  !*** multi ./resources/js/mypage.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/mypage.js */"./resources/js/mypage.js");
 
 
 /***/ })

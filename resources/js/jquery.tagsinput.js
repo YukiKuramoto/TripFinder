@@ -231,10 +231,10 @@
 
 			// 自作エリア
 			let $div = $(this).parent().find(".tagsinput");
-		
+
 			$div.attr("id", id+"_tagsinput");
 			$div.find(".tagsinput-child").attr("id", id + "_addTag");
-			
+
 			if (settings.interactive) {
 				$div.find(".tagsinput-form").attr("id", id+"_tag");
 				$div.find(".tagsinput-form").attr("data-default", settings.defaultText);
@@ -392,5 +392,6 @@
    }
 })(jQuery);
 
-
-	
+$(function(){
+  $('.hash-tag').tagsInput({width:'100%'});
+});

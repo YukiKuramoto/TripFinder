@@ -14,13 +14,13 @@ class CreateSpotsTable extends Migration
     public function up()
     {
         Schema::create('spots', function (Blueprint $table) {
-            $table->bigIncrements('spot_id');
+            $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('plan_id');
-            $table->string('spot_name');
-            $table->string('stay_time');
-            $table->string('stay_address');
-            $table->string('spot_image');
+            $table->string('spot_title');
+            $table->string('spot_duration');
+            $table->string('spot_address');
+            $table->string('spot_image')->nullable();
             $table->string('spot_information');
             $table->timestamps();
         });

@@ -17,11 +17,13 @@ Route::get('/', function () {
 
 Route::get('/home', 'Home\HomeController@index')->name('home');
 Route::get('/post', 'PostController@show');
+Route::get('/show', 'PostController@index');
+Route::get('/mypage', 'MypageController@index');
+Route::get('/showpost/{user_id}/{plan_id}', 'MypageController@showpost');
 Route::post('/post/create', 'PostController@create');
 Route::post('/home/signin', 'UserRegisterController@register');
 Route::post('/home/login', 'UserAuthController@authenticate');
 Route::post('/home/logout', 'UserAuthController@logoutuser');
-
 
 
 Auth::routes();

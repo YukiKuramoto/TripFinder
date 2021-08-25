@@ -1710,6 +1710,236 @@ module.exports = function isBuffer (obj) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CarouselFormComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CarouselFormComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['old', 'errors'],
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      currentNum: 0
+    };
+  },
+  computed: {
+    _listStyle: function _listStyle() {
+      return {
+        transition: '',
+        transform: "translatex(".concat(-100 * this.$store.state.currentSlide, "%)")
+      };
+    },
+    ErrorExist: function ErrorExist() {
+      return this.$store.state.errorExist === 'Exist';
+    }
+  },
+  beforeUpdate: function beforeUpdate() {
+    $('.hash-tag').tagsInput({
+      width: '100%'
+    });
+  },
+  methods: {
+    SelectImage: function SelectImage(Key, Target) {
+      var _this = this;
+
+      this.contentsArray[Key].spotImage = [];
+
+      if (Target.files.length > 0) {
+        var file = Target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          _this.contentsArray[Key].spotImage.push(e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    },
+    registarPlanTag: function registarPlanTag() {
+      var value = document.getElementById('plantag-input').value;
+      this.$store.commit('registarPlanTag', value);
+    } // registarSpotTag: function(key){
+    //   const value = document.getElementById(`id${key}`).value;
+    //   this.$store.commit('registarSpotTag', {key: key, value: value});
+    // },
+
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -1738,6 +1968,929 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlanPost.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PlanPost.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['old', 'errors'],
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      dayInfo: [{
+        dayKey: 0,
+        spotInfo: [{
+          spotKey: 0,
+          spotDisplay: ''
+        }]
+      }],
+      contentsInfo: [{
+        contentsKey: 0,
+        daykey: 0,
+        spotkey: 0,
+        contentsTitle: 'これはテストタイトルです。',
+        contentsDuration: '0.5時間',
+        contentsAddress: '東京',
+        contentsTag: 'testspot,testspot1',
+        contentsInfo: 'これはテストspotです',
+        spotImage: []
+      }],
+      currentNum: 0,
+      planOutline: {
+        planTitle: '',
+        hashTag: 'testPlan1, testPlan2',
+        information: 'これはテストプランです。'
+      },
+      errorExist: ''
+    };
+  },
+  computed: {
+    _listStyle: function _listStyle() {
+      return {
+        transition: '',
+        transform: "translatex(".concat(-100 * this.currentNum, "%)")
+      };
+    },
+    ErrorExist: function ErrorExist() {
+      return this.errorExist === 'Exist';
+    }
+  },
+  created: function created() {
+    if (this.errors.length != 0) {
+      this.errorExist = 'Exist';
+      this.InputOldInfo_Plan(this.old.plan[0]);
+      this.InputOldInfo_Spot(this.old.spot);
+      this.InputErrInfo(this.errors);
+    }
+  },
+  beforeUpdate: function beforeUpdate() {
+    $('.hash-tag').tagsInput({
+      width: '100%'
+    });
+  },
+  methods: {
+    InputOldInfo_Plan: function InputOldInfo_Plan(plan) {
+      console.log(plan);
+      this.planOutline.planTitle = plan.plan_title;
+      this.planOutline.hashTag = plan.plan_tag;
+      this.planOutline.information = plan.plan_information;
+    },
+    InputOldInfo_Spot: function InputOldInfo_Spot(spot) {
+      var day_max = 1;
+
+      for (var i = 0; i < spot.length; i++) {
+        if (day_max < spot[i].spot_day) {
+          day_max = spot[i].spot_day;
+          this.addDay();
+        } else if (i > 0) {
+          this.addSpot(spot[i].spot_day - 1, i, 'none');
+        }
+
+        this.contentsInfo[i].contentsKey = i;
+        this.contentsInfo[i].contentsTitle = spot[i].spot_title;
+        this.contentsInfo[i].contentsAddress = spot[i].spot_address;
+        this.contentsInfo[i].contentsTag = spot[i].spot_tag;
+        this.contentsInfo[i].contentsInfo = spot[i].spot_information;
+        this.contentsInfo[i].contentsDuration = spot[i].spot_duration;
+      }
+    },
+    InputErrInfo: function InputErrInfo(err) {
+      var key = Object.keys(err);
+
+      for (var i = 0; i < key.length; i++) {
+        var _key$i$split = key[i].split('.'),
+            _key$i$split2 = _slicedToArray(_key$i$split, 3),
+            category = _key$i$split2[0],
+            index = _key$i$split2[1],
+            property = _key$i$split2[2];
+
+        if (category == 'plan') {
+          switch (property) {
+            case 'plan_title':
+              this.planOutline.mark_title = "＊";
+              break;
+
+            case 'plan_info':
+              this.planOutline.mark_info = "＊";
+              break;
+
+            default:
+              console.log(category);
+              console.log(property);
+              console.log('該当なし');
+          }
+        } else if (category == 'spot') {
+          switch (property) {
+            case 'spot_title':
+              this.contentsInfo[index].mark_title = "＊";
+              break;
+
+            case 'spot_address':
+              this.contentsInfo[index].mark_address = "＊";
+              break;
+
+            case 'spot_info':
+              this.contentsInfo[index].mark_info = "＊";
+              break;
+
+            default:
+          }
+        }
+      }
+    },
+    carouselMove: function carouselMove(spotKey) {
+      this.currentNum = spotKey + 1;
+    },
+    addDay: function addDay() {
+      var newDaykey = this.dayInfo.length;
+      this.dayInfo.push({
+        dayKey: newDaykey,
+        spotInfo: [{}]
+      });
+      this.contentsInfo.push({
+        spotImage: [],
+        contentsDuration: '0.5時間'
+      });
+      this.assignKey();
+    },
+    deleteDay: function deleteDay() {
+      var targetIndex_day = this.dayInfo.length - 1;
+      var targetIndex_content = this.dayInfo[targetIndex_day].spotInfo[0].spotKey;
+      var targetCount = this.dayInfo[targetIndex_day].spotInfo.length;
+
+      if (targetIndex_day == 0) {
+        return;
+      }
+
+      this.contentsInfo.splice(targetIndex_content, targetCount);
+      this.dayInfo.splice(targetIndex_day, 1);
+      var spotArray = this.dayInfo[this.dayInfo.length - 1].spotInfo;
+      this.currentNum = spotArray[spotArray.length - 1].spotKey + 1;
+    },
+    addSpot: function addSpot(dayIndex, spotIndex, displayStyle) {
+      this.dayInfo[dayIndex].spotInfo.splice(spotIndex + 1, 0, {
+        spotDisplay: "display: ".concat(displayStyle)
+      });
+      this.contentsInfo.splice(spotIndex + 1, 0, {
+        daykey: dayIndex,
+        spotImage: [],
+        contentsDuration: '0.5時間'
+      });
+      this.assignKey();
+    },
+    deleteSpot: function deleteSpot(dayKey, spotKey) {
+      var spotArray = this.dayInfo[dayKey].spotInfo;
+      var contentsArray = this.contentsInfo;
+      var target;
+
+      if (spotArray.length !== 1) {
+        for (var i = 0; i < spotArray.length; i++) {
+          if (spotArray[i].spotKey == spotKey) {
+            target = i;
+          }
+        }
+
+        spotArray.splice(target, 1);
+
+        for (var _i2 = 0; _i2 < contentsArray.length; _i2++) {
+          if (contentsArray[_i2].daykey == dayKey && contentsArray[_i2].spotkey == spotKey) {
+            contentsArray.splice(_i2, 1);
+          }
+        }
+      } else {
+        return;
+      }
+
+      this.assignKey();
+    },
+    assignKey: function assignKey() {
+      var dayArray = this.dayInfo;
+      var keyCount = 0;
+
+      for (var i = 0; i < dayArray.length; i++) {
+        for (var j = 0; j < dayArray[i].spotInfo.length; j++) {
+          dayArray[i].spotInfo[j].spotKey = keyCount;
+          this.contentsInfo[keyCount].contentsKey = keyCount;
+          this.contentsInfo[keyCount].spotkey = keyCount;
+          this.contentsInfo[keyCount].daykey = i;
+          keyCount++;
+        }
+      }
+    },
+    SelectImage: function SelectImage(Key, Target) {
+      var _this = this;
+
+      this.contentsInfo[Key].spotImage = [];
+
+      if (Target.files.length > 0) {
+        var file = Target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          _this.contentsInfo[Key].spotImage.push(e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    },
+    showSpot: function showSpot(e) {
+      e.preventDefault();
+      var content = $(e.target).closest('section').find('.accordion-content');
+
+      if (!content.is(':visible')) {
+        $('.accordion-content:visible').slideUp();
+        content.slideDown();
+      }
+    },
+    registarPlanTag: function registarPlanTag() {
+      this.planOutline.hashTag = document.getElementById('plantag-input').value;
+    },
+    registarSpotTag: function registarSpotTag(key) {
+      this.contentsInfo[key].contentsTag = document.getElementById("id".concat(key)).value;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPageComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostPageComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _SlideMenuComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SlideMenuComponent.vue */ "./resources/js/components/SlideMenuComponent.vue");
+/* harmony import */ var _CarouselFormComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CarouselFormComponent.vue */ "./resources/js/components/CarouselFormComponent.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['old', 'errors'],
+  components: {
+    SlideMenu: _SlideMenuComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    CarouselForm: _CarouselFormComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  data: function data() {
+    return {
+      sayConsole: function sayConsole(method, index, length, dayKey) {
+        switch (method) {
+          case 'addDay':
+            this.$refs.carousel.addDay();
+            console.log('add!!!!!');
+            break;
+
+          case 'addSpot':
+            console.log('SPOTADD');
+            break;
+
+          case 'deleteSpot':
+            console.log('DELETE');
+            break;
+        }
+      }
+    };
+  } // data() {
+  //   return {
+  //     csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+  //     dayInfo: [{
+  //       dayKey: 0,
+  //       spotInfo: [{
+  //         spotKey: 0,
+  //         spotDisplay: ''
+  //       }],
+  //     }],
+  //     contentsInfo: [{
+  //       contentsKey: 0,
+  //       daykey: 0,
+  //       spotkey: 0,
+  //       contentsTitle: 'これはテストタイトルです。',
+  //       contentsDuration: '0.5時間',
+  //       contentsAddress: '東京',
+  //       contentsTag: 'testspot,testspot1',
+  //       contentsInfo: 'これはテストspotです',
+  //       spotImage: [],
+  //     }],
+  //     currentNum: 0,
+  //     planOutline: {
+  //       planTitle: '',
+  //       hashTag: 'testPlan1, testPlan2',
+  //       information: 'これはテストプランです。'
+  //     },
+  //     errorExist: '',
+  //   };
+  // },
+  // computed: {
+  //   _listStyle() {
+  //     return {
+  //       transition: '',
+  //       transform: `translatex(${-100 * this.currentNum}%)`,
+  //     };
+  //   },
+  //   ErrorExist() {
+  //     return this.errorExist === 'Exist';
+  //   }
+  // },
+  // created: function(){
+  //   if(this.errors.length != 0){
+  //     this.errorExist = 'Exist';
+  //     this.InputOldInfo_Plan(this.old.plan[0]);
+  //     this.InputOldInfo_Spot(this.old.spot);
+  //     this.InputErrInfo(this.errors);
+  //   }
+  // },
+  // beforeUpdate: function(){
+  //   $('.hash-tag').tagsInput({width:'100%'});
+  // },
+  // methods: {
+  //   InputOldInfo_Plan: function(plan){
+  //     console.log(plan);
+  //     this.planOutline.planTitle = plan.plan_title;
+  //     this.planOutline.hashTag = plan.plan_tag;
+  //     this.planOutline.information = plan.plan_info;
+  //   },
+  //   InputOldInfo_Spot: function(spot){
+  //     let day_max = 1;
+  //     for(let i = 0; i < spot.length; i++){
+  //       if(day_max < spot[i].spot_day){
+  //         day_max = spot[i].spot_day;
+  //         this.addDay();
+  //       }else if(i > 0){
+  //         this.addSpot(spot[i].spot_day - 1, i, 'none');
+  //       }
+  //
+  //       this.contentsInfo[i].contentsKey = i;
+  //       this.contentsInfo[i].contentsTitle = spot[i].spot_title;
+  //       this.contentsInfo[i].contentsAddress = spot[i].spot_address;
+  //       this.contentsInfo[i].contentsTag = spot[i].spot_tag;
+  //       this.contentsInfo[i].contentsInfo = spot[i].spot_info;
+  //       this.contentsInfo[i].contentsDuration = spot[i].spot_duration;
+  //     }
+  //   },
+  //   InputErrInfo: function(err){
+  //     let key = Object.keys(err);
+  //     for(let i=0; i<key.length; i++){
+  //       let [category, index, property] = key[i].split('.')
+  //
+  //       if(category == 'plan'){
+  //         switch (property) {
+  //           case 'plan_title':
+  //             this.planOutline.mark_title = "＊";
+  //             break;
+  //           case 'plan_info':
+  //             this.planOutline.mark_info = "＊";
+  //             break;
+  //           default:
+  //             console.log('該当なし')
+  //         }
+  //       }else if(category == 'spot'){
+  //         switch (property) {
+  //           case 'spot_title':
+  //             this.contentsInfo[index].mark_title = "＊"
+  //             break;
+  //           case 'spot_address':
+  //             this.contentsInfo[index].mark_address = "＊"
+  //             break;
+  //           case 'spot_info':
+  //             this.contentsInfo[index].mark_info = "＊"
+  //             break;
+  //           default:
+  //         }
+  //       }
+  //     }
+  //   },
+  //   carouselMove: function(spotKey){
+  //     this.currentNum = spotKey + 1;
+  //   },
+  //   addDay: function() {
+  //     let newDaykey = this.dayInfo.length;
+  //
+  //     this.dayInfo.push({
+  //       dayKey: newDaykey,
+  //       spotInfo: [{}]
+  //     });
+  //
+  //     this.contentsInfo.push({
+  //       spotImage: [],
+  //       contentsDuration: '0.5時間',
+  //     });
+  //
+  //     this.assignKey();
+  //   },
+  //   deleteDay: function() {
+  //     let targetIndex_day = this.dayInfo.length - 1;
+  //     let targetIndex_content = this.dayInfo[targetIndex_day].spotInfo[0].spotKey;
+  //     let targetCount = this.dayInfo[targetIndex_day].spotInfo.length;
+  //
+  //     if(targetIndex_day == 0){
+  //       return;
+  //     }
+  //
+  //     this.contentsInfo.splice(targetIndex_content, targetCount);
+  //     this.dayInfo.splice(targetIndex_day, 1);
+  //
+  //     let spotArray = this.dayInfo[this.dayInfo.length - 1].spotInfo;
+  //     this.currentNum = spotArray[spotArray.length - 1].spotKey + 1;
+  //   },
+  //   addSpot: function(dayIndex, spotIndex, displayStyle) {
+  //
+  //     this.dayInfo[dayIndex].spotInfo.splice(spotIndex + 1,0,{
+  //       spotDisplay: `display: ${displayStyle}`,
+  //     });
+  //
+  //     this.contentsInfo.splice(spotIndex + 1,0,{
+  //       daykey: dayIndex,
+  //       spotImage: [],
+  //       contentsDuration: '0.5時間',
+  //     });
+  //
+  //     this.assignKey();
+  //   },
+  //   deleteSpot: function(dayKey, spotKey){
+  //     const spotArray = this.dayInfo[dayKey].spotInfo;
+  //     const contentsArray = this.contentsInfo;
+  //     let target;
+  //
+  //     if(spotArray.length !== 1){
+  //       for(let i=0; i<spotArray.length; i++){
+  //         if(spotArray[i].spotKey == spotKey){
+  //           target = i;
+  //         }
+  //       }
+  //       spotArray.splice(target, 1);
+  //
+  //       for(let i=0; i<contentsArray.length; i++){
+  //         if(contentsArray[i].daykey == dayKey && contentsArray[i].spotkey == spotKey){
+  //           contentsArray.splice(i, 1);
+  //         }
+  //       }
+  //     }else{
+  //       return;
+  //     }
+  //
+  //     this.assignKey();
+  //   },
+  //   assignKey: function(){
+  //     const dayArray = this.dayInfo;
+  //     let keyCount = 0;
+  //
+  //     for(let i=0; i<dayArray.length; i++){
+  //       for(let j=0; j<dayArray[i].spotInfo.length; j++){
+  //         dayArray[i].spotInfo[j].spotKey = keyCount;
+  //         this.contentsInfo[keyCount].contentsKey = keyCount;
+  //         this.contentsInfo[keyCount].spotkey = keyCount;
+  //         this.contentsInfo[keyCount].daykey = i;
+  //         keyCount++;
+  //       }
+  //     }
+  //   },
+  //   SelectImage: function(Key, Target){
+  //     this.contentsInfo[Key].spotImage = [];
+  //
+  //     if(Target.files.length > 0){
+  //       const file = Target.files[0];
+  //       const reader = new FileReader();
+  //
+  //       reader.onload = (e) => {
+  //         this.contentsInfo[Key].spotImage.push(e.target.result);
+  //       };
+  //       reader.readAsDataURL(file);
+  //     }
+  //   },
+  //   showSpot: function(e) {
+  //     e.preventDefault();
+  //     const content = $(e.target)
+  //     .closest('section')
+  //     .find('.accordion-content');
+  //
+  //     if (!content.is(':visible')) {
+  //       $('.accordion-content:visible').slideUp();
+  //       content.slideDown();
+  //     }
+  //   },
+  //   registarPlanTag: function(){
+  //     this.planOutline.hashTag = document.getElementById('plantag-input').value;
+  //   },
+  //   registarSpotTag: function(key){
+  //     this.contentsInfo[key].contentsTag = document.getElementById(`id${key}`).value;
+  //   },
+  // },
+
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SlideMenuComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SlideMenuComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['old', 'errors'],
+  data: function data() {
+    return {
+      dayArray: [{
+        dayKey: 0,
+        spotArray: [{
+          spotKey: 0,
+          spotDisplay: ''
+        }]
+      }],
+      currentNum: 0
+    };
+  },
+  created: function created() {
+    if (this.errors.length != 0) {
+      this.$store.commit('ChangeErrStatus');
+      this.InputOldInfo_Plan(this.old.plan[0]);
+      this.InputOldInfo_Spot(this.old.spot);
+      this.InputErrInfo(this.errors);
+    }
+  },
+  methods: {
+    InputOldInfo_Plan: function InputOldInfo_Plan(plan) {
+      this.$store.commit('InputOldInfo_Plan', plan);
+    },
+    InputOldInfo_Spot: function InputOldInfo_Spot(spot) {
+      var day_max = 1;
+
+      for (var i = 0; i < spot.length; i++) {
+        if (day_max < spot[i].spot_day) {
+          day_max = spot[i].spot_day;
+          this.addDay();
+        } else if (i > 0) {
+          this.addSpot(spot[i].spot_day - 1, i, 'none');
+        }
+      }
+    },
+    InputErrInfo: function InputErrInfo(err) {
+      var key = Object.keys(err);
+
+      for (var i = 0; i < key.length; i++) {
+        this.$store.commit('InputErrInfo', key[i]);
+      }
+    },
+    carouselMove: function carouselMove(spotKey) {
+      this.$store.commit('changeCurrentSlide', spotKey + 1);
+    },
+    addDay: function addDay() {
+      var newDaykey = this.dayArray.length;
+      this.dayArray.push({
+        dayKey: newDaykey,
+        spotArray: [{}]
+      });
+      this.$store.commit('addDay', newDaykey);
+      this.assignKey();
+    },
+    deleteDay: function deleteDay() {
+      var targetIndex_Day = this.dayArray.length - 1;
+      var targetIndex_Spot = this.dayArray[targetIndex_Day].spotArray[0].spotKey;
+      var targetCount = this.dayArray[targetIndex_Day].spotArray.length;
+
+      if (targetIndex_Day == 0) {
+        return;
+      }
+
+      this.$store.commit('deleteDay', {
+        index: targetIndex_Spot,
+        count: targetCount
+      });
+      this.dayArray.splice(targetIndex_Day, 1);
+      this.$emit('method-emit', 'deleteSpot', targetIndex_Spot, targetCount, '');
+      var lastIndex = this.dayArray.length - 1;
+      var spotArray = this.dayArray[lastIndex].spotArray;
+      this.$store.commit('changeCurrentSlide', spotArray[spotArray.length - 1].spotKey + 1);
+    },
+    addSpot: function addSpot(dayIndex, spotIndex, displayStyle) {
+      this.dayArray[dayIndex].spotArray.splice(spotIndex + 1, 0, {
+        spotDisplay: "display: ".concat(displayStyle)
+      });
+      this.$store.commit('addSpot', {
+        targetIndex: spotIndex + 1,
+        dayKey: dayIndex
+      });
+      this.assignKey();
+    },
+    deleteSpot: function deleteSpot(dayKey, spotKey) {
+      var spotArray = this.dayArray[dayKey].spotArray;
+      var target;
+
+      if (spotArray.length !== 1) {
+        for (var i = 0; i < spotArray.length; i++) {
+          if (spotArray[i].spotKey == spotKey) {
+            target = i;
+          }
+        }
+
+        spotArray.splice(target, 1);
+        this.$emit('method-emit', 'deleteSpot', '', '', '');
+        console.log(spotKey);
+        this.$store.commit('deleteSpot', {
+          dayKey: dayKey,
+          spotKey: spotKey
+        });
+        this.$store.commit('changeCurrentSlide', spotKey - 1);
+      } else {
+        return;
+      }
+
+      this.assignKey();
+    },
+    assignKey: function assignKey() {
+      var dayArray = this.dayArray;
+      var keyCount = 0;
+
+      for (var i = 0; i < dayArray.length; i++) {
+        for (var j = 0; j < dayArray[i].spotArray.length; j++) {
+          dayArray[i].spotArray[j].spotKey = keyCount;
+          keyCount++;
+        }
+      }
+    },
+    showSpot: function showSpot(e) {
+      e.preventDefault();
+      var content = $(e.target).closest('section').find('.accordion-content');
+
+      if (!content.is(':visible')) {
+        $('.accordion-content:visible').slideUp();
+        content.slideDown();
+      }
+    }
   }
 });
 
@@ -37389,6 +38542,413 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CarouselFormComponent.vue?vue&type=template&id=1a8ce13e&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CarouselFormComponent.vue?vue&type=template&id=1a8ce13e& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    { attrs: { id: "post-form", action: "/post/create", method: "post" } },
+    [
+      _c("div", [
+        _vm.ErrorExist
+          ? _c("div", { attrs: { id: "error-msg" } }, [
+              _vm._v("\n        ＊は入力必須項目です\n      ")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "carousel" }, [
+          _c(
+            "div",
+            { staticClass: "list", style: _vm._listStyle },
+            [
+              _c("div", { staticClass: "list__item" }, [
+                _c("div", { staticClass: "item" }, [
+                  _c("div", { staticClass: "content-title" }, [
+                    _vm._v("PlanOutline")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "title-area" }, [
+                    _c("div", { staticClass: "error-mark" }, [
+                      _vm._v(_vm._s(_vm.$store.state.planOutline.mark_title))
+                    ]),
+                    _vm._v(
+                      "\n                  プランタイトル：\n                  "
+                    ),
+                    _c("input", {
+                      staticClass: "user-input",
+                      attrs: { type: "text", name: "plan[0][plan_title]" },
+                      domProps: {
+                        value: _vm.$store.state.planOutline.planTitle
+                      },
+                      on: {
+                        input: function($event) {
+                          _vm.$store.state.planOutline.planTitle =
+                            $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "plan-tag-area" }, [
+                    _c("div", { staticClass: "plan-textarea-title" }, [
+                      _vm._v(
+                        "\n                    ハッシュタグ\n                  "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "hash-tag user-input",
+                      attrs: { id: "plantag-input", name: "plan[0][plan_tag]" },
+                      domProps: { value: _vm.$store.state.planOutline.hashTag },
+                      on: {
+                        input: function($event) {
+                          _vm.$store.state.planOutline.hashTag =
+                            $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "tagsinput" }, [
+                      _c("div", { staticClass: "tagsinput-child" }, [
+                        _c("input", {
+                          staticClass: "tagsinput-form",
+                          on: {
+                            blur: function($event) {
+                              return _vm.registarPlanTag()
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "tags_clear" })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "plan-information-area" }, [
+                    _c("div", { staticClass: "plan-textarea-title" }, [
+                      _c("div", { staticClass: "error-mark" }, [
+                        _vm._v(_vm._s(_vm.$store.state.planOutline.mark_info))
+                      ]),
+                      _vm._v(
+                        "\n                    PLAN INFORMATION\n                  "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      staticClass: "plan-information-textarea user-input",
+                      attrs: {
+                        name: "plan[0][plan_info]",
+                        placeholder: "プランの見所を投稿しよう！"
+                      },
+                      domProps: {
+                        value: _vm.$store.state.planOutline.information
+                      },
+                      on: {
+                        input: function($event) {
+                          _vm.$store.state.planOutline.information =
+                            $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.$store.state.contentsArray, function(content) {
+                return [
+                  _c("div", { staticClass: "list__item" }, [
+                    _c("div", { staticClass: "item" }, [
+                      _c("div", { staticClass: "content-title" }, [
+                        _vm._v("Spot" + _vm._s(content.contentsKey + 1))
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "title-area" }, [
+                        _c("div", { staticClass: "error-mark" }, [
+                          _vm._v(_vm._s(content.mark_title))
+                        ]),
+                        _vm._v(
+                          "\n                    スポットタイトル：\n                    "
+                        ),
+                        _c("input", {
+                          staticClass: "user-input",
+                          attrs: {
+                            type: "text",
+                            name:
+                              "spot[" + content.contentsKey + "][spot_title]"
+                          },
+                          domProps: { value: content.contentsTitle },
+                          on: {
+                            input: function($event) {
+                              content.contentsTitle = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "spot-detail-wrapper" }, [
+                        _c("div", { staticClass: "spot-detail-area" }, [
+                          _c("div", { staticClass: "spot-stay-area" }, [
+                            _c("div", { staticClass: "spot-area-title" }, [
+                              _c("div", { staticClass: "error-mark" }, [
+                                _vm._v(_vm._s(content.mark_duration))
+                              ]),
+                              _vm._v(
+                                "\n                          滞在時間：\n                        "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                staticClass: "user-input",
+                                attrs: {
+                                  name:
+                                    "spot[" +
+                                    content.contentsKey +
+                                    "][spot_duration]"
+                                },
+                                domProps: { value: content.contentsDuration },
+                                on: {
+                                  input: function($event) {
+                                    content.contentsDuration =
+                                      $event.target.value
+                                  }
+                                }
+                              },
+                              [
+                                _c("option", { attrs: { value: "0.5時間" } }, [
+                                  _vm._v("0.5時間")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "1時間" } }, [
+                                  _vm._v("1時間")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "1.5時間" } }, [
+                                  _vm._v("1.5時間")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "2時間" } }, [
+                                  _vm._v("2時間")
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "2時間以上" } },
+                                  [_vm._v("2時間以上")]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "spot-address-area" }, [
+                            _c("div", { staticClass: "spot-area-title" }, [
+                              _c("div", { staticClass: "error-mark" }, [
+                                _vm._v(_vm._s(content.mark_address))
+                              ]),
+                              _vm._v(
+                                "\n                          所在地：\n                        "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "user-input",
+                              attrs: {
+                                type: "text",
+                                name:
+                                  "spot[" +
+                                  content.contentsKey +
+                                  "][spot_address]"
+                              },
+                              domProps: { value: content.contentsAddress },
+                              on: {
+                                input: function($event) {
+                                  content.contentsAddress = $event.target.value
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "spot-tag-area" }, [
+                            _c("div", [
+                              _vm._v(
+                                "\n                          ハッシュタグ\n                        "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "hash-tag user-input",
+                              attrs: {
+                                id: "id" + content.contentsKey,
+                                name:
+                                  "spot[" + content.contentsKey + "][spot_tag]"
+                              },
+                              domProps: { value: content.contentsTag },
+                              on: {
+                                change: function($event) {
+                                  content.contentsTag = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "tagsinput" }, [
+                              _c("div", { staticClass: "tagsinput-child" }, [
+                                _c("input", {
+                                  staticClass: "tagsinput-form",
+                                  on: {
+                                    blur: function($event) {
+                                      return _vm.registarSpotTag(
+                                        content.contentsKey
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "tags_clear" })
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "spot-image-area" }, [
+                          _c("div", { staticClass: "spot-image-select" }, [
+                            _vm._v(
+                              "\n                        写真を投稿：\n                        "
+                            ),
+                            _c("input", {
+                              staticClass: "file-select",
+                              attrs: {
+                                type: "file",
+                                name:
+                                  "spot[" +
+                                  content.contentsKey +
+                                  "][spot_image]",
+                                multiple: "multiple"
+                              },
+                              on: {
+                                input: function($event) {
+                                  return _vm.SelectImage(
+                                    content.contentsKey,
+                                    $event.currentTarget
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "spot-image-view" }, [
+                            _c("img", { attrs: { src: content.spotImage[0] } })
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "spot-information-area" }, [
+                        _c("div", [
+                          _c("div", { staticClass: "error-mark" }, [
+                            _vm._v(_vm._s(content.mark_info))
+                          ]),
+                          _vm._v(
+                            "\n                      SPOT INFORMATION\n                    "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          staticClass: "spot-information-textarea user-input",
+                          attrs: {
+                            name:
+                              "spot[" + content.contentsKey + "][spot_info]",
+                            placeholder: "スポットの情報を投稿しよう！"
+                          },
+                          domProps: { value: content.contentsInfo },
+                          on: {
+                            input: function($event) {
+                              content.contentsInfo = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticStyle: { display: "none" },
+                          attrs: {
+                            name: "spot[" + content.contentsKey + "][spot_day]"
+                          },
+                          domProps: { value: content.daykey + 1 }
+                        })
+                      ])
+                    ])
+                  ])
+                ]
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "submit-button-area" }, [
+            _c("input", {
+              attrs: { type: "hidden", name: "_token" },
+              domProps: { value: _vm.csrf }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "btn btn-success post-submit-button",
+              attrs: { type: "submit", value: "投稿する" }
+            })
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "transportation-label" }, [
+      _c("div", { staticClass: "title-area" }, [
+        _vm._v("\n                    主要交通手段　：\n                    "),
+        _c(
+          "select",
+          {
+            staticClass: "user-input",
+            attrs: { name: "plan[0][main_transportation]" }
+          },
+          [
+            _c("option", { attrs: { value: "車" } }, [_vm._v("車")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "電車" } }, [_vm._v("電車")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "バス" } }, [_vm._v("バス")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "徒歩" } }, [_vm._v("徒歩")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "その他" } }, [_vm._v("その他")])
+          ]
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -37430,6 +38990,770 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlanPost.vue?vue&type=template&id=82cfd758&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PlanPost.vue?vue&type=template&id=82cfd758& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "post-body" } }, [
+    _c("div", { attrs: { id: "post-menu" } }, [
+      _c(
+        "div",
+        [
+          _c("div", { attrs: { id: "button-area" } }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary btn-submit",
+                attrs: { type: "submit", id: "dayadd-button" },
+                on: { click: _vm.addDay }
+              },
+              [_vm._v("Add Day")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary btn-submit",
+                attrs: { type: "submit", id: "daydelete-button" },
+                on: { click: _vm.deleteDay }
+              },
+              [_vm._v("Delete Day")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("section", [
+            _c("h2", { staticClass: "accordion-title" }, [
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.showSpot.apply(null, arguments)
+                    }
+                  }
+                },
+                [_vm._v("PlanOutline")]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "accordion-content accordion-content-active",
+                on: {
+                  click: function($event) {
+                    return _vm.carouselMove(-1)
+                  }
+                }
+              },
+              [_vm._v("PlanOutline")]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.dayInfo, function(day) {
+            return _c(
+              "section",
+              [
+                _c("h2", { staticClass: "accordion-title" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#!" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.showSpot.apply(null, arguments)
+                        }
+                      }
+                    },
+                    [_vm._v("Day" + _vm._s(day.dayKey + 1))]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._l(day.spotInfo, function(spot) {
+                  return _c("div", [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "accordion-content",
+                        style: spot.spotDisplay,
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.carouselMove(spot.spotKey)
+                          }
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "accordion-content-area" }, [
+                          _c("div", { staticClass: "spot-area" }, [
+                            _vm._v(
+                              "\n                        Spot" +
+                                _vm._s(spot.spotKey + 1) +
+                                "\n                      "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "icon-area" }, [
+                            _c("i", {
+                              staticClass: "bi bi-plus-square plus-button",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.addSpot(
+                                    day.dayKey,
+                                    spot.spotKey,
+                                    "block"
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("i", {
+                              staticClass: "bi bi-dash-square minus-button",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.deleteSpot(
+                                    day.dayKey,
+                                    spot.spotKey
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ]
+                    )
+                  ])
+                })
+              ],
+              2
+            )
+          })
+        ],
+        2
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        attrs: {
+          id: "post-form",
+          action: "/post/create",
+          method: "post",
+          enctype: "multipart/form-data"
+        }
+      },
+      [
+        _c("div", [
+          _vm.ErrorExist
+            ? _c("div", { attrs: { id: "error-msg" } }, [
+                _vm._v("\n            ＊は入力必須項目です\n          ")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "carousel" }, [
+            _c(
+              "div",
+              { staticClass: "list", style: _vm._listStyle },
+              [
+                _c("div", { staticClass: "list__item" }, [
+                  _c("div", { staticClass: "item" }, [
+                    _c("div", { staticClass: "content-title" }, [
+                      _vm._v("PlanOutline")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "title-area" }, [
+                      _c("div", { staticClass: "error-mark" }, [
+                        _vm._v(_vm._s(_vm.planOutline.mark_title))
+                      ]),
+                      _vm._v(
+                        "\n                      プランタイトル：\n                      "
+                      ),
+                      _c("input", {
+                        staticClass: "user-input",
+                        attrs: { type: "text", name: "plan[0][plan_title]" },
+                        domProps: { value: _vm.planOutline.planTitle },
+                        on: {
+                          input: function($event) {
+                            _vm.planOutline.planTitle = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "plan-tag-area" }, [
+                      _c("div", { staticClass: "plan-textarea-title" }, [
+                        _vm._v(
+                          "\n                        ハッシュタグ\n                      "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "hash-tag user-input",
+                        attrs: {
+                          id: "plantag-input",
+                          name: "plan[0][plan_tag]"
+                        },
+                        domProps: { value: _vm.planOutline.hashTag },
+                        on: {
+                          input: function($event) {
+                            _vm.planOutline.hashTag = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "tagsinput" }, [
+                        _c("div", { staticClass: "tagsinput-child" }, [
+                          _c("input", {
+                            staticClass: "tagsinput-form",
+                            on: {
+                              blur: function($event) {
+                                return _vm.registarPlanTag()
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "tags_clear" })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "plan-information-area" }, [
+                      _c("div", { staticClass: "plan-textarea-title" }, [
+                        _c("div", { staticClass: "error-mark" }, [
+                          _vm._v(_vm._s(_vm.planOutline.mark_info))
+                        ]),
+                        _vm._v(
+                          "\n                        PLAN INFORMATION\n                      "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        staticClass: "plan-information-textarea user-input",
+                        attrs: {
+                          name: "plan[0][plan_information]",
+                          placeholder: "プランの見所を投稿しよう！"
+                        },
+                        domProps: { value: _vm.planOutline.information },
+                        on: {
+                          input: function($event) {
+                            _vm.planOutline.information = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.contentsInfo, function(content) {
+                  return [
+                    _c("div", { staticClass: "list__item" }, [
+                      _c("div", { staticClass: "item" }, [
+                        _c("div", { staticClass: "content-title" }, [
+                          _vm._v("Spot" + _vm._s(content.contentsKey + 1))
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "title-area" }, [
+                          _c("div", { staticClass: "error-mark" }, [
+                            _vm._v(_vm._s(content.mark_title))
+                          ]),
+                          _vm._v(
+                            "\n                        スポットタイトル：\n                        "
+                          ),
+                          _c("input", {
+                            staticClass: "user-input",
+                            attrs: {
+                              type: "text",
+                              name:
+                                "spot[" + content.contentsKey + "][spot_title]"
+                            },
+                            domProps: { value: content.contentsTitle },
+                            on: {
+                              input: function($event) {
+                                content.contentsTitle = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "spot-detail-wrapper" }, [
+                          _c("div", { staticClass: "spot-detail-area" }, [
+                            _c("div", { staticClass: "spot-stay-area" }, [
+                              _c("div", { staticClass: "spot-area-title" }, [
+                                _c("div", { staticClass: "error-mark" }, [
+                                  _vm._v(_vm._s(content.mark_duration))
+                                ]),
+                                _vm._v(
+                                  "\n                              滞在時間：\n                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  staticClass: "user-input",
+                                  attrs: {
+                                    name:
+                                      "spot[" +
+                                      content.contentsKey +
+                                      "][spot_duration]"
+                                  },
+                                  domProps: { value: content.contentsDuration },
+                                  on: {
+                                    input: function($event) {
+                                      content.contentsDuration =
+                                        $event.target.value
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "0.5時間" } },
+                                    [_vm._v("0.5時間")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "1時間" } }, [
+                                    _vm._v("1時間")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "1.5時間" } },
+                                    [_vm._v("1.5時間")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "2時間" } }, [
+                                    _vm._v("2時間")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "2時間以上" } },
+                                    [_vm._v("2時間以上")]
+                                  )
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "spot-address-area" }, [
+                              _c("div", { staticClass: "spot-area-title" }, [
+                                _c("div", { staticClass: "error-mark" }, [
+                                  _vm._v(_vm._s(content.mark_address))
+                                ]),
+                                _vm._v(
+                                  "\n                              所在地：\n                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "user-input",
+                                attrs: {
+                                  type: "text",
+                                  name:
+                                    "spot[" +
+                                    content.contentsKey +
+                                    "][spot_address]"
+                                },
+                                domProps: { value: content.contentsAddress },
+                                on: {
+                                  input: function($event) {
+                                    content.contentsAddress =
+                                      $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "spot-tag-area" }, [
+                              _c("div", [
+                                _vm._v(
+                                  "\n                              ハッシュタグ\n                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "hash-tag user-input",
+                                attrs: {
+                                  id: "id" + content.contentsKey,
+                                  name:
+                                    "spot[" +
+                                    content.contentsKey +
+                                    "][spot_tag]"
+                                },
+                                domProps: { value: content.contentsTag },
+                                on: {
+                                  change: function($event) {
+                                    content.contentsTag = $event.target.value
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "tagsinput" }, [
+                                _c("div", { staticClass: "tagsinput-child" }, [
+                                  _c("input", {
+                                    staticClass: "tagsinput-form",
+                                    on: {
+                                      blur: function($event) {
+                                        return _vm.registarSpotTag(
+                                          content.contentsKey
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "tags_clear" })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "spot-image-area" }, [
+                            _c("div", { staticClass: "spot-image-select" }, [
+                              _vm._v(
+                                "\n                            写真を投稿：\n                            "
+                              ),
+                              _c("input", {
+                                staticClass: "file-select",
+                                attrs: {
+                                  type: "file",
+                                  name:
+                                    "spot[" +
+                                    content.contentsKey +
+                                    "][spot_image]",
+                                  multiple: "multiple"
+                                },
+                                on: {
+                                  input: function($event) {
+                                    return _vm.SelectImage(
+                                      content.contentsKey,
+                                      $event.currentTarget
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "spot-image-view" }, [
+                              _c("img", {
+                                attrs: { src: content.spotImage[0] }
+                              })
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "spot-information-area" }, [
+                          _c("div", [
+                            _c("div", { staticClass: "error-mark" }, [
+                              _vm._v(_vm._s(content.mark_info))
+                            ]),
+                            _vm._v(
+                              "\n                          SPOT INFORMATION\n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("textarea", {
+                            staticClass: "spot-information-textarea user-input",
+                            attrs: {
+                              name:
+                                "spot[" +
+                                content.contentsKey +
+                                "][spot_information]",
+                              placeholder: "スポットの情報を投稿しよう！"
+                            },
+                            domProps: { value: content.contentsInfo },
+                            on: {
+                              input: function($event) {
+                                content.contentsInfo = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticStyle: { display: "none" },
+                            attrs: {
+                              name:
+                                "spot[" + content.contentsKey + "][spot_day]"
+                            },
+                            domProps: { value: content.daykey + 1 }
+                          })
+                        ])
+                      ])
+                    ])
+                  ]
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "submit-button-area" }, [
+              _c("input", {
+                attrs: { type: "hidden", name: "_token" },
+                domProps: { value: _vm.csrf }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "btn btn-success post-submit-button",
+                attrs: { type: "submit", value: "投稿する" }
+              })
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "transportation-label" }, [
+      _c("div", { staticClass: "title-area" }, [
+        _vm._v(
+          "\n                        主要交通手段　：\n                        "
+        ),
+        _c(
+          "select",
+          {
+            staticClass: "user-input",
+            attrs: { name: "plan[0][main_transportation]" }
+          },
+          [
+            _c("option", { attrs: { value: "車" } }, [_vm._v("車")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "電車" } }, [_vm._v("電車")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "バス" } }, [_vm._v("バス")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "徒歩" } }, [_vm._v("徒歩")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "その他" } }, [_vm._v("その他")])
+          ]
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPageComponent.vue?vue&type=template&id=5c8e66da&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostPageComponent.vue?vue&type=template&id=5c8e66da& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { attrs: { id: "post-body" } },
+    [
+      _c("SlideMenu", { attrs: { old: _vm.old, errors: _vm.errors } }),
+      _vm._v(" "),
+      _c("CarouselForm", { attrs: { old: _vm.old, errors: _vm.errors } })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SlideMenuComponent.vue?vue&type=template&id=3e5b7150&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SlideMenuComponent.vue?vue&type=template&id=3e5b7150& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "post-menu" } }, [
+    _c(
+      "div",
+      [
+        _c("div", { attrs: { id: "button-area" } }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-secondary btn-submit",
+              attrs: { type: "submit", id: "dayadd-button" },
+              on: { click: _vm.addDay }
+            },
+            [_vm._v("Add Day")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-secondary btn-submit",
+              attrs: { type: "submit", id: "daydelete-button" },
+              on: { click: _vm.deleteDay }
+            },
+            [_vm._v("Delete Day")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("section", [
+          _c("h2", { staticClass: "accordion-title" }, [
+            _c(
+              "a",
+              {
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.showSpot.apply(null, arguments)
+                  }
+                }
+              },
+              [_vm._v("PlanOutline")]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "accordion-content accordion-content-active",
+              on: {
+                click: function($event) {
+                  return _vm.carouselMove(-1)
+                }
+              }
+            },
+            [_vm._v("PlanOutline")]
+          )
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.dayArray, function(day) {
+          return _c(
+            "section",
+            [
+              _c("h2", { staticClass: "accordion-title" }, [
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "#!" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.showSpot.apply(null, arguments)
+                      }
+                    }
+                  },
+                  [_vm._v("Day" + _vm._s(day.dayKey + 1))]
+                )
+              ]),
+              _vm._v(" "),
+              _vm._l(day.spotArray, function(spot) {
+                return _c("div", [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "accordion-content",
+                      style: spot.spotDisplay,
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.carouselMove(spot.spotKey)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "accordion-content-area" }, [
+                        _c("div", { staticClass: "spot-area" }, [
+                          _vm._v(
+                            "\n                    Spot" +
+                              _vm._s(spot.spotKey + 1) +
+                              "\n                  "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "icon-area" }, [
+                          _c("i", {
+                            staticClass: "bi bi-plus-square plus-button",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.addSpot(
+                                  day.dayKey,
+                                  spot.spotKey,
+                                  "block"
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("i", {
+                            staticClass: "bi bi-dash-square minus-button",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.deleteSpot(day.dayKey, spot.spotKey)
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]
+                  )
+                ])
+              })
+            ],
+            2
+          )
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -49583,6 +51907,1271 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vuex/dist/vuex.esm.js":
+/*!********************************************!*\
+  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
+  \********************************************/
+/*! exports provided: default, Store, createLogger, createNamespacedHelpers, install, mapActions, mapGetters, mapMutations, mapState */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLogger", function() { return createLogger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
+/*!
+ * vuex v3.6.2
+ * (c) 2021 Evan You
+ * @license MIT
+ */
+function applyMixin (Vue) {
+  var version = Number(Vue.version.split('.')[0]);
+
+  if (version >= 2) {
+    Vue.mixin({ beforeCreate: vuexInit });
+  } else {
+    // override init and inject vuex init procedure
+    // for 1.x backwards compatibility.
+    var _init = Vue.prototype._init;
+    Vue.prototype._init = function (options) {
+      if ( options === void 0 ) options = {};
+
+      options.init = options.init
+        ? [vuexInit].concat(options.init)
+        : vuexInit;
+      _init.call(this, options);
+    };
+  }
+
+  /**
+   * Vuex init hook, injected into each instances init hooks list.
+   */
+
+  function vuexInit () {
+    var options = this.$options;
+    // store injection
+    if (options.store) {
+      this.$store = typeof options.store === 'function'
+        ? options.store()
+        : options.store;
+    } else if (options.parent && options.parent.$store) {
+      this.$store = options.parent.$store;
+    }
+  }
+}
+
+var target = typeof window !== 'undefined'
+  ? window
+  : typeof global !== 'undefined'
+    ? global
+    : {};
+var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+function devtoolPlugin (store) {
+  if (!devtoolHook) { return }
+
+  store._devtoolHook = devtoolHook;
+
+  devtoolHook.emit('vuex:init', store);
+
+  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    store.replaceState(targetState);
+  });
+
+  store.subscribe(function (mutation, state) {
+    devtoolHook.emit('vuex:mutation', mutation, state);
+  }, { prepend: true });
+
+  store.subscribeAction(function (action, state) {
+    devtoolHook.emit('vuex:action', action, state);
+  }, { prepend: true });
+}
+
+/**
+ * Get the first item that pass the test
+ * by second argument function
+ *
+ * @param {Array} list
+ * @param {Function} f
+ * @return {*}
+ */
+function find (list, f) {
+  return list.filter(f)[0]
+}
+
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+function deepCopy (obj, cache) {
+  if ( cache === void 0 ) cache = [];
+
+  // just return if obj is immutable value
+  if (obj === null || typeof obj !== 'object') {
+    return obj
+  }
+
+  // if obj is hit, it is in circular structure
+  var hit = find(cache, function (c) { return c.original === obj; });
+  if (hit) {
+    return hit.copy
+  }
+
+  var copy = Array.isArray(obj) ? [] : {};
+  // put the copy into cache at first
+  // because we want to refer it in recursive deepCopy
+  cache.push({
+    original: obj,
+    copy: copy
+  });
+
+  Object.keys(obj).forEach(function (key) {
+    copy[key] = deepCopy(obj[key], cache);
+  });
+
+  return copy
+}
+
+/**
+ * forEach for object
+ */
+function forEachValue (obj, fn) {
+  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isPromise (val) {
+  return val && typeof val.then === 'function'
+}
+
+function assert (condition, msg) {
+  if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+function partial (fn, arg) {
+  return function () {
+    return fn(arg)
+  }
+}
+
+// Base data struct for store's module, package with some attribute and method
+var Module = function Module (rawModule, runtime) {
+  this.runtime = runtime;
+  // Store some children item
+  this._children = Object.create(null);
+  // Store the origin module object which passed by programmer
+  this._rawModule = rawModule;
+  var rawState = rawModule.state;
+
+  // Store the origin module's state
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors = { namespaced: { configurable: true } };
+
+prototypeAccessors.namespaced.get = function () {
+  return !!this._rawModule.namespaced
+};
+
+Module.prototype.addChild = function addChild (key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild (key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild (key) {
+  return this._children[key]
+};
+
+Module.prototype.hasChild = function hasChild (key) {
+  return key in this._children
+};
+
+Module.prototype.update = function update (rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild (fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter (fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction (fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation (fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties( Module.prototype, prototypeAccessors );
+
+var ModuleCollection = function ModuleCollection (rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get (path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key)
+  }, this.root)
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace (path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '')
+  }, '')
+};
+
+ModuleCollection.prototype.update = function update$1 (rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
+    var this$1 = this;
+    if ( runtime === void 0 ) runtime = true;
+
+  if ((true)) {
+    assertRawModule(path, rawModule);
+  }
+
+  var newModule = new Module(rawModule, runtime);
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  }
+
+  // register nested modules
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  var child = parent.getChild(key);
+
+  if (!child) {
+    if ((true)) {
+      console.warn(
+        "[vuex] trying to unregister module '" + key + "', which is " +
+        "not registered"
+      );
+    }
+    return
+  }
+
+  if (!child.runtime) {
+    return
+  }
+
+  parent.removeChild(key);
+};
+
+ModuleCollection.prototype.isRegistered = function isRegistered (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+
+  if (parent) {
+    return parent.hasChild(key)
+  }
+
+  return false
+};
+
+function update (path, targetModule, newModule) {
+  if ((true)) {
+    assertRawModule(path, newModule);
+  }
+
+  // update target module
+  targetModule.update(newModule);
+
+  // update nested modules
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+        if ((true)) {
+          console.warn(
+            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+            'manual reload is needed'
+          );
+        }
+        return
+      }
+      update(
+        path.concat(key),
+        targetModule.getChild(key),
+        newModule.modules[key]
+      );
+    }
+  }
+}
+
+var functionAssert = {
+  assert: function (value) { return typeof value === 'function'; },
+  expected: 'function'
+};
+
+var objectAssert = {
+  assert: function (value) { return typeof value === 'function' ||
+    (typeof value === 'object' && typeof value.handler === 'function'); },
+  expected: 'function or object with "handler" function'
+};
+
+var assertTypes = {
+  getters: functionAssert,
+  mutations: functionAssert,
+  actions: objectAssert
+};
+
+function assertRawModule (path, rawModule) {
+  Object.keys(assertTypes).forEach(function (key) {
+    if (!rawModule[key]) { return }
+
+    var assertOptions = assertTypes[key];
+
+    forEachValue(rawModule[key], function (value, type) {
+      assert(
+        assertOptions.assert(value),
+        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+      );
+    });
+  });
+}
+
+function makeAssertionMessage (path, key, type, value, expected) {
+  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
+  if (path.length > 0) {
+    buf += " in module \"" + (path.join('.')) + "\"";
+  }
+  buf += " is " + (JSON.stringify(value)) + ".";
+  return buf
+}
+
+var Vue; // bind on install
+
+var Store = function Store (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #731
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  if ((true)) {
+    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
+    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+    assert(this instanceof Store, "store must be called with the new operator.");
+  }
+
+  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+  // store internal state
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._watcherVM = new Vue();
+  this._makeLocalGettersCache = Object.create(null);
+
+  // bind commit and dispatch to self
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+  this.dispatch = function boundDispatch (type, payload) {
+    return dispatch.call(store, type, payload)
+  };
+  this.commit = function boundCommit (type, payload, options) {
+    return commit.call(store, type, payload, options)
+  };
+
+  // strict mode
+  this.strict = strict;
+
+  var state = this._modules.root.state;
+
+  // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+  installModule(this, state, [], this._modules.root);
+
+  // initialize the store vm, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+  resetStoreVM(this, state);
+
+  // apply plugins
+  plugins.forEach(function (plugin) { return plugin(this$1); });
+
+  var useDevtools = options.devtools !== undefined ? options.devtools : Vue.config.devtools;
+  if (useDevtools) {
+    devtoolPlugin(this);
+  }
+};
+
+var prototypeAccessors$1 = { state: { configurable: true } };
+
+prototypeAccessors$1.state.get = function () {
+  return this._vm._data.$$state
+};
+
+prototypeAccessors$1.state.set = function (v) {
+  if ((true)) {
+    assert(false, "use store.replaceState() to explicit replace store state.");
+  }
+};
+
+Store.prototype.commit = function commit (_type, _payload, _options) {
+    var this$1 = this;
+
+  // check object-style commit
+  var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var options = ref.options;
+
+  var mutation = { type: type, payload: payload };
+  var entry = this._mutations[type];
+  if (!entry) {
+    if ((true)) {
+      console.error(("[vuex] unknown mutation type: " + type));
+    }
+    return
+  }
+  this._withCommit(function () {
+    entry.forEach(function commitIterator (handler) {
+      handler(payload);
+    });
+  });
+
+  this._subscribers
+    .slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+    .forEach(function (sub) { return sub(mutation, this$1.state); });
+
+  if (
+    ( true) &&
+    options && options.silent
+  ) {
+    console.warn(
+      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
+      'Use the filter functionality in the vue-devtools'
+    );
+  }
+};
+
+Store.prototype.dispatch = function dispatch (_type, _payload) {
+    var this$1 = this;
+
+  // check object-style dispatch
+  var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+
+  var action = { type: type, payload: payload };
+  var entry = this._actions[type];
+  if (!entry) {
+    if ((true)) {
+      console.error(("[vuex] unknown action type: " + type));
+    }
+    return
+  }
+
+  try {
+    this._actionSubscribers
+      .slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+      .filter(function (sub) { return sub.before; })
+      .forEach(function (sub) { return sub.before(action, this$1.state); });
+  } catch (e) {
+    if ((true)) {
+      console.warn("[vuex] error in before action subscribers: ");
+      console.error(e);
+    }
+  }
+
+  var result = entry.length > 1
+    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+    : entry[0](payload);
+
+  return new Promise(function (resolve, reject) {
+    result.then(function (res) {
+      try {
+        this$1._actionSubscribers
+          .filter(function (sub) { return sub.after; })
+          .forEach(function (sub) { return sub.after(action, this$1.state); });
+      } catch (e) {
+        if ((true)) {
+          console.warn("[vuex] error in after action subscribers: ");
+          console.error(e);
+        }
+      }
+      resolve(res);
+    }, function (error) {
+      try {
+        this$1._actionSubscribers
+          .filter(function (sub) { return sub.error; })
+          .forEach(function (sub) { return sub.error(action, this$1.state, error); });
+      } catch (e) {
+        if ((true)) {
+          console.warn("[vuex] error in error action subscribers: ");
+          console.error(e);
+        }
+      }
+      reject(error);
+    });
+  })
+};
+
+Store.prototype.subscribe = function subscribe (fn, options) {
+  return genericSubscribe(fn, this._subscribers, options)
+};
+
+Store.prototype.subscribeAction = function subscribeAction (fn, options) {
+  var subs = typeof fn === 'function' ? { before: fn } : fn;
+  return genericSubscribe(subs, this._actionSubscribers, options)
+};
+
+Store.prototype.watch = function watch (getter, cb, options) {
+    var this$1 = this;
+
+  if ((true)) {
+    assert(typeof getter === 'function', "store.watch only accepts a function.");
+  }
+  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
+};
+
+Store.prototype.replaceState = function replaceState (state) {
+    var this$1 = this;
+
+  this._withCommit(function () {
+    this$1._vm._data.$$state = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule (path, rawModule, options) {
+    if ( options === void 0 ) options = {};
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+    assert(path.length > 0, 'cannot register the root module by using registerModule.');
+  }
+
+  this._modules.register(path, rawModule);
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  // reset store to update getters...
+  resetStoreVM(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule (path) {
+    var this$1 = this;
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  this._modules.unregister(path);
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1.state, path.slice(0, -1));
+    Vue.delete(parentState, path[path.length - 1]);
+  });
+  resetStore(this);
+};
+
+Store.prototype.hasModule = function hasModule (path) {
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  return this._modules.isRegistered(path)
+};
+
+Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+  this._modules.update(newOptions);
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit (fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties( Store.prototype, prototypeAccessors$1 );
+
+function genericSubscribe (fn, subs, options) {
+  if (subs.indexOf(fn) < 0) {
+    options && options.prepend
+      ? subs.unshift(fn)
+      : subs.push(fn);
+  }
+  return function () {
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
+    }
+  }
+}
+
+function resetStore (store, hot) {
+  store._actions = Object.create(null);
+  store._mutations = Object.create(null);
+  store._wrappedGetters = Object.create(null);
+  store._modulesNamespaceMap = Object.create(null);
+  var state = store.state;
+  // init all modules
+  installModule(store, state, [], store._modules.root, true);
+  // reset vm
+  resetStoreVM(store, state, hot);
+}
+
+function resetStoreVM (store, state, hot) {
+  var oldVm = store._vm;
+
+  // bind store public getters
+  store.getters = {};
+  // reset local getters cache
+  store._makeLocalGettersCache = Object.create(null);
+  var wrappedGetters = store._wrappedGetters;
+  var computed = {};
+  forEachValue(wrappedGetters, function (fn, key) {
+    // use computed to leverage its lazy-caching mechanism
+    // direct inline function use will lead to closure preserving oldVm.
+    // using partial to return function with only arguments preserved in closure environment.
+    computed[key] = partial(fn, store);
+    Object.defineProperty(store.getters, key, {
+      get: function () { return store._vm[key]; },
+      enumerable: true // for local getters
+    });
+  });
+
+  // use a Vue instance to store the state tree
+  // suppress warnings just in case the user has added
+  // some funky global mixins
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state
+    },
+    computed: computed
+  });
+  Vue.config.silent = silent;
+
+  // enable strict mode for new vm
+  if (store.strict) {
+    enableStrictMode(store);
+  }
+
+  if (oldVm) {
+    if (hot) {
+      // dispatch changes in all subscribed watchers
+      // to force getter re-evaluation for hot reloading.
+      store._withCommit(function () {
+        oldVm._data.$$state = null;
+      });
+    }
+    Vue.nextTick(function () { return oldVm.$destroy(); });
+  }
+}
+
+function installModule (store, rootState, path, module, hot) {
+  var isRoot = !path.length;
+  var namespace = store._modules.getNamespace(path);
+
+  // register in namespace map
+  if (module.namespaced) {
+    if (store._modulesNamespaceMap[namespace] && ("development" !== 'production')) {
+      console.error(("[vuex] duplicate namespace " + namespace + " for the namespaced module " + (path.join('/'))));
+    }
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  // set state
+  if (!isRoot && !hot) {
+    var parentState = getNestedState(rootState, path.slice(0, -1));
+    var moduleName = path[path.length - 1];
+    store._withCommit(function () {
+      if ((true)) {
+        if (moduleName in parentState) {
+          console.warn(
+            ("[vuex] state field \"" + moduleName + "\" was overridden by a module with the same name at \"" + (path.join('.')) + "\"")
+          );
+        }
+      }
+      Vue.set(parentState, moduleName, module.state);
+    });
+  }
+
+  var local = module.context = makeLocalContext(store, namespace, path);
+
+  module.forEachMutation(function (mutation, key) {
+    var namespacedType = namespace + key;
+    registerMutation(store, namespacedType, mutation, local);
+  });
+
+  module.forEachAction(function (action, key) {
+    var type = action.root ? key : namespace + key;
+    var handler = action.handler || action;
+    registerAction(store, type, handler, local);
+  });
+
+  module.forEachGetter(function (getter, key) {
+    var namespacedType = namespace + key;
+    registerGetter(store, namespacedType, getter, local);
+  });
+
+  module.forEachChild(function (child, key) {
+    installModule(store, rootState, path.concat(key), child, hot);
+  });
+}
+
+/**
+ * make localized dispatch, commit, getters and state
+ * if there is no namespace, just use root ones
+ */
+function makeLocalContext (store, namespace, path) {
+  var noNamespace = namespace === '';
+
+  var local = {
+    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if (( true) && !store._actions[type]) {
+          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      return store.dispatch(type, payload)
+    },
+
+    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if (( true) && !store._mutations[type]) {
+          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      store.commit(type, payload, options);
+    }
+  };
+
+  // getters and state object must be gotten lazily
+  // because they will be changed by vm update
+  Object.defineProperties(local, {
+    getters: {
+      get: noNamespace
+        ? function () { return store.getters; }
+        : function () { return makeLocalGetters(store, namespace); }
+    },
+    state: {
+      get: function () { return getNestedState(store.state, path); }
+    }
+  });
+
+  return local
+}
+
+function makeLocalGetters (store, namespace) {
+  if (!store._makeLocalGettersCache[namespace]) {
+    var gettersProxy = {};
+    var splitPos = namespace.length;
+    Object.keys(store.getters).forEach(function (type) {
+      // skip if the target getter is not match this namespace
+      if (type.slice(0, splitPos) !== namespace) { return }
+
+      // extract local getter type
+      var localType = type.slice(splitPos);
+
+      // Add a port to the getters proxy.
+      // Define as getter property because
+      // we do not want to evaluate the getters in this time.
+      Object.defineProperty(gettersProxy, localType, {
+        get: function () { return store.getters[type]; },
+        enumerable: true
+      });
+    });
+    store._makeLocalGettersCache[namespace] = gettersProxy;
+  }
+
+  return store._makeLocalGettersCache[namespace]
+}
+
+function registerMutation (store, type, handler, local) {
+  var entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function wrappedMutationHandler (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  var entry = store._actions[type] || (store._actions[type] = []);
+  entry.push(function wrappedActionHandler (payload) {
+    var res = handler.call(store, {
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    }, payload);
+    if (!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+    if (store._devtoolHook) {
+      return res.catch(function (err) {
+        store._devtoolHook.emit('vuex:error', err);
+        throw err
+      })
+    } else {
+      return res
+    }
+  });
+}
+
+function registerGetter (store, type, rawGetter, local) {
+  if (store._wrappedGetters[type]) {
+    if ((true)) {
+      console.error(("[vuex] duplicate getter key: " + type));
+    }
+    return
+  }
+  store._wrappedGetters[type] = function wrappedGetter (store) {
+    return rawGetter(
+      local.state, // local state
+      local.getters, // local getters
+      store.state, // root state
+      store.getters // root getters
+    )
+  };
+}
+
+function enableStrictMode (store) {
+  store._vm.$watch(function () { return this._data.$$state }, function () {
+    if ((true)) {
+      assert(store._committing, "do not mutate vuex store state outside mutation handlers.");
+    }
+  }, { deep: true, sync: true });
+}
+
+function getNestedState (state, path) {
+  return path.reduce(function (state, key) { return state[key]; }, state)
+}
+
+function unifyObjectStyle (type, payload, options) {
+  if (isObject(type) && type.type) {
+    options = payload;
+    payload = type;
+    type = type.type;
+  }
+
+  if ((true)) {
+    assert(typeof type === 'string', ("expects string as the type, but found " + (typeof type) + "."));
+  }
+
+  return { type: type, payload: payload, options: options }
+}
+
+function install (_Vue) {
+  if (Vue && _Vue === Vue) {
+    if ((true)) {
+      console.error(
+        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+      );
+    }
+    return
+  }
+  Vue = _Vue;
+  applyMixin(Vue);
+}
+
+/**
+ * Reduce the code which written in Vue.js for getting the state.
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} states # Object's item can be a function which accept state and getters for param, you can do something for state and getters in it.
+ * @param {Object}
+ */
+var mapState = normalizeNamespace(function (namespace, states) {
+  var res = {};
+  if (( true) && !isValidMap(states)) {
+    console.error('[vuex] mapState: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(states).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedState () {
+      var state = this.$store.state;
+      var getters = this.$store.getters;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+        if (!module) {
+          return
+        }
+        state = module.context.state;
+        getters = module.context.getters;
+      }
+      return typeof val === 'function'
+        ? val.call(this, state, getters)
+        : state[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for committing the mutation
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} mutations # Object's item can be a function which accept `commit` function as the first param, it can accept another params. You can commit mutation and do any other things in this function. specially, You need to pass anthor params from the mapped function.
+ * @return {Object}
+ */
+var mapMutations = normalizeNamespace(function (namespace, mutations) {
+  var res = {};
+  if (( true) && !isValidMap(mutations)) {
+    console.error('[vuex] mapMutations: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(mutations).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedMutation () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      // Get the commit method from store
+      var commit = this.$store.commit;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+        if (!module) {
+          return
+        }
+        commit = module.context.commit;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [commit].concat(args))
+        : commit.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for getting the getters
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} getters
+ * @return {Object}
+ */
+var mapGetters = normalizeNamespace(function (namespace, getters) {
+  var res = {};
+  if (( true) && !isValidMap(getters)) {
+    console.error('[vuex] mapGetters: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(getters).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    // The namespace has been mutated by normalizeNamespace
+    val = namespace + val;
+    res[key] = function mappedGetter () {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      if (( true) && !(val in this.$store.getters)) {
+        console.error(("[vuex] unknown getter: " + val));
+        return
+      }
+      return this.$store.getters[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for dispatch the action
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} actions # Object's item can be a function which accept `dispatch` function as the first param, it can accept anthor params. You can dispatch action and do any other things in this function. specially, You need to pass anthor params from the mapped function.
+ * @return {Object}
+ */
+var mapActions = normalizeNamespace(function (namespace, actions) {
+  var res = {};
+  if (( true) && !isValidMap(actions)) {
+    console.error('[vuex] mapActions: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(actions).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedAction () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      // get dispatch function from store
+      var dispatch = this.$store.dispatch;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [dispatch].concat(args))
+        : dispatch.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+/**
+ * Rebinding namespace param for mapXXX function in special scoped, and return them by simple object
+ * @param {String} namespace
+ * @return {Object}
+ */
+var createNamespacedHelpers = function (namespace) { return ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+}); };
+
+/**
+ * Normalize the map
+ * normalizeMap([1, 2, 3]) => [ { key: 1, val: 1 }, { key: 2, val: 2 }, { key: 3, val: 3 } ]
+ * normalizeMap({a: 1, b: 2, c: 3}) => [ { key: 'a', val: 1 }, { key: 'b', val: 2 }, { key: 'c', val: 3 } ]
+ * @param {Array|Object} map
+ * @return {Object}
+ */
+function normalizeMap (map) {
+  if (!isValidMap(map)) {
+    return []
+  }
+  return Array.isArray(map)
+    ? map.map(function (key) { return ({ key: key, val: key }); })
+    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+}
+
+/**
+ * Validate whether given map is valid or not
+ * @param {*} map
+ * @return {Boolean}
+ */
+function isValidMap (map) {
+  return Array.isArray(map) || isObject(map)
+}
+
+/**
+ * Return a function expect two param contains namespace and map. it will normalize the namespace and then the param's function will handle the new namespace and the map.
+ * @param {Function} fn
+ * @return {Function}
+ */
+function normalizeNamespace (fn) {
+  return function (namespace, map) {
+    if (typeof namespace !== 'string') {
+      map = namespace;
+      namespace = '';
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      namespace += '/';
+    }
+    return fn(namespace, map)
+  }
+}
+
+/**
+ * Search a special module from store by namespace. if module not exist, print error message.
+ * @param {Object} store
+ * @param {String} helper
+ * @param {String} namespace
+ * @return {Object}
+ */
+function getModuleByNamespace (store, helper, namespace) {
+  var module = store._modulesNamespaceMap[namespace];
+  if (( true) && !module) {
+    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
+  }
+  return module
+}
+
+// Credits: borrowed code from fcomb/redux-logger
+
+function createLogger (ref) {
+  if ( ref === void 0 ) ref = {};
+  var collapsed = ref.collapsed; if ( collapsed === void 0 ) collapsed = true;
+  var filter = ref.filter; if ( filter === void 0 ) filter = function (mutation, stateBefore, stateAfter) { return true; };
+  var transformer = ref.transformer; if ( transformer === void 0 ) transformer = function (state) { return state; };
+  var mutationTransformer = ref.mutationTransformer; if ( mutationTransformer === void 0 ) mutationTransformer = function (mut) { return mut; };
+  var actionFilter = ref.actionFilter; if ( actionFilter === void 0 ) actionFilter = function (action, state) { return true; };
+  var actionTransformer = ref.actionTransformer; if ( actionTransformer === void 0 ) actionTransformer = function (act) { return act; };
+  var logMutations = ref.logMutations; if ( logMutations === void 0 ) logMutations = true;
+  var logActions = ref.logActions; if ( logActions === void 0 ) logActions = true;
+  var logger = ref.logger; if ( logger === void 0 ) logger = console;
+
+  return function (store) {
+    var prevState = deepCopy(store.state);
+
+    if (typeof logger === 'undefined') {
+      return
+    }
+
+    if (logMutations) {
+      store.subscribe(function (mutation, state) {
+        var nextState = deepCopy(state);
+
+        if (filter(mutation, prevState, nextState)) {
+          var formattedTime = getFormattedTime();
+          var formattedMutation = mutationTransformer(mutation);
+          var message = "mutation " + (mutation.type) + formattedTime;
+
+          startMessage(logger, message, collapsed);
+          logger.log('%c prev state', 'color: #9E9E9E; font-weight: bold', transformer(prevState));
+          logger.log('%c mutation', 'color: #03A9F4; font-weight: bold', formattedMutation);
+          logger.log('%c next state', 'color: #4CAF50; font-weight: bold', transformer(nextState));
+          endMessage(logger);
+        }
+
+        prevState = nextState;
+      });
+    }
+
+    if (logActions) {
+      store.subscribeAction(function (action, state) {
+        if (actionFilter(action, state)) {
+          var formattedTime = getFormattedTime();
+          var formattedAction = actionTransformer(action);
+          var message = "action " + (action.type) + formattedTime;
+
+          startMessage(logger, message, collapsed);
+          logger.log('%c action', 'color: #03A9F4; font-weight: bold', formattedAction);
+          endMessage(logger);
+        }
+      });
+    }
+  }
+}
+
+function startMessage (logger, message, collapsed) {
+  var startMessage = collapsed
+    ? logger.groupCollapsed
+    : logger.group;
+
+  // render
+  try {
+    startMessage.call(logger, message);
+  } catch (e) {
+    logger.log(message);
+  }
+}
+
+function endMessage (logger) {
+  try {
+    logger.groupEnd();
+  } catch (e) {
+    logger.log('—— log end ——');
+  }
+}
+
+function getFormattedTime () {
+  var time = new Date();
+  return (" @ " + (pad(time.getHours(), 2)) + ":" + (pad(time.getMinutes(), 2)) + ":" + (pad(time.getSeconds(), 2)) + "." + (pad(time.getMilliseconds(), 3)))
+}
+
+function repeat (str, times) {
+  return (new Array(times + 1)).join(str)
+}
+
+function pad (num, maxLength) {
+  return repeat('0', maxLength - num.toString().length) + num
+}
+
+var index = {
+  Store: Store,
+  install: install,
+  version: '3.6.2',
+  mapState: mapState,
+  mapMutations: mapMutations,
+  mapGetters: mapGetters,
+  mapActions: mapActions,
+  createNamespacedHelpers: createNamespacedHelpers,
+  createLogger: createLogger
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -49651,9 +53240,12 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store.js */ "./resources/js/store.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -49662,6 +53254,7 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -49673,6 +53266,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
+Vue.component('planpost-component', __webpack_require__(/*! ./components/PlanPost.vue */ "./resources/js/components/PlanPost.vue")["default"]);
+Vue.component('postpage-component', __webpack_require__(/*! ./components/PostPageComponent.vue */ "./resources/js/components/PostPageComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49681,6 +53276,7 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 
 var app = new Vue({
   el: '#app',
+  store: _store_js__WEBPACK_IMPORTED_MODULE_0__["default"],
   components: {}
 });
 
@@ -49728,6 +53324,75 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/CarouselFormComponent.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/CarouselFormComponent.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CarouselFormComponent_vue_vue_type_template_id_1a8ce13e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CarouselFormComponent.vue?vue&type=template&id=1a8ce13e& */ "./resources/js/components/CarouselFormComponent.vue?vue&type=template&id=1a8ce13e&");
+/* harmony import */ var _CarouselFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CarouselFormComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/CarouselFormComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CarouselFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CarouselFormComponent_vue_vue_type_template_id_1a8ce13e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CarouselFormComponent_vue_vue_type_template_id_1a8ce13e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CarouselFormComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CarouselFormComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/CarouselFormComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CarouselFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CarouselFormComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CarouselFormComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CarouselFormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CarouselFormComponent.vue?vue&type=template&id=1a8ce13e&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/CarouselFormComponent.vue?vue&type=template&id=1a8ce13e& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CarouselFormComponent_vue_vue_type_template_id_1a8ce13e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CarouselFormComponent.vue?vue&type=template&id=1a8ce13e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CarouselFormComponent.vue?vue&type=template&id=1a8ce13e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CarouselFormComponent_vue_vue_type_template_id_1a8ce13e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CarouselFormComponent_vue_vue_type_template_id_1a8ce13e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -49800,6 +53465,370 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/PlanPost.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/PlanPost.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PlanPost_vue_vue_type_template_id_82cfd758___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PlanPost.vue?vue&type=template&id=82cfd758& */ "./resources/js/components/PlanPost.vue?vue&type=template&id=82cfd758&");
+/* harmony import */ var _PlanPost_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PlanPost.vue?vue&type=script&lang=js& */ "./resources/js/components/PlanPost.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PlanPost_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PlanPost_vue_vue_type_template_id_82cfd758___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PlanPost_vue_vue_type_template_id_82cfd758___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PlanPost.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PlanPost.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/PlanPost.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanPost_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PlanPost.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlanPost.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanPost_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PlanPost.vue?vue&type=template&id=82cfd758&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/PlanPost.vue?vue&type=template&id=82cfd758& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanPost_vue_vue_type_template_id_82cfd758___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PlanPost.vue?vue&type=template&id=82cfd758& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PlanPost.vue?vue&type=template&id=82cfd758&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanPost_vue_vue_type_template_id_82cfd758___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanPost_vue_vue_type_template_id_82cfd758___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPageComponent.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/PostPageComponent.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PostPageComponent_vue_vue_type_template_id_5c8e66da___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostPageComponent.vue?vue&type=template&id=5c8e66da& */ "./resources/js/components/PostPageComponent.vue?vue&type=template&id=5c8e66da&");
+/* harmony import */ var _PostPageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostPageComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/PostPageComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PostPageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PostPageComponent_vue_vue_type_template_id_5c8e66da___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PostPageComponent_vue_vue_type_template_id_5c8e66da___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PostPageComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPageComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/PostPageComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PostPageComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPageComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPageComponent.vue?vue&type=template&id=5c8e66da&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/PostPageComponent.vue?vue&type=template&id=5c8e66da& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPageComponent_vue_vue_type_template_id_5c8e66da___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PostPageComponent.vue?vue&type=template&id=5c8e66da& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPageComponent.vue?vue&type=template&id=5c8e66da&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPageComponent_vue_vue_type_template_id_5c8e66da___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPageComponent_vue_vue_type_template_id_5c8e66da___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SlideMenuComponent.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/SlideMenuComponent.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SlideMenuComponent_vue_vue_type_template_id_3e5b7150___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SlideMenuComponent.vue?vue&type=template&id=3e5b7150& */ "./resources/js/components/SlideMenuComponent.vue?vue&type=template&id=3e5b7150&");
+/* harmony import */ var _SlideMenuComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SlideMenuComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/SlideMenuComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SlideMenuComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SlideMenuComponent_vue_vue_type_template_id_3e5b7150___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SlideMenuComponent_vue_vue_type_template_id_3e5b7150___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/SlideMenuComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/SlideMenuComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/SlideMenuComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SlideMenuComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SlideMenuComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SlideMenuComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SlideMenuComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/SlideMenuComponent.vue?vue&type=template&id=3e5b7150&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/SlideMenuComponent.vue?vue&type=template&id=3e5b7150& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SlideMenuComponent_vue_vue_type_template_id_3e5b7150___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SlideMenuComponent.vue?vue&type=template&id=3e5b7150& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SlideMenuComponent.vue?vue&type=template&id=3e5b7150&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SlideMenuComponent_vue_vue_type_template_id_3e5b7150___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SlideMenuComponent_vue_vue_type_template_id_3e5b7150___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/store.js":
+/*!*******************************!*\
+  !*** ./resources/js/store.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+  // 共有するデータ
+  state: {
+    currentSlide: 0,
+    planOutline: {
+      planTitle: '',
+      hashTag: 'testPlan1, testPlan2',
+      information: 'これはテストプランです。'
+    },
+    contentsArray: [{
+      contentsKey: 0,
+      dayKey: 0,
+      spotKey: 0,
+      contentsTitle: 'これはテストタイトルです。',
+      contentsDuration: '0.5時間',
+      contentsAddress: '東京',
+      contentsTag: 'testspot,testspot1',
+      contentsInfo: 'これはテストspotです',
+      spotImage: []
+    }],
+    errorExist: ''
+  },
+  // ミューテーション
+  mutations: {
+    InputOldInfo_Plan: function InputOldInfo_Plan(state, plan) {
+      console.log(state.planOutline);
+      state.planOutline.planTitle = plan.plan_title;
+      state.planOutline.hashTag = plan.plan_tag;
+      state.planOutline.information = plan.plan_info;
+    },
+    ChangeErrStatus: function ChangeErrStatus(state) {
+      state.errorExist = 'Exist';
+    },
+    InputErrInfo: function InputErrInfo(state, params) {
+      var _params$split = params.split('.'),
+          _params$split2 = _slicedToArray(_params$split, 3),
+          category = _params$split2[0],
+          index = _params$split2[1],
+          property = _params$split2[2];
+
+      if (category == 'plan') {
+        switch (property) {
+          case 'plan_title':
+            state.planOutline.mark_title = "＊";
+            break;
+
+          case 'plan_info':
+            state.planOutline.mark_info = "＊";
+            break;
+
+          default:
+            console.log('該当なし');
+        }
+      } else if (category == 'spot') {
+        switch (property) {
+          case 'spot_title':
+            state.contentsArray[index].mark_title = "＊";
+            break;
+
+          case 'spot_address':
+            state.contentsArray[index].mark_address = "＊";
+            break;
+
+          case 'spot_info':
+            state.contentsArray[index].mark_info = "＊";
+            break;
+
+          default:
+        }
+      }
+    },
+    changeCurrentSlide: function changeCurrentSlide(state, newNumber) {
+      state.currentSlide = newNumber;
+    },
+    addDay: function addDay(state, dayKey) {
+      state.contentsArray.push({
+        dayKey: dayKey,
+        spotImage: []
+      });
+
+      for (var i = 0; i < state.contentsArray.length; i++) {
+        state.contentsArray[i].contentsKey = i;
+        state.contentsArray[i].spotKey = i;
+      }
+    },
+    addSpot: function addSpot(state, _ref) {
+      var targetIndex = _ref.targetIndex,
+          dayKey = _ref.dayKey;
+      state.contentsArray.splice(targetIndex, 0, {
+        dayKey: dayKey,
+        spotImage: [],
+        contentsDuration: '0.5時間'
+      });
+
+      for (var i = 0; i < state.contentsArray.length; i++) {
+        state.contentsArray[i].contentsKey = i;
+        state.contentsArray[i].spotKey = i;
+      }
+    },
+    deleteDay: function deleteDay(state, _ref2) {
+      var index = _ref2.index,
+          count = _ref2.count;
+      state.contentsArray.splice(index, count);
+    },
+    deleteSpot: function deleteSpot(state, _ref3) {
+      var dayKey = _ref3.dayKey,
+          spotKey = _ref3.spotKey;
+
+      for (var i = 0; i < state.contentsArray.length; i++) {
+        if (state.contentsArray[i].dayKey == dayKey && state.contentsArray[i].spotKey == spotKey) {
+          state.contentsArray.splice(i, 1);
+        } else {
+          state.contentsArray[i].contentsKey = i;
+          state.contentsArray[i].spotKey = i;
+        }
+      }
+    },
+    registarPlanTag: function registarPlanTag(state, value) {
+      state.planOutline.hashTag = value;
+    },
+    registarSpotTag: function registarSpotTag(state, _ref4) {
+      var key = _ref4.key,
+          value = _ref4.value;
+      state.contentsArray[key].contentsTag = value;
+    }
+  }
+}));
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -49833,6 +53862,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/mypage.scss":
+/*!************************************!*\
+  !*** ./resources/sass/mypage.scss ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/post.scss":
 /*!**********************************!*\
   !*** ./resources/sass/post.scss ***!
@@ -49845,17 +53885,18 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!**********************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/jquery.tagsinput.scss ./resources/sass/post.scss ./resources/sass/home.scss ***!
-  \**********************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/jquery.tagsinput.scss ./resources/sass/post.scss ./resources/sass/home.scss ./resources/sass/mypage.scss ***!
+  \***************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/ec2-user/environment/TripFinder/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /home/ec2-user/environment/TripFinder/resources/sass/app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! /home/ec2-user/environment/TripFinder/resources/sass/jquery.tagsinput.scss */"./resources/sass/jquery.tagsinput.scss");
-__webpack_require__(/*! /home/ec2-user/environment/TripFinder/resources/sass/post.scss */"./resources/sass/post.scss");
-module.exports = __webpack_require__(/*! /home/ec2-user/environment/TripFinder/resources/sass/home.scss */"./resources/sass/home.scss");
+__webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/sass/jquery.tagsinput.scss */"./resources/sass/jquery.tagsinput.scss");
+__webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/sass/post.scss */"./resources/sass/post.scss");
+__webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/sass/home.scss */"./resources/sass/home.scss");
+module.exports = __webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/sass/mypage.scss */"./resources/sass/mypage.scss");
 
 
 /***/ })

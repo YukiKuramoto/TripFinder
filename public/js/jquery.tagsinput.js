@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -495,16 +495,22 @@
   };
 })(jQuery);
 
+$(function () {
+  $('.hash-tag').tagsInput({
+    width: '100%'
+  });
+});
+
 /***/ }),
 
-/***/ 3:
+/***/ 5:
 /*!************************************************!*\
   !*** multi ./resources/js/jquery.tagsinput.js ***!
   \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/ec2-user/environment/TripFinder/resources/js/jquery.tagsinput.js */"./resources/js/jquery.tagsinput.js");
+module.exports = __webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/jquery.tagsinput.js */"./resources/js/jquery.tagsinput.js");
 
 
 /***/ })
