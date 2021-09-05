@@ -161,7 +161,8 @@
                               <input type="file"
                               class="file-select"
                               v-on:input="SelectImage(content.contentsKey, $event.currentTarget)"
-                              v-bind:name="'spot[' + content.contentsKey + '][spot_image]'"
+
+                              v-bind:name="'spot[' + content.contentsKey + '][spot_image][]'"
                               multiple="multiple">
                             </div>
                             <div class="spot-image-view">
@@ -399,9 +400,8 @@
         }
       },
       SelectImage: function(Key, Target){
-        this.contentsInfo[Key].spotImage = [];
 
-        if(Target.files.length > 0){
+      if(Target.files.length > 0){
           const file = Target.files[0];
           const reader = new FileReader();
 
@@ -409,6 +409,9 @@
             this.contentsInfo[Key].spotImage.push(e.target.result);
           };
           reader.readAsDataURL(file);
+          console.log(this.contentsInfo[Key].spotImage);
+        }else{
+          this.contentsInfo[Key].spotImage = [];
         }
       },
       showSpot: function(e) {

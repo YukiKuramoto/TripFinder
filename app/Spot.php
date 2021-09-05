@@ -17,4 +17,9 @@ class Spot extends Model
     {
       return $this->belongsToMany('App\Tag', 'spot_tag');
     }
+
+    public function images()
+    {
+      return $this->hasMany('App\Image');
+    }
 }

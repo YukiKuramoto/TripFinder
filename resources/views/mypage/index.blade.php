@@ -53,20 +53,20 @@
             <div class="plan-item-wrapper">
               @if (!is_null($user))
                 @foreach($user->plans as $plan)
-                <a href="{{ action('MypageController@showpost', ['user_id' => $plan->user_id, 'plan_id' => $plan->id]) }}" class="plan-item">
+                <a href="{{ action('PlanpageController@index', ['user_id' => $plan->user_id, 'plan_id' => $plan->id]) }}" class="plan-item">
                     <div class="plan-image-wrapper">
-                        <img class="plan-image" src="{{ $plan->spots[0]->spot_image }}">
+                        <img class="plan-image" src="{{ $plan->spots[0]->images[0]->image_path }}">
                     </div>
                     <div class="plan-outline-wrapper">
                         <p class="plan-title">{{ $plan->plan_title }}</p>
                         <div class="icon-area">
                           <i class="bi bi-star-fill"></i>15
-                          <i class="bi bi-chat-left-dots-fill"></i>8
+                          <!-- <i class="bi bi-chat-left-dots-fill"></i>8 -->
                         </div>
                         @foreach($plan->tags as $tag)
                           <p class="plan-tag">#{{ $tag->name }}</p>
                         @endforeach
-                        <p class="plan-introduction">{{ $plan->plan_information }}</p>
+                        <p class="plan-introduction">{{ mb_strimwidth($plan->plan_information, 0, 60) }}</p>
                     </div>
                 </a>
                 @endforeach

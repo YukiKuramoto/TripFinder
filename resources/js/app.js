@@ -21,7 +21,8 @@ import store from './store.js'
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('planpost-component', require('./components/PlanPost.vue').default);
-Vue.component('postpage-component', require('./components/PostPageComponent.vue').default);
+Vue.component('planpage-component', require('./components/PlanPage.vue').default);
+// Vue.component('postpage-component', require('./components/PostPageComponent.vue').default);
 
 
 /**

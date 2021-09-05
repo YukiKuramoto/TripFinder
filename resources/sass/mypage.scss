@@ -1,6 +1,6 @@
 .mypage {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  place-items: center;
 }
 
 .contents-outer {
@@ -8,7 +8,7 @@
   box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
   margin: 120px 0 60px 0;
   min-height: 870px;
-  min-width: 1400px;
+  min-width: 1300px;
 
   .contents-title {
     text-align: center;

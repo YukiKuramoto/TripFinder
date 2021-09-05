@@ -1,22 +1,125 @@
-                  @auth
-                  <div>
-                    <div id="humberger">
-                      <div></div>
-                      <div></div>
-                      <div></div>
+<template>
+    <section id=RecipeNote class="view">
+        <Header></Header>
+        <div id="main">
+            <div id="wrapper">
+                <div id="tag-wrapper" class="body-wrapper">
+                    <div class="tag">
+                        <div class="body-title">
+                            <p class="ribbon">ユーザー</p>
+                        </div>
                     </div>
-                  </div>
-                  <nav>
-                    <ul>
-                      <li><a href="">MyPage</a></li>
-                      <li><a href="">プラン投稿</a></li>
-                      <li><a href="">お気に入りユーザー</a></li>
-                      <li><a href="">閲覧履歴</a></li>
-                    </ul>
-                  </nav>
-                  @endauth
-                  
-                  
-                      @auth
-                        <a href="#!" id="log-out" data-toggle="modal" data-target="#Modal">ログアウト</a>
-                      @endauth
+                </div>
+
+
+                <div id="tabs-menu-wrapper">
+                    <div class="tabs-menu">
+                        <div id="tabs-menu-all"
+                        v-on:click.prevent="GetAllUserInfo"
+                        v-bind:class="{active: IS_AllUser}">
+                            All User
+                        </div>
+                        <div id="tabs-menu-follow"
+                        v-on:click.prevent="GetFollowUserInfo"
+                        v-bind:class="{active: IS_FollowUser}">
+                            Follow User
+                        </div>
+                        <div id="tabs-menu-follower"
+                        v-on:click.prevent="GetFollowerUserInfo"
+                        v-bind:class="{active: IS_FollowerUser}">
+                            Follower User
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-content">
+                    <div id="tabs-all">
+                        <div id="all-user-wrapper" class="body-wrapper temp-user-wrapper">
+                            <div id="user-wrapper-outer" class="temp-user-wrapper-outer">
+                                <div class="user-wrapper" v-for="user in Users" v-bind:key="'key-' + user.key">
+                                    <div class="user-image-wrapper">
+                                        <img class="user-image" v-bind:src="user.image">
+                                    </div>
+                                    <div class="user-name-wrapper">
+                                        <div class="user-name">
+                                            <a class="user-name-contents" v-bind:href="'/top?uid='+user.key">{{ user.name }}</a>
+                                            <button type="button"
+                                            class="btn btn-secondary btn-block fav-button"
+                                            v-bind:id="user.key"
+                                            v-bind:class="{'following-button': user.followStatus === 'フォロー中'}"
+                                            v-on:click="FollowUser">
+                                                {{ user.followStatus}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+
+
+
+#tabs-menu-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+/* divのデフォルトスタイルを消去 */
+.tabs-menu {
+  margin: 0;
+  padding: 0;
+}
+
+/* タブの基本スタイル */
+.tabs-menu div {
+  display: block;
+  float: left;
+  padding: 10px 20px;
+  width: 200px;
+  margin-right: 8px;
+  margin-bottom: -1px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: transparent;
+  border-radius: 4px 4px 0 0;
+  color: #557f95;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  /* 各プロパティをふわっと変える演出 */
+  transition: all 0.15s;
+  font-style:Italic;
+}
+
+/* 非選択のタブにマウスカーソルを乗せたら色を変える（追記してください） */
+.tabs-menu div:not(.active):hover {
+    border-color: #f0f0f0 #f0f0f0 #999;
+    background-color: #f0f0f0;
+}
+
+/* 選択中のタブ */
+.tabs-menu .active {
+  color: #3f4548;
+  border-color: #999 #999 transparent #999;
+  background-color: #fff;
+}
+
+/* タブコンテンツ表示エリア */
+.tabs-content {
+  clear: both;
+  border-top: 1px solid #999;
+  border-radius: 0 4px 4px 4px;
+  padding: 10px 0;
+  margin: 0 20px;
+}
+
+/* 各タブのコンテンツはデフォルトで非表示 */
+/*.tabs-content > div {*/
+/*  display: none;*/
+/*}*/

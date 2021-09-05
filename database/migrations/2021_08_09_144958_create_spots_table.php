@@ -20,7 +20,6 @@ class CreateSpotsTable extends Migration
             $table->string('spot_title');
             $table->string('spot_duration');
             $table->string('spot_address');
-            $table->string('spot_image')->nullable();
             $table->string('spot_information');
             $table->timestamps();
         });

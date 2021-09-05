@@ -10,6 +10,7 @@ use Validator;
 use App\Plan;
 use App\Spot;
 use App\Tag;
+use App\Image;
 use App\PlanTag;
 use App\SpotTag;
 use App\User;
@@ -27,16 +28,12 @@ class PostController extends Controller
     {
         // リクエストから投稿用データ取得
         $spot_form = $request->spot;
-        // dd($request->file('spot_image'));
-        // dd($spot_form->file('spot_image'));
         $plan_form = $request->plan[0];
         $uid = Auth::id();
-
+        dd(1);
         // プラン処理
         $plan = new Plan;
-        // ユーザーID追加
         $plan_form += array('user_id' => $uid);
-        // プラン日数計算
         $plan_form += array('plan_duration' => end($spot_form)['spot_day']);
         // タグデータ取出し
         $plan_tag = explode(",", trim($plan_form['plan_tag']));
@@ -45,24 +42,37 @@ class PostController extends Controller
         $plan->fill($plan_form)->save();
         $this->registerTag($plan_tag, $plan->id, 'plan');
 
-        // スポット処理
-        $spot = new Spot;
+
         foreach ($spot_form as $item) {
+          // スポット処理
+          $spot = new Spot;
           // ID追加
           $item += array('user_id' => $uid);
           $item += array('plan_id' => $plan->id);
-          // dd($item['spot_image']);
-          $path = Storage::disk('s3')->putFile('/',$item['spot_image'],'public');
-          $spot->spot_image = Storage::disk('s3')->url($path);
-          // タグデータ取出し
+
+          // タグデータ,画像データ取出し
           $spot_tag = explode(',', trim($item['spot_tag']));
-          unset($item['spot_tag'], $item['spot_day']);
+          $spot_images = $item['spot_image'];
+
           // DB登録
-          $spot->fill($item)->save();
+          unset($item['spot_tag'], $item['spot_day'], $item['spot_image']);
+          $spot->fill($item);
+          $spot->save();
+
+          //画像データ保存
+          foreach($spot_images as $spot_image){
+            $image = new Image;
+            $path = Storage::disk('s3')->putFile('/', $spot_image, 'public');
+            $image->image_path = Storage::disk('s3')->url($path);
+            $image->spot_id = $spot->id;
+            $image->save();
+          }
+
           $this->registerTag($spot_tag, $spot->id, 'spot');
         }
 
         $user = User::find($uid);
+        dd('OK');
         return view('mypage.index', ['user' => $user]);
     }
 
@@ -106,6 +116,8 @@ class PostController extends Controller
     }
 
 
+
+
     public function index()
     {
         $user = User::find(2);
@@ -124,7 +136,5 @@ class PostController extends Controller
         $plan_info = $spot_reqs->plans;
 
         dd($plan_info->plan_title);
-
-
     }
 }
