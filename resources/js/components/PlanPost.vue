@@ -28,7 +28,7 @@
               </section>
           </div>
       </div>
-      <form id="post-form" action="/post/create" method="post" enctype="multipart/form-data">
+      <form id="post-form" v-bind:action="'/post/' + type" method="post" enctype="multipart/form-data">
           <div>
             <div v-if="ErrorExist" id="error-msg">
               ＊は入力必須項目です
@@ -47,11 +47,12 @@
                         v-on:input="planOutline.planTitle = $event.target.value"
                         v-bind:value="planOutline.planTitle">
                       </div>
-
                       <div class="transportation-label">
                         <div class="title-area">
                           主要交通手段　：
-                          <select name="plan[0][main_transportation]" class="user-input">
+                          <select name="plan[0][main_transportation]" class="user-input"
+                          v-on:input="planOutline.mainTransportation = $event.target.value"
+                          v-bind:value="planOutline.mainTransportation">
                             <option value="車">車</option>
                             <option value="電車">電車</option>
                             <option value="バス">バス</option>
@@ -157,15 +158,16 @@
                           </div>
                           <div class="spot-image-area">
                             <div class="spot-image-select">
+                              <div class="error-mark">{{ content.mark_image }}</div>
                               写真を投稿：
                               <input type="file"
                               class="file-select"
                               v-on:input="SelectImage(content.contentsKey, $event.currentTarget)"
-
                               v-bind:name="'spot[' + content.contentsKey + '][spot_image][]'"
                               multiple="multiple">
                             </div>
                             <div class="spot-image-view">
+                              <!-- <canvas v-bind:id="'canvas' + content.contentsKey"></canvas> -->
                               <img v-bind:src="content.spotImage[0]">
                             </div>
                           </div>
@@ -202,10 +204,14 @@
     props:[
       'old',
       'errors',
+      'plan',
+      'spot',
     ],
     data() {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        type: 'create',
+        maxWidth: 300,
         dayInfo: [{
           dayKey: 0,
           spotInfo: [{
@@ -227,6 +233,7 @@
         currentNum: 0,
         planOutline: {
           planTitle: '',
+          mainTransportation: '車',
           hashTag: 'testPlan1, testPlan2',
           information: 'これはテストプランです。'
         },
@@ -245,11 +252,17 @@
       }
     },
     created: function(){
+      console.log(this.plan);
       if(this.errors.length != 0){
+        console.log(this.old.plan);
         this.errorExist = 'Exist';
         this.InputOldInfo_Plan(this.old.plan[0]);
         this.InputOldInfo_Spot(this.old.spot);
         this.InputErrInfo(this.errors);
+      }else if(this.plan !== undefined){
+        this.type = `update/${this.plan.id}`;
+        this.InputOldInfo_Plan(this.plan);
+        this.InputOldInfo_Spot(this.spot);
       }
     },
     beforeUpdate: function(){
@@ -259,6 +272,7 @@
       InputOldInfo_Plan: function(plan){
         console.log(plan);
         this.planOutline.planTitle = plan.plan_title;
+        this.planOutline.mainTransportation = plan.main_transportation;
         this.planOutline.hashTag = plan.plan_tag;
         this.planOutline.information = plan.plan_information;
       },
@@ -278,6 +292,11 @@
           this.contentsInfo[i].contentsTag = spot[i].spot_tag;
           this.contentsInfo[i].contentsInfo = spot[i].spot_information;
           this.contentsInfo[i].contentsDuration = spot[i].spot_duration;
+          if(spot[i].images !== undefined){
+            spot[i].images.forEach($image => {
+              this.contentsInfo[i].spotImage.push($image.image_path);
+            });
+          };
         }
       },
       InputErrInfo: function(err){
@@ -309,6 +328,8 @@
               case 'spot_info':
                 this.contentsInfo[index].mark_info = "＊"
                 break;
+              case 'spot_image':
+                this.contentsInfo[index].mark_image = "*"
               default:
             }
           }
@@ -401,7 +422,75 @@
       },
       SelectImage: function(Key, Target){
 
-      if(Target.files.length > 0){
+        // var file = Target.files[0];
+        // if (!file.type.match(/^image\/(png|jpeg|gif)$/)){
+        //   alert('認められていないファイル形式です')
+        //   return;
+        // }
+        //
+        // // var image = new Image();
+        // // testComment
+        // let vueComponents = this;
+        // var reader = new FileReader();
+        // reader.readAsDataURL(file);
+        //
+        // reader.onload = (evt) => {
+        //
+        //     var image = new Image();
+        //     image.onload = () => {
+        //
+        //       // 最大幅
+        //       const maxWidth = 900;
+        //       // 最大高さ
+        //       const maxHeight = 700;
+        //       // 変換後幅
+        //       var convertedWidth;
+        //       // 変換後高さ
+        //       var convertedHeight;
+        //       // canvas要素取得
+        //       var canvas = $('#canvas' + Key);
+        //       // 描画用オブジェクト
+        //       var ctx = canvas[0].getContext('2d');
+        //
+        //       // 縦長画像でサイズオーバー
+        //       if(image.height > image.width && image.height > maxHeight){
+        //         convertedWidth = Math.round(image.width * maxHeight / image.height);
+        //         convertedHeight = maxHeight;
+        //       // 横長画像でサイズオーバー
+        //       }else if(image.width > image.height && image.width > maxWidth){
+        //         convertedWidth = maxWidth;
+        //         convertedHeight = Math.round(image.height * maxWidth / image.width);
+        //       // サイズオーバーなし
+        //       }else{
+        //         convertedWidth = image.width;
+        //         convertedHeight = image.height;
+        //       }
+        //
+        //       // 描画用に高さと幅をセット
+        //       $('#canvas' + Key).attr('height', convertedHeight);
+        //       $('#canvas' + Key).attr('width', convertedWidth);
+        //       // 描画実行
+        //       ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, convertedWidth, convertedHeight); //canvasに画像を転写
+        //
+        //       // 描画対象をファイル変換
+        //       ctx.canvas.toBlob((blob) => {
+        //         const imageFile = new File([blob], file.name, {
+        //           type: file.type,
+        //         });
+        //         console.log(imageFile.size);
+        //
+        //         vueComponents.contentsInfo[Key].spotImage.push(imageFile);
+        //         // console.log(this.contentsInfo);
+        //       }, file.type, 1);
+        //     }
+        //     image.src = evt.target.result;
+        // }
+
+
+
+
+        if(Target.files.length > 0) {
+          this.contentsInfo[Key].spotImage = [];
           const file = Target.files[0];
           const reader = new FileReader();
 
@@ -413,6 +502,7 @@
         }else{
           this.contentsInfo[Key].spotImage = [];
         }
+
       },
       showSpot: function(e) {
         e.preventDefault();

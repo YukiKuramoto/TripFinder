@@ -25,71 +25,75 @@
       margin-top: 40px;
       width: 30%;
 
-      .profile-area {
-        border: solid 0.1px rgba(204, 204, 204, 0.8);
+      .profile-area-outer {
+        border: solid 1px rgba(204, 204, 204, 0.8);
         border-radius: 10px;
         box-shadow: 0 8px 10px 0 rgba(0, 0, 0, .3);
 
-        h3 {
-          margin: 20px 0 35px 0;
-          text-align: center;
-        }
+        .profile-area {
+          margin: 0 20px;
 
-        .profile-info-area {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          .profile-image-area {
-            width: 35%;
-            // border: solid 0.8px;
-
-            img {
-              width: 155px;
-              height: 155px;
-              border-radius: 50%;
-            }
+          h3 {
+            margin: 20px 0 35px 0;
+            text-align: center;
           }
 
-          .profile-count-area {
-            width: 55%;
+          .profile-info-area {
             display: flex;
             justify-content: center;
+            align-items: center;
 
-            h4 {
-              text-align: center;
+            .profile-image-area {
+              width: 155px;
+
+              img {
+                width: 155px;
+                height: 155px;
+                border-radius: 50%;
+              }
             }
 
-            .post-count-area {
-              width: 50%;
+            .profile-count-area {
+              width: 55%;
+              display: flex;
+              justify-content: center;
+
+              h4 {
+                text-align: center;
+              }
+
+              .post-count-area {
+                width: 50%;
+              }
+
+              .followed-count-area {
+                width: 50%;
+              }
+            }
+          }
+
+          .profile-name-area {
+            margin: 30px;
+            display: flex;
+            justify-content: space-between;
+
+            p {
+              margin: 0;
+              font-size: 30px;
             }
 
-            .followed-count-area {
-              width: 50%;
+            button {
+              font-size: 12px;
+              margin-right: 20px;
             }
+          }
+
+          .profile-introduction-area {
+            margin: 35px 30px;
+
           }
         }
 
-        .profile-name-area {
-          margin-top: 25px;
-          display: flex;
-          justify-content: space-between;
-
-          p {
-            margin: 0 0 0 30px;
-            font-size: 30px;
-          }
-
-          button {
-            font-size: 12px;
-            margin-right: 20px;
-          }
-        }
-
-        .profile-introduction-area {
-          margin: 35px 30px;
-
-        }
       }
     }
 
@@ -166,7 +170,7 @@
     height: 180px;
     padding: 20px 15px;
     margin-bottom: 15px;
-    border: solid 0.1px rgba(204, 204, 204, 0.8);
+    border: solid 1px rgba(204, 204, 204, 0.8);
     border-radius: 10px;
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, .5);
     display: flex;
@@ -209,16 +213,93 @@
         }
 
         .bi-star-fill {
-          color: #ffd700;
+          color: #fcc800;
         }
 
-        .bi-chat-left-dots-fill {
-          color: #c0c0c0;
+        .bi-geo-fill {
+          color: #0068b7;
+        }
+
+        .bi-pencil-square {
+          margin-right: 8px;
+          color: #5f5f5f;
         }
       }
     }
   }
   .plan-item:last-child {
     margin-bottom: 0;
+  }
+}
+
+.spot-item-outer {
+  display: grid;
+  place-items: center;
+}
+
+.spot-item-wrapper {
+  padding: 20px 0px;
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .spot-item {
+    height: 320px;
+    width: 250px;
+    margin: 0 20px 30px 20px;
+    padding: 0;
+    border: solid 0.5px rgba(77, 77, 77, 0.5);
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    color: black;
+
+    .spot-image-outer {
+      height: 200px;
+      background-color: #f5f5f5;
+      border-bottom: solid 0.5px rgba(77, 77, 77, 0.5);
+      display: flex;
+      justify-content: center;
+
+      .spot-image {
+        margin: 4%;
+        max-height: 90%;
+        max-width: 85%;
+        flex-wrap: wrap;
+        border-radius: 5px;
+      }
+    }
+
+    .spot-title-area {
+      padding: 5px 10px;
+
+      p {
+        margin: 8px 0 0 0;
+        text-align: center;
+        text-decoration: underline;
+      }
+    }
+
+    .icon-area {
+      margin: 8px 0 7px 0;
+      text-align: center;
+
+      .bi {
+        margin: 0 5px 0 10px;
+      }
+
+      .bi-star-fill {
+        color: #fcc800;
+      }
+
+      .bi-geo-fill {
+        color: #0068b7;
+      }
+
+      .bi-pencil-square {
+        margin-right: 8px;
+        color: #5f5f5f;
+      }
+    }
   }
 }

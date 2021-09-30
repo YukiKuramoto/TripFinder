@@ -39,10 +39,10 @@
               <div id="nav-content" tabindex="0">
                 <ul>
                   <li><a href="{{ action('Home\HomeController@index') }}">Top</a></li>
-                  <li><a href="{{ action('MypageController@index') }}">MyPage</a></li>
+                  <li><a href="{{ action('MypageController@index', ['user_id' => Auth::user()->id ]) }}">MyPage</a></li>
                   <li><a href="{{ action('PostController@show') }}">Post Plan</a></li>
-                  <li><a href="">Favorite User</a></li>
-                  <li><a href="">History</a></li>
+                  <li><a href="{{ action('UsersViewController@index') }}">Users</a></li>
+                  <li><a href="{{ action('SearchController@index')}}">Search</a></li>
                   <li><a href="#!" id="log-out" data-toggle="modal" data-target="#Modal">LOGOUT</a></li>
                 </ul>
               </div>

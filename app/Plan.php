@@ -13,8 +13,18 @@ class Plan extends Model
       return $this->hasMany('App\Spot');
     }
 
+    public function user()
+    {
+      return $this->belongsTo('App\User');
+    }
+
     public function tags()
     {
       return $this->belongsToMany('App\Tag', 'plan_tag');
+    }
+
+    public function favs()
+    {
+      return $this->belongsToMany('App\User', 'favoriteplans');
     }
 }

@@ -1,0 +1,79 @@
+.profile-edit-outer {
+  display: grid;
+  place-items: center;
+}
+
+.profile-edit-outer .profile-edit-wrapper {
+  margin: 60px 0;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-edit-header {
+  text-align: center;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer {
+  margin-top: 80px;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer p {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer input {
+  width: 100%;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer textarea {
+  width: 100%;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .form-row {
+  min-width: 800px;
+  margin: 0 0 -1px 0;
+  padding: 8px;
+  border: 1px solid rgba(85, 85, 85, 0.5);
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .form-header {
+  background-color: #EEEEEE;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .profile-image-area {
+  padding: 30px 30px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .profile-image-area .profile-image-input {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .profile-image-area .profile-image {
+  height: 100%;
+  width: 250px;
+  border-radius: 20px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .profile-image-area .preview-hide {
+  display: none;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .user_id {
+  display: none;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .submit-button-area {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.profile-edit-outer .profile-edit-wrapper .profile-form-outer .submit-button-area .comment-submit-btn {
+  width: 250px;
+}
+

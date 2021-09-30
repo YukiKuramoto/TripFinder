@@ -46,4 +46,24 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Spot');
     }
+
+    public function followers()
+    {
+        return $this->hasMany('App\Follow', 'followed_user_id');
+    }
+
+    public function follows()
+    {
+        return $this->hasMany('App\Follow', 'follower_user_id');
+    }
+
+    public function favPlans()
+    {
+        return $this->belongsToMany('App\Plan', 'favoriteplans');
+    }
+
+    public function favSpots()
+    {
+        return $this->belongsToMany('App\Spot', 'favoritespots');
+    }
 }

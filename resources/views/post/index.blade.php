@@ -15,13 +15,18 @@
 
 @section('content')
     <div class="contents" id="post-page">
-      <planpost-component
-        :old="{{ json_encode(Session::getOldInput()) }}"
-        :errors= "{{ $errors }}">
-      </planpost-component>
-      <!-- <postpage-component
-        :old="{{ json_encode(Session::getOldInput()) }}"
-        :errors= "{{ $errors }}">
-      </postpage-component> -->
+      @if(isset($plan))
+        <planpost-component
+          :old="{{ json_encode(Session::getOldInput()) }}"
+          :errors= "{{ $errors }}"
+          :plan="{{ $plan }}"
+          :spot="{{ $spot }}">
+        </planpost-component>
+      @else
+        <planpost-component
+          :old="{{ json_encode(Session::getOldInput()) }}"
+          :errors= "{{ $errors }}">
+        </planpost-component>
+      @endif
     </div>
 @endsection

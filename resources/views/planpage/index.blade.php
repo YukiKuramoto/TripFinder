@@ -19,7 +19,9 @@
     <div class="contents" id="post-page">
       <planpage-component
         :plan="{{ $plan }}"
-        :spot= "{{ $spot }}">
+        :spot= "{{ $spot }}"
+        :postuser= "{{ $plan->user }}"
+        :login_uid= "{{ Auth::user()->id }}">
       </planpage-component>
       <!-- <postpage-component
         :old="{{ json_encode(Session::getOldInput()) }}"

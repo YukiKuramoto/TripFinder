@@ -7,7 +7,7 @@
                 <div class="accordion-content accordion-content-active" v-on:click="carouselMove(-1)">PlanOutline</div>
             </section>
             <section v-for="day in dayInfo">
-                <h2 class="accordion-title"><a href="#!" v-on:click.prevent="showSpot">Day{{ day.dayKey + 1 }}</a></h2>
+                <h2 class="accordion-title"><a href="#!" v-on:click.prevent="showSpot">Day{{ day.dayKey }}</a></h2>
                 <div v-for="spot in day.spotInfo">
                   <div class="accordion-content" v-bind:style="spot.spotDisplay" v-on:click.prevent="carouselMove(spot.spotKey)">
                     <div class="accordion-content-area">
@@ -29,6 +29,16 @@
                   <div class="plan-outline-wrapper" v-bind:style="planOutline.displayStyle">
                     <div class="plan-title">
                       <h2>{{ planOutline.planTitle }}</h2>
+                    </div>
+                    <div class="plan-edit-button" v-if="postuser.id == login_uid">
+                      <!-- <a v-bind:href="'/post/edit/' + planOutline.id_DB" class="btn btn-secondary">編集</a> -->
+                      <form v-bind:action="'/post/delete/' + planOutline.id_DB" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="_token" :value="csrf">
+                        <input type="submit" class="btn btn-secondary" value="削除">
+                      </form>
+                    </div>
+                    <div class="post-user-wrapper" v-if="postuser.id != login_uid">
+                      <a class="plan-post-user" v-bind:href="'/mypage/' + postuser.id">POSTED BY {{ postuser.name }}</a>
                     </div>
                     <div class="plan-images-wrapper">
                       <div class="main-image-wrapper">
@@ -54,6 +64,10 @@
                         <div class="plan-tag-wrapper">
                           <i class="fas fa-tags"></i>
                           <p class="tag-name" v-for="tag in planOutline.tags">#{{ tag.name }}</p>
+                        </div>
+                        <div class="fav-button-area">
+                          <a v-if="planOutline.favStatus" class="btn btn-warning plan-unfav-btn" v-bind:href="'/index/unfavplan?planId=' + planOutline.id_DB">お気に入り登録済み</a>
+                          <a v-else class="btn btn-warning plan-fav-btn" v-bind:href="'/index/favplan?planId=' + planOutline.id_DB">お気に入り登録</a>
                         </div>
                       </div>
                       <div class="plan-info-area">
@@ -101,8 +115,9 @@
                               <p class="tag-name" v-for="tag in content.contentsTag">#{{ tag.name }}</p>
                             </div>
                             <div class="spot-detail-item">
-                              <a class="spot-fav-button btn btn-warning" href="#">行きたいスポット</a>
-                              <a class="spot-fav-button btn btn-secondary" href="#">コメント投稿</a>
+                              <a v-if="content.favStatus" class="spot-fav-button btn btn-warning spot-unfav-btn" v-bind:href="'/index/unfavspot?planId=' + planOutline.id_DB + '&spotId=' + content.id_DB">登録済み</a>
+                              <a v-else class="spot-fav-button btn btn-warning" v-bind:href="'/index/favspot?planId=' + planOutline.id_DB + '&spotId=' + content.id_DB">行きたいスポット</a>
+                              <a class="spot-fav-button btn btn-secondary" v-bind:href="'/comment/create?spotId=' + content.id_DB">コメント投稿</a>
                             </div>
                           </div>
                         </div>
@@ -120,36 +135,19 @@
                           <div class="spot-comment-header contents-header">
                             <p>コメント</p>
                           </div>
-                          <div class="comment-item">
+                          <div class="comment-item" v-for="comment in content.contentsComment">
                             <div class="balloon2-right">
                               <div class="comment-title">
-                                <p>こんにちは。これは例です。</p>
+                                <p>{{ comment.commentTitle }}</p>
                               </div>
                               <div class="comment-contents">
-                                <p>こんにちは。これは例です。</p>
-                                <p>こんにちは。これは例です。</p>
+                                <p>{{ comment.commentContents }}</p>
                               </div>
                             </div>
-                          </div>
-                          <div class="comment-item">
-                            <div class="balloon2-right">
-                              <div class="comment-title">
-                                <p>こんにちは。これは例です。</p>
-                              </div>
-                              <div class="comment-contents">
-                                <p>こんにちは。これは例です。</p>
-                                <p>こんにちは。これは例です。</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="comment-item">
-                            <div class="balloon2-right">
-                              <div class="comment-title">
-                                <p>こんにちは。これは例です。</p>
-                              </div>
-                              <div class="comment-contents">
-                                <p>こんにちは。これは例です。</p>
-                                <p>こんにちは。これは例です。</p>
+                            <div class="comment-user-name">
+                              <div class="">
+                                <img v-bind:src="comment.commentUserImage">
+                                <p>by {{ comment.commentUser }}</p>
                               </div>
                             </div>
                           </div>
@@ -177,19 +175,23 @@
     props:[
       'plan',
       'spot',
+      'postuser',
+      'login_uid',
     ],
     data() {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        dayInfo: [{
-          dayKey: 0,
-          spotInfo: [
+        dayInfo: [
+          // {
+          // dayKey: 0,
+          // spotInfo: [
           //   {
           //   spotKey: 0,
           //   spotDisplay: ''
           // }
-        ],
-        }],
+        // ],
+        // }
+      ],
         contentsInfo: [
         //   {
         //   contentsKey: 0,
@@ -207,6 +209,7 @@
         // }
       ],
         planOutline: {
+          id_DB: '',
           planTitle: '',
           hashTag: '',
           information: '',
@@ -226,6 +229,8 @@
       },
     },
     created: function(){
+      console.log(this.spot);
+      console.log(this.plan);
       this.setPlan(this.plan);
       this.setSpot(this.spot);
       this.setImage(this.spot);
@@ -271,28 +276,53 @@
         }
       },
       setSpot: function(spots){
-        console.log(spots.length);
 
         for(let i = 0; i < spots.length; i++){
-          this.dayInfo[0].spotInfo.push({
+          if(this.dayInfo[spots[i].spot_day - 1] === undefined){
+            this.dayInfo.push({
+              dayKey: spots[i].spot_day,
+              spotInfo: [],
+            })
+          }
+
+          this.dayInfo[spots[i].spot_day - 1].spotInfo.push({
             spotKey: i,
             spotDisplay: 'none',
           })
 
           this.contentsInfo.push({
+            id_DB: spots[i].id,
             contentsKey: i,
-            daykey: 1,
+            daykey: spots[i].spot_day,
             spotkey: i,
+            favStatus: spots[i].fav_status,
             contentsTitle: spots[i].spot_title,
             contentsDuration: spots[i].spot_duration,
             contentsAddress: spots[i].spot_address,
             contentsTag: spots[i].tags,
             contentsInfo: spots[i].spot_information,
+            contentsComment: [],
             spotImage: {
               mainImage: '',
               subImage: [],
             },
           })
+
+          let count;
+          if(spots[i].comments.length < 3){
+            count = spots[i].comments.length;
+          }else{
+            count = 3
+          }
+
+          for(let j = 0; j< count; j++){
+            this.contentsInfo[i].contentsComment.push({
+              commentTitle: spots[i].comments[j].comment_title,
+              commentContents: spots[i].comments[j].comment_content,
+              commentUser: spots[i].comments[j].user_name,
+              commentUserImage: spots[i].comments[j].user_image,
+            })
+          }
 
           for(let j = 0; j < spots[i].images.length; j++){
             if(j === 0){
@@ -304,6 +334,8 @@
         }
       },
       setPlan: function(plan){
+        this.planOutline.id_DB = plan.id;
+        this.planOutline.favStatus = plan.fav_status;
         this.planOutline.planTitle = plan.plan_title;
         this.planOutline.planDuration = plan.plan_duration;
         this.planOutline.planTransportation = plan.main_transportation;
@@ -326,7 +358,6 @@
         }
       },
       carouselMove: function(spotKey){
-        // this.initMapWithAddress();
         this.currentNum = spotKey + 1;
         if(spotKey == -1){
           this.planOutline.displayStyle = 'display: block';

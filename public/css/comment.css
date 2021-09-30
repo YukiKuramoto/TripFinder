@@ -1,0 +1,51 @@
+.comment-outer {
+  display: grid;
+  place-items: center;
+}
+
+.comment-outer .comment-wrapper {
+  margin: 60px 0;
+}
+
+.comment-outer .comment-wrapper .comment-header {
+  text-align: center;
+}
+
+.comment-outer .comment-wrapper .comment-contents-outer {
+  margin-top: 80px;
+}
+
+.comment-outer .comment-wrapper .comment-contents-outer p {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+}
+
+.comment-outer .comment-wrapper .comment-contents-outer input {
+  width: 100%;
+}
+
+.comment-outer .comment-wrapper .comment-contents-outer textarea {
+  width: 100%;
+}
+
+.comment-outer .comment-wrapper .comment-contents-outer .form-row {
+  min-width: 800px;
+  margin: 0 0 -1px 0;
+  padding: 8px;
+  border: 1px solid rgba(85, 85, 85, 0.5);
+}
+
+.comment-outer .comment-wrapper .comment-contents-outer .form-header {
+  background-color: #EEEEEE;
+}
+
+.comment-outer .comment-wrapper .comment-contents-outer .submit-button-area {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.comment-outer .comment-wrapper .comment-contents-outer .submit-button-area .comment-submit-btn {
+  width: 250px;
+}
+

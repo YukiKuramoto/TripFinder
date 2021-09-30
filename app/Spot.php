@@ -8,6 +8,11 @@ class Spot extends Model
 {
     protected $guarded = array('spot_id');
 
+    public function user()
+    {
+        $this->belongsTo('App\User', 'user_id');
+    }
+
     public function plans()
     {
       return $this->belongsTo('App\Plan', 'plan_id');
@@ -21,5 +26,15 @@ class Spot extends Model
     public function images()
     {
       return $this->hasMany('App\Image');
+    }
+
+    public function comments()
+    {
+      return $this->hasMany('App\SpotComment');
+    }
+
+    public function favs()
+    {
+      return $this->belongsToMany('App\User', 'favoritespots');
     }
 }

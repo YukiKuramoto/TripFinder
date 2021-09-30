@@ -14,6 +14,9 @@ use App\Image;
 use App\PlanTag;
 use App\SpotTag;
 use App\User;
+use App\FavPlan;
+use App\FavSpot;
+use App\SpotComment;
 use Storage;
 
 class PostController extends Controller
@@ -26,54 +29,66 @@ class PostController extends Controller
 
     public function create(PostRequest $request)
     {
-        // リクエストから投稿用データ取得
-        $spot_form = $request->spot;
-        $plan_form = $request->plan[0];
-        $uid = Auth::id();
-        dd(1);
-        // プラン処理
-        $plan = new Plan;
-        $plan_form += array('user_id' => $uid);
-        $plan_form += array('plan_duration' => end($spot_form)['spot_day']);
-        // タグデータ取出し
-        $plan_tag = explode(",", trim($plan_form['plan_tag']));
-        unset($plan_form['plan_tag']);
-        // DB登録
-        $plan->fill($plan_form)->save();
-        $this->registerTag($plan_tag, $plan->id, 'plan');
-
-
-        foreach ($spot_form as $item) {
-          // スポット処理
-          $spot = new Spot;
-          // ID追加
-          $item += array('user_id' => $uid);
-          $item += array('plan_id' => $plan->id);
-
-          // タグデータ,画像データ取出し
-          $spot_tag = explode(',', trim($item['spot_tag']));
-          $spot_images = $item['spot_image'];
-
+      // $spot_form = $request->spot;
+      // dd(isset($spot_form[0]['spot_image']));
+        // dd("stop");
+        DB::beginTransaction();
+        try {
+          // リクエストから投稿用データ取得
+          $spot_form = $request->spot;
+          $plan_form = $request->plan[0];
+          $uid = Auth::id();
+          // dd($request);
+          // プラン処理
+          $plan = new Plan;
+          $plan_form += array('user_id' => $uid);
+          $plan_form += array('plan_duration' => end($spot_form)['spot_day']);
+          // タグデータ取出し
+          $plan_tag = explode(",", trim($plan_form['plan_tag']));
+          unset($plan_form['plan_tag']);
           // DB登録
-          unset($item['spot_tag'], $item['spot_day'], $item['spot_image']);
-          $spot->fill($item);
-          $spot->save();
+          $plan->fill($plan_form)->save();
+          $this->registerTag($plan_tag, $plan->id, 'plan');
 
-          //画像データ保存
-          foreach($spot_images as $spot_image){
-            $image = new Image;
-            $path = Storage::disk('s3')->putFile('/', $spot_image, 'public');
-            $image->image_path = Storage::disk('s3')->url($path);
-            $image->spot_id = $spot->id;
-            $image->save();
+
+          foreach ($spot_form as $item) {
+            // スポット処理
+            $spot = new Spot;
+            // ID追加
+            $item += array('user_id' => $uid);
+            $item += array('plan_id' => $plan->id);
+
+            // タグデータ,画像データ取出し
+            $spot_tag = explode(',', trim($item['spot_tag']));
+            if(isset($item['spot_image'])){
+              $spot_images = $item['spot_image'];
+              unset($item['spot_image']);
+            }
+
+            // DB登録
+            unset($item['spot_tag']);
+            $spot->fill($item);
+            $spot->save();
+
+            //画像データ保存
+            if(isset($spot_images)){
+              foreach($spot_images as $spot_image){
+                $image = new Image;
+                $path = Storage::disk('s3')->putFile('/', $spot_image, 'public');
+                $image->image_path = Storage::disk('s3')->url($path);
+                $image->spot_id = $spot->id;
+                $image->save();
+              }
+            }
+            $this->registerTag($spot_tag, $spot->id, 'spot');
           }
-
-          $this->registerTag($spot_tag, $spot->id, 'spot');
+          DB::commit();
+        } catch (\Exception $e){
+          DB::rollback();
+          dd($e);
         }
 
-        $user = User::find($uid);
-        dd('OK');
-        return view('mypage.index', ['user' => $user]);
+        return redirect()->action('MypageController@index', ['user_id' => $uid]);
     }
 
 
@@ -116,7 +131,97 @@ class PostController extends Controller
     }
 
 
+    public function edit($plan_id)
+    {
+        $plan = Plan::find($plan_id);
+        $plan_tag = "";
+        foreach($plan->tags as $tag){
+          $plan_tag = $plan_tag . $tag->name . ",";
+        }
+        $plan->plan_tag = $plan_tag;
 
+        foreach ($plan->spots as $spot) {
+          $spot->images;
+          $spot_tag = "";
+          foreach($spot->tags as $tag){
+            $spot_tag = $spot_tag . $tag->name . ",";
+          }
+          $spot->spot_tag = $spot_tag;
+        }
+        // dd($plan->plan_title);
+        return view('post.index', ['plan' => $plan, 'spot' => $plan->spots]);
+    }
+
+    public function update(Request $request, $plan_id)
+    {
+      $plan_form = $request->plan[0];
+      $spot_form = $request->spot;
+      dd($request->all());
+    }
+
+
+    public function delete($plan_id)
+    {
+      DB::beginTransaction();
+      try {
+        $plan = Plan::find($plan_id);
+        $spots = $plan->spots;
+        $plan_tags = $plan->tags;
+        $plan_favs = $plan->favs;
+
+        foreach ($spots as $spot) {
+          $images = $spot->images;
+          $comments = $spot->comments;
+          $spot_favs = $spot->favs;
+          $spot_tags = $spot->tags;
+        }
+
+        Plan::find($plan->id)->delete();
+
+        foreach($plan_tags as $tag) {
+          PlanTag::where('plan_id', $tag->plan_id)->delete();
+        }
+
+        foreach($plan_favs as $fav) {
+          FavPlan::find($fav->id)->delete();
+        }
+
+        foreach($spots as $spot) {
+          Spot::find($spot->id)->delete();
+        }
+
+        foreach($images as $image) {
+          Image::find($image->id)->delete();
+        }
+
+        foreach($comments as $comment) {
+          SpotComment::find($comment->id)->delete();
+        }
+
+        foreach($spot_favs as $fav) {
+          FavSpot::find($fav->id)->delete();
+        }
+
+        foreach($spot_tags as $tag) {
+          SpotTag::where('spot_id', $tag->spot_id)->delete();
+        }
+
+        DB::commit();
+        $uid = Auth::id();
+        return redirect()->action('MypageController@index', ['user_id' => $uid]);
+        
+      } catch(\Exception $e){
+        DB::rollback();
+        dd($e);
+      }
+    }
+
+    public function del($class, $items)
+    {
+      foreach ($items as $item) {
+        $target = $class::find($item->id);
+      }
+    }
 
     public function index()
     {

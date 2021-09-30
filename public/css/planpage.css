@@ -10,7 +10,7 @@
   height: calc(100vh - 60px);
   width: 250px;
   background-color: #fff;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
   position: fixed;
   z-index: 80;
 }
@@ -55,7 +55,6 @@
 
 .accordion-title:hover {
   background-color: rgba(213, 218, 229, 0.9);
-  transition: 0.4s;
 }
 
 /* アコーディオンのコンテンツ部分 */
@@ -78,7 +77,6 @@
 
 .accordion-content:hover {
   background-color: rgba(213, 218, 229, 0.6);
-  transition: 0.4s;
 }
 
 /* accordion-content-activeクラスが付いているものは初期状態で表示しておく */
@@ -166,8 +164,31 @@
   width: 1100px;
 }
 
+.plan-outline-wrapper .post-user-wrapper {
+  text-align: right;
+}
+
+.plan-outline-wrapper .post-user-wrapper .plan-post-user {
+  text-decoration: none;
+  color: #3e3e3e;
+}
+
+.plan-outline-wrapper .post-user-wrapper .plan-post-user:hover {
+  background-color: rgba(213, 218, 229, 0.9);
+  transition: 0.4s;
+}
+
+.plan-outline-wrapper .plan-edit-button {
+  text-align: right;
+}
+
+.plan-outline-wrapper .plan-edit-button input {
+  margin-right: 12px;
+  width: 150px;
+}
+
 .plan-outline-wrapper .plan-images-wrapper {
-  margin: 50px auto 0 auto;
+  margin: 20px 0 auto 0;
   width: 100%;
   height: 400px;
   display: flex;
@@ -228,6 +249,21 @@
   white-space: pre-wrap;
 }
 
+.plan-outline-wrapper .plan-taginfo-area .fav-button-area {
+  margin-top: 30px;
+}
+
+.plan-outline-wrapper .plan-taginfo-area .fav-button-area a {
+  width: 100%;
+}
+
+.plan-outline-wrapper .plan-taginfo-area .fav-button-area .plan-unfav-btn {
+  background-color: #FFF;
+  color: #fcc800;
+  font-weight: 600;
+  border: solid 2px #fcc800;
+}
+
 .plan-outline-wrapper .plan-map-area {
   margin: 30px 0 0 0;
   padding-bottom: 50px;
@@ -245,7 +281,7 @@
 
 .spot-wrapper .spot-image-outline-wrapper {
   height: 100%;
-  margin: 80px 0 0 0;
+  margin: 40px 0 0 0;
   display: flex;
   justify-content: space-around;
 }
@@ -324,6 +360,17 @@
   color: #666666;
 }
 
+.spot-wrapper .spot-image-outline-wrapper .spot-outline-wrapper .spot-detail-wrapper .spot-fav-button {
+  margin-right: 10px;
+}
+
+.spot-wrapper .spot-image-outline-wrapper .spot-outline-wrapper .spot-detail-wrapper .spot-unfav-btn {
+  background-color: #FFF;
+  color: #fcc800;
+  font-weight: 600;
+  border: solid 2px #fcc800;
+}
+
 .spot-wrapper .spot-infocomment-wrapper {
   margin-top: 80px;
   display: flex;
@@ -345,6 +392,33 @@
   width: 48%;
 }
 
+.spot-wrapper .spot-infocomment-wrapper .spot-comment-wrapper .comment-item {
+  display: flex;
+  justify-content: center;
+}
+
+.spot-wrapper .spot-infocomment-wrapper .spot-comment-wrapper .comment-item .comment-title {
+  margin-bottom: 8px;
+}
+
+.spot-wrapper .spot-infocomment-wrapper .spot-comment-wrapper .comment-item .comment-title p {
+  font-weight: 700;
+}
+
+.spot-wrapper .spot-infocomment-wrapper .spot-comment-wrapper .comment-item .comment-user-name {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 0 0 0px 5px;
+  width: 130px;
+}
+
+.spot-wrapper .spot-infocomment-wrapper .spot-comment-wrapper .comment-item .comment-user-name img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
 .spot-wrapper .spot-map-wrapper {
   margin-top: 50px;
 }
@@ -361,7 +435,7 @@
   margin: 0 15px 15px 0;
   padding: 7px 10px;
   width: 450px;
-  height: 95px;
+  min-height: 95px;
   color: #555;
   font-size: 16px;
   background: #FFF;

@@ -19,7 +19,7 @@ import store from './store.js'
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('planpost-component', require('./components/PlanPost.vue').default);
 Vue.component('planpage-component', require('./components/PlanPage.vue').default);
 // Vue.component('postpage-component', require('./components/PostPageComponent.vue').default);

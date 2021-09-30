@@ -13,11 +13,9 @@ use App\User;
 
 class MypageController extends Controller
 {
-    public function index()
+    public function index($user_id)
     {
-      $uid = Auth::id();
-      $user = User::find($uid);
-      // dd($user->plans[0]->spots[0]->spot_image);
+      $user = User::find($user_id);
       return view('mypage.index', ['user' => $user]);
     }
 

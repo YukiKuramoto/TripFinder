@@ -3,25 +3,96 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Plan;
 use App\Spot;
 use App\Tag;
 use App\PlanTag;
 use App\SpotTag;
 use App\User;
+use App\FavPlan;
+use App\FavSpot;
 
 class PlanpageController extends Controller
 {
-    public function index($user_id, $plan_id)
+    public function index($plan_id)
     {
       $plan = Plan::find($plan_id);
+      $current_user_id = Auth::id();
+      $current_user = User::find($current_user_id);
       $plan->tags;
+      $spot_comment = [];
+
+      // プランお気に入り状況取得
+      $fav_plan = FavPlan::where('user_id', $current_user_id)->where('plan_id', $plan_id)->get();
+      if(count($fav_plan) == 0){
+        $plan->fav_status = false;
+      }else{
+        $plan->fav_status = true;
+      };
 
       foreach($plan->spots as $spot){
+        $comment = [];
+        // スポット詳細情報取得
         $spot->tags;
         $spot->images;
-      }
+        foreach($spot->comments as $item){
+          $user = User::find($item->user_id);
+          $item->user_name = $user->name;
+          $item->user_image = $user->image_path;
+        }
 
+        // スポットお気に入り状況取得
+        $fav_spot = FavSpot::where('user_id', $current_user_id)->where('spot_id', $spot->id)->get();
+        if(count($fav_spot) == 0){
+          $spot->fav_status = false;
+        }else{
+          $spot->fav_status = true;
+        };
+      }
       return view('planpage.index', ['plan' => $plan, 'spot' => $plan->spots]);
+    }
+
+
+    public function registarFavPlan(Request $request)
+    {
+      $current_user_id = Auth::id();
+      $fav_plan = new FavPlan;
+      $fav_plan->user_id = $current_user_id;
+      $fav_plan->plan_id = $request->planId;
+      $fav_plan->save();
+
+      return redirect()->action('PlanpageController@index', ['plan_id' => $request->planId]);
+    }
+
+
+    public function deleteFavPlan(Request $request)
+    {
+      $current_user_id = Auth::id();
+      FavPlan::where('user_id', $current_user_id)->where('plan_id', $request->planId)->delete();
+
+      return redirect()->action('PlanpageController@index', ['plan_id' => $request->planId]);
+    }
+
+
+    public function registarFavSpot(Request $request)
+    {
+      // dd($request);
+      $current_user_id = Auth::id();
+      $fav_spot = new FavSpot;
+      $fav_spot->user_id = $current_user_id;
+      $fav_spot->spot_id = $request->spotId;
+      $fav_spot->save();
+
+      return redirect()->action('PlanpageController@index', ['plan_id' => $request->planId]);
+    }
+    
+
+    public function deleteFavSpot(Request $request)
+    {
+      $current_user_id = Auth::id();
+      FavSpot::where('user_id', $current_user_id)->where('spot_id', $request->spotId)->delete();
+
+      return redirect()->action('PlanpageController@index', ['plan_id' => $request->planId]);
     }
 }

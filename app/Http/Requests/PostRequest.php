@@ -34,6 +34,7 @@ class PostRequest extends FormRequest
             'spot.*.spot_title' => 'required',
             'spot.*.spot_duration' => 'required',
             'spot.*.spot_address' => 'required',
+            'spot.*.spot_image' => 'required',
             'spot.*.spot_information' => 'required',
         ];
     }
