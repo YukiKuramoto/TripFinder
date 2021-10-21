@@ -22,6 +22,8 @@ class PlanpageController extends Controller
       $current_user = User::find($current_user_id);
       $plan->tags;
       $spot_comment = [];
+      $dayInfo = [];
+      $count = 0;
 
       // プランお気に入り状況取得
       $fav_plan = FavPlan::where('user_id', $current_user_id)->where('plan_id', $plan_id)->get();
@@ -31,9 +33,11 @@ class PlanpageController extends Controller
         $plan->fav_status = true;
       };
 
-      foreach($plan->spots as $spot){
+      foreach($plan->spots as $index => $spot){
+
         $comment = [];
         // スポット詳細情報取得
+        $spot->spot_count = $index;
         $spot->tags;
         $spot->images;
         foreach($spot->comments as $item){
@@ -49,8 +53,45 @@ class PlanpageController extends Controller
         }else{
           $spot->fav_status = true;
         };
+
+        if($count < $spot->spot_day){
+          $count = $spot->spot_day;
+          array_push($dayInfo, ['day_count' => $spot->spot_day-1, 'spotInfo' => [$spot]]);
+        }else{
+          $index = count($dayInfo) - 1;
+          array_push($dayInfo[$index]['spotInfo'],$spot);
+        }
       }
-      return view('planpage.index', ['plan' => $plan, 'spot' => $plan->spots]);
+
+      return view('planpage.index', ['plan' => $plan, 'spot' => $dayInfo]);
+    }
+
+    public function indexSpot($spot_id)
+    {
+      $current_user_id = Auth::id();
+      $current_user = User::find($current_user_id);
+      $spot = Spot::find($spot_id);
+      $plan = $spot->plans;
+      $spot->user;
+      $spot->images;
+      $spot->tags;
+      $spot['spot_count'] = 0;
+
+      foreach($spot->comments as $item){
+        $user = User::find($item->user_id);
+        $item->user_name = $user->name;
+        $item->user_image = $user->image_path;
+      }
+
+      // スポットお気に入り状況取得
+      $fav_spot = FavSpot::where('user_id', $current_user_id)->where('spot_id', $spot->id)->get();
+      if(count($fav_spot) == 0){
+        $spot->fav_status = false;
+      }else{
+        $spot->fav_status = true;
+      };
+
+      return view('planpage.spot', ['spot' => $spot, 'plan' => $plan]);
     }
 
 
@@ -86,7 +127,7 @@ class PlanpageController extends Controller
 
       return redirect()->action('PlanpageController@index', ['plan_id' => $request->planId]);
     }
-    
+
 
     public function deleteFavSpot(Request $request)
     {

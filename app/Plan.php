@@ -27,4 +27,10 @@ class Plan extends Model
     {
       return $this->belongsToMany('App\User', 'favoriteplans');
     }
+
+    public function images()
+    {
+      return $this->hasManyThrough ('App\Image', 'App\Spot');
+    }
+
 }

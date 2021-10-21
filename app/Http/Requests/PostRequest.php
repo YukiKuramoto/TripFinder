@@ -28,14 +28,24 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'plan.0.plan_title' => 'required',
-            'plan.0.main_transportation' => 'required',
-            'plan.0.plan_information' => 'required',
-            'spot.*.spot_title' => 'required',
-            'spot.*.spot_duration' => 'required',
-            'spot.*.spot_address' => 'required',
-            'spot.*.spot_image' => 'required',
-            'spot.*.spot_information' => 'required',
+          'planOutline.plan_title' => 'required',
+          'planOutline.main_transportation' => 'required',
+          'planOutline.plan_information' => 'required',
+          'dayInfo.*.spotInfo.*.spot_address' => 'required',
+          'dayInfo.*.spotInfo.*.spot_duration' => 'required',
+          'dayInfo.*.spotInfo.*.spot_title' => 'required',
+          'dayInfo.*.spotInfo.*.spot_information' => 'required',
+          'dayInfo.*.spotInfo.*.spot_image' => 'required',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+      $newData = $this->all();
+      $data = json_decode($newData['request'],true);
+      $this->merge([
+        'planOutline' => $data['planOutline'],
+        'dayInfo' => $data['dayInfo'],
+      ]);
     }
 }

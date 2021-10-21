@@ -17,10 +17,10 @@ class CreateSpotsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('plan_id');
+            $table->integer('spot_day');
             $table->string('spot_title');
             $table->string('spot_duration');
             $table->string('spot_address');
-            $table->integer('spot_day');
             $table->string('spot_information');
             $table->timestamps();
         });

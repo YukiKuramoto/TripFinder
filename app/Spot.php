@@ -10,7 +10,7 @@ class Spot extends Model
 
     public function user()
     {
-        $this->belongsTo('App\User', 'user_id');
+      return $this->belongsTo('App\User', 'user_id');
     }
 
     public function plans()
@@ -37,4 +37,5 @@ class Spot extends Model
     {
       return $this->belongsToMany('App\User', 'favoritespots');
     }
+
 }

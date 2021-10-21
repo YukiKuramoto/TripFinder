@@ -25,8 +25,10 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/planpage.scss', 'public/css')
     .sass('resources/sass/home.scss', 'public/css')
     .sass('resources/sass/mypage.scss', 'public/css')
+    .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/formpage.scss', 'public/css')
     .sass('resources/sass/comment.scss', 'public/css')
     .sass('resources/sass/profile.scss', 'public/css')
     .sass('resources/sass/usersview.scss', 'public/css')
-    .sass('resources/sass/searchpage.scss', 'public/css');
+    .sass('resources/sass/searchpage.scss', 'public/css')
+    .sass('resources/sass/spotview.scss', 'public/css');

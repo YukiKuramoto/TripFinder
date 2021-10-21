@@ -1,5 +1,5 @@
 @extends('layouts.home')
-@section('title', 'プラン投稿')
+@section('title', 'プランページ')
 
 @section('css')
     <link href="{{ asset('css/planpage.css') }}" rel="stylesheet">
@@ -17,15 +17,12 @@
 
 @section('content')
     <div class="contents" id="post-page">
-      <planpage-component
-        :plan="{{ $plan }}"
-        :spot= "{{ $spot }}"
-        :postuser= "{{ $plan->user }}"
-        :login_uid= "{{ Auth::user()->id }}">
-      </planpage-component>
-      <!-- <postpage-component
-        :old="{{ json_encode(Session::getOldInput()) }}"
-        :errors= "{{ $errors }}">
-      </postpage-component> -->
+      <postbody-component
+        :plan_view="{{ $plan }}"
+        :spot_view= "{{ json_encode($spot) }}"
+        :postuser_view= "{{ $plan->user }}"
+        :loginuid_view= "{{ Auth::user()->id }}"
+        type= "view">
+      </postbody-component>
     </div>
 @endsection

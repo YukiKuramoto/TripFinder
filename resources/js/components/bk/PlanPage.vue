@@ -270,9 +270,9 @@
         );
       },
       setStyle: function(spots){
-        this.planOutline.displayStyle = 'display: block';
+        // this.planOutline.displayStyle = 'display: block';
         for(let i = 0; i < spots.length; i++){
-          this.contentsInfo[i].displayStyle = 'display: none';
+          this.contentsInfo[i].displayStyle = 'height: 0';
         }
       },
       setSpot: function(spots){
@@ -360,17 +360,17 @@
       carouselMove: function(spotKey){
         this.currentNum = spotKey + 1;
         if(spotKey == -1){
-          this.planOutline.displayStyle = 'display: block';
+          this.planOutline.displayStyle = 'height: 0';
           for(let i = 0; i < this.contentsInfo.length; i ++){
-            this.contentsInfo[i].displayStyle = 'display: none';
+            this.contentsInfo[i].displayStyle = 'height: 0';
           }
         }else{
-          this.planOutline.displayStyle = 'display: none';
+          this.planOutline.displayStyle = 'height: 0';
           for(let i = 0; i < this.contentsInfo.length; i ++){
             if(i === spotKey){
               this.contentsInfo[i].displayStyle = 'display: block';
             }else{
-              this.contentsInfo[i].displayStyle = 'display: none';
+              this.contentsInfo[i].displayStyle = 'height: 0';
             }
           }
         }

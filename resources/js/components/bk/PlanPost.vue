@@ -28,11 +28,12 @@
               </section>
           </div>
       </div>
-      <form id="post-form" v-bind:action="'/post/' + type" method="post" enctype="multipart/form-data">
+      <form id="post-form" action="post/bkcreate" method="post" enctype="multipart/form-data">
           <div>
             <div v-if="ErrorExist" id="error-msg">
               ＊は入力必須項目です
             </div>
+            <h1>test</h1>
             <div class="carousel">
               <div class="list" v-bind:style="_listStyle">
                 <div class="list__item">
@@ -68,7 +69,7 @@
                         </div>
                         <input
                         id="plantag-input"
-                        class="hash-tag user-input"
+                        class="hash-tag user-input input-transparent"
                         name="plan[0][plan_tag]"
                         v-on:input="planOutline.hashTag = $event.target.value"
                         v-bind:value="planOutline.hashTag">
@@ -143,7 +144,7 @@
                               </div>
                               <input
                               v-bind:id="'id' + content.contentsKey"
-                              class="hash-tag user-input"
+                              class="hash-tag user-input input-transparent"
                               v-on:change="content.contentsTag = $event.target.value"
                               v-bind:name="'spot[' + content.contentsKey + '][spot_tag]'"
                               v-bind:value="content.contentsTag">
@@ -167,8 +168,8 @@
                               multiple="multiple">
                             </div>
                             <div class="spot-image-view">
-                              <!-- <canvas v-bind:id="'canvas' + content.contentsKey"></canvas> -->
-                              <img v-bind:src="content.spotImage[0]">
+                              <canvas v-bind:id="'canvas' + content.contentsKey"></canvas>
+                              <!-- <img v-bind:src="content.spotImage[0]"> -->
                             </div>
                           </div>
                         </div>
@@ -202,6 +203,7 @@
 <script>
   export default{
     props:[
+      'url',
       'old',
       'errors',
       'plan',
@@ -264,9 +266,28 @@
         this.InputOldInfo_Plan(this.plan);
         this.InputOldInfo_Spot(this.spot);
       }
+      console.log(1);
     },
     beforeUpdate: function(){
       $('.hash-tag').tagsInput({width:'100%'});
+      let inputs = $('.input-transparent');
+      let inputContents = [];
+      console.log(1);
+      console.log(inputs[0]);
+      for(let i = 0; i<inputs.length; i++){
+        let value_tag = String(inputs[i].value);
+        console.log(value_tag);
+        var data = value_tag.split(',');
+        // $.fn.tagsInput.importTags(inputs[i], data);
+      }
+      // inputs.foreach(input => {
+      //   let array;
+      //   array = input.value.split(',')
+      //   $.fn.tagsInput.importTags(input, array);
+      // })
+    },
+    updated: function(){
+      console.log(1);
     },
     methods: {
       InputOldInfo_Plan: function(plan){
@@ -422,86 +443,86 @@
       },
       SelectImage: function(Key, Target){
 
-        // var file = Target.files[0];
-        // if (!file.type.match(/^image\/(png|jpeg|gif)$/)){
-        //   alert('認められていないファイル形式です')
-        //   return;
-        // }
-        //
-        // // var image = new Image();
-        // // testComment
-        // let vueComponents = this;
-        // var reader = new FileReader();
-        // reader.readAsDataURL(file);
-        //
-        // reader.onload = (evt) => {
-        //
-        //     var image = new Image();
-        //     image.onload = () => {
-        //
-        //       // 最大幅
-        //       const maxWidth = 900;
-        //       // 最大高さ
-        //       const maxHeight = 700;
-        //       // 変換後幅
-        //       var convertedWidth;
-        //       // 変換後高さ
-        //       var convertedHeight;
-        //       // canvas要素取得
-        //       var canvas = $('#canvas' + Key);
-        //       // 描画用オブジェクト
-        //       var ctx = canvas[0].getContext('2d');
-        //
-        //       // 縦長画像でサイズオーバー
-        //       if(image.height > image.width && image.height > maxHeight){
-        //         convertedWidth = Math.round(image.width * maxHeight / image.height);
-        //         convertedHeight = maxHeight;
-        //       // 横長画像でサイズオーバー
-        //       }else if(image.width > image.height && image.width > maxWidth){
-        //         convertedWidth = maxWidth;
-        //         convertedHeight = Math.round(image.height * maxWidth / image.width);
-        //       // サイズオーバーなし
-        //       }else{
-        //         convertedWidth = image.width;
-        //         convertedHeight = image.height;
-        //       }
-        //
-        //       // 描画用に高さと幅をセット
-        //       $('#canvas' + Key).attr('height', convertedHeight);
-        //       $('#canvas' + Key).attr('width', convertedWidth);
-        //       // 描画実行
-        //       ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, convertedWidth, convertedHeight); //canvasに画像を転写
-        //
-        //       // 描画対象をファイル変換
-        //       ctx.canvas.toBlob((blob) => {
-        //         const imageFile = new File([blob], file.name, {
-        //           type: file.type,
-        //         });
-        //         console.log(imageFile.size);
-        //
-        //         vueComponents.contentsInfo[Key].spotImage.push(imageFile);
-        //         // console.log(this.contentsInfo);
-        //       }, file.type, 1);
-        //     }
-        //     image.src = evt.target.result;
-        // }
-
-
-
-
-        if(Target.files.length > 0) {
-          this.contentsInfo[Key].spotImage = [];
-          const file = Target.files[0];
-          const reader = new FileReader();
-
-          reader.onload = (e) => {
-            this.contentsInfo[Key].spotImage.push(e.target.result);
-          };
-          reader.readAsDataURL(file);
-          console.log(this.contentsInfo[Key].spotImage);
-        }else{
-          this.contentsInfo[Key].spotImage = [];
+        var file = Target.files[0];
+        if (!file.type.match(/^image\/(png|jpeg|gif)$/)){
+          alert('認められていないファイル形式です')
+          return;
         }
+
+        // var image = new Image();
+        // testComment
+        let vueComponents = this;
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = (evt) => {
+
+            var image = new Image();
+            image.onload = () => {
+
+              // 最大幅
+              const maxWidth = 900;
+              // 最大高さ
+              const maxHeight = 700;
+              // 変換後幅
+              var convertedWidth;
+              // 変換後高さ
+              var convertedHeight;
+              // canvas要素取得
+              var canvas = $('#canvas' + Key);
+              // 描画用オブジェクト
+              var ctx = canvas[0].getContext('2d');
+
+              // 縦長画像でサイズオーバー
+              if(image.height > image.width && image.height > maxHeight){
+                convertedWidth = Math.round(image.width * maxHeight / image.height);
+                convertedHeight = maxHeight;
+              // 横長画像でサイズオーバー
+              }else if(image.width > image.height && image.width > maxWidth){
+                convertedWidth = maxWidth;
+                convertedHeight = Math.round(image.height * maxWidth / image.width);
+              // サイズオーバーなし
+              }else{
+                convertedWidth = image.width;
+                convertedHeight = image.height;
+              }
+
+              // 描画用に高さと幅をセット
+              $('#canvas' + Key).attr('height', convertedHeight);
+              $('#canvas' + Key).attr('width', convertedWidth);
+              // 描画実行
+              ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, convertedWidth, convertedHeight); //canvasに画像を転写
+
+              // 描画対象をファイル変換
+              ctx.canvas.toBlob((blob) => {
+                const imageFile = new File([blob], file.name, {
+                  type: file.type,
+                });
+                console.log(imageFile.size);
+
+                vueComponents.spotInfo[Key].spotImage.push(imageFile);
+                // console.log(this.contentsInfo);
+              }, file.type, 1);
+            }
+            image.src = evt.target.result;
+        }
+
+
+
+
+        // if(Target.files.length > 0) {
+        //   this.contentsInfo[Key].spotImage = [];
+        //   const file = Target.files[0];
+        //   const reader = new FileReader();
+        //
+        //   reader.onload = (e) => {
+        //     this.contentsInfo[Key].spotImage.push(e.target.result);
+        //   };
+        //   reader.readAsDataURL(file);
+        //   console.log(this.contentsInfo[Key].spotImage);
+        // }else{
+        //   this.contentsInfo[Key].spotImage = [];
+        // }
 
       },
       showSpot: function(e) {
@@ -521,6 +542,25 @@
       registarSpotTag: function(key){
         this.contentsInfo[key].contentsTag = document.getElementById(`id${key}`).value;
       },
+      SendData: function(){
+        // axios.post('/post/create', this.data)
+        // .then(function (response) {
+        //   console.log(response);
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
+
+        // POST
+        this.$http.post(this.url, this.newEvent, function (data, status, request) {
+              console.log("post success")
+              //status check
+              console.log(status)
+
+              }).error(function (data, status, request) {
+                console.log("post failed")
+         })
+      }
     },
   }
 </script>

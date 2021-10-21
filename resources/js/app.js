@@ -8,6 +8,12 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import store from './store.js'
+import VueResource from "vue-resource"
+
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
+import '@mdi/font/css/materialdesignicons.css'
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -20,8 +26,16 @@ import store from './store.js'
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('planpost-component', require('./components/PlanPost.vue').default);
-Vue.component('planpage-component', require('./components/PlanPage.vue').default);
+Vue.component('postbody-component', require('./components/postpage/PageBody.vue').default);
+Vue.component('planoutline-post-component', require('./components/postpage/PlanOutlinePost.vue').default);
+Vue.component('spot-post-component', require('./components/postpage/SpotPost.vue').default);
+Vue.component('planoutline-view-component', require('./components/postpage/PlanOutlineView.vue').default);
+Vue.component('spot-view-component', require('./components/postpage/SpotView.vue').default);
+Vue.component('planitem-component', require('./components/itemcomponents/planitem.vue').default);
+Vue.component('spotitem-component', require('./components/itemcomponents/spotitem.vue').default);
+Vue.component('useritem-component', require('./components/itemcomponents/useritem.vue').default);
+Vue.use(VueResource);
+Vue.use(Vuetify);
 // Vue.component('postpage-component', require('./components/PostPageComponent.vue').default);
 
 
@@ -36,6 +50,7 @@ Vue.component('planpage-component', require('./components/PlanPage.vue').default
 const app = new Vue({
     el: '#app',
     store: store,
+    vuetify: new Vuetify(),
     components: {
     }
 });

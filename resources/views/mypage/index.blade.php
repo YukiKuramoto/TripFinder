@@ -56,77 +56,31 @@
         </ul>
         <section class="tabs-content">
           <section id="tabs-1">
-            <div class="plan-item-wrapper">
-              @if (!is_null($user))
-                @foreach($user->plans as $plan)
-                <a href="{{ action('PlanpageController@index', ['plan_id' => $plan->id]) }}" class="plan-item">
-                    <div class="plan-image-wrapper">
-                        <img class="plan-image" src="{{ $plan->spots[0]->images[0]->image_path }}">
-                    </div>
-                    <div class="plan-outline-wrapper">
-                        <p class="plan-title">{{ $plan->plan_title }}</p>
-                        <div class="icon-area">
-                          <i class="bi bi-star-fill"></i>{{ count($plan->favs) }} favs
-                          <i class="bi bi-geo-fill"></i>{{ count($plan->spots) }} spots
-                        </div>
-                        @foreach($plan->tags as $tag)
-                          <p class="plan-tag">#{{ $tag->name }}</p>
-                        @endforeach
-                        <p class="plan-introduction">{{ mb_strimwidth($plan->plan_information, 0, 60) }}...</p>
-                    </div>
-                </a>
-                @endforeach
-              @endif
-            </div>
+            <planitem-component
+              :user="{{ $user }}"
+              :plans="{{ json_encode($plans[0]) }}"
+              :length="{{ count($plans) }}"
+              pagetype="mypage"
+              parameter="myplan"
+            ><planitem-component/>
           </section>
           <section id="tabs-2">
-            <div class="plan-item-wrapper">
-              @if (!is_null($user))
-                @foreach($user->favPlans as $plan)
-                <a href="{{ action('PlanpageController@index', ['plan_id' => $plan->id]) }}" class="plan-item">
-                    <div class="plan-image-wrapper">
-                        <img class="plan-image" src="{{ $plan->spots[0]->images[0]->image_path }}">
-                    </div>
-                    <div class="plan-outline-wrapper">
-                        <p class="plan-title">{{ $plan->plan_title }}</p>
-                        <div class="icon-area">
-                          <i class="bi bi-star-fill"></i>{{ count($plan->favs) }} favs
-                          <i class="bi bi-geo-fill"></i>{{ count($plan->spots) }} spots
-                          <i class="bi bi-pencil-square"></i> by {{ $plan->user->name }}
-                        </div>
-                        @foreach($plan->tags as $tag)
-                          <p class="plan-tag">#{{ $tag->name }}</p>
-                        @endforeach
-                        <p class="plan-introduction">{{ mb_strimwidth($plan->plan_information, 0, 60) }}</p>
-                    </div>
-                </a>
-                @endforeach
-              @endif
-            </div>
+            <planitem-component
+              :user="{{ $user }}"
+              :plans="{{ json_encode($plans_fav[0]) }}"
+              :length="{{ count($plans_fav) }}"
+              pagetype="mypage"
+              parameter="favplan"
+            ><planitem-component/>
           </section>
           <section id="tabs-3">
-            <div class="spot-item-outer">
-              <div class="spot-item-wrapper">
-                @if (!is_null($user))
-                @foreach($user->favSpots as $spot)
-                <a href="" class="spot-item">
-                  <div class="spot-image-outer">
-                    <img class="spot-image" src="{{ $spot->images[0]->image_path }}">
-                  </div>
-                  <div class="spot-outline-wrapper">
-                    <div class="spot-title-area">
-                      <p class="spot-title">{{ $spot->spot_title }}</p>
-                    </div>
-                    <div class="icon-area">
-                      <i class="bi bi-star-fill"></i>{{ count($spot->favs) }} favs
-                      <i class="bi bi-pencil-square"></i> by test
-                    </div>
-                  </div>
-                </a>
-                @endforeach
-                @endif
-              </div>
-            </div>
+            <spotitem-component
+              :user="{{ $user }}"
+              :spots="{{ json_encode($spots_fav[0]) }}"
+              :length="{{ count($spots_fav) }}"
+              pagetype="mypage"
+              parameter="favspot"
+            ><spotitem-component/>
           </section>
         </section>
       </div>

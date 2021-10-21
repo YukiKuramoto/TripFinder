@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -118,7 +118,7 @@ $('.btn-submit').click(function () {
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!************************************!*\
   !*** multi ./resources/js/main.js ***!
   \************************************/

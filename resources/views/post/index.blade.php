@@ -9,24 +9,18 @@
 
 @section('js')
     <script src="{{ asset('js/jquery.tagsinput.js') }}" defer></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
 @endsection
 
 @section('content')
     <div class="contents" id="post-page">
-      @if(isset($plan))
-        <planpost-component
-          :old="{{ json_encode(Session::getOldInput()) }}"
-          :errors= "{{ $errors }}"
-          :plan="{{ $plan }}"
-          :spot="{{ $spot }}">
-        </planpost-component>
-      @else
-        <planpost-component
-          :old="{{ json_encode(Session::getOldInput()) }}"
-          :errors= "{{ $errors }}">
-        </planpost-component>
-      @endif
+      <postbody-component
+        :url="{{ json_encode(action('PostController@create')) }}"
+        :old="{{ json_encode(Session::getOldInput()) }}"
+        :errors= "{{ $errors }}"
+        type= "post">
+      </postbody-component>
     </div>
 @endsection

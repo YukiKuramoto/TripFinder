@@ -11,35 +11,57 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'post'], function(){
+  Route::get('/', 'PostController@show')->middleware('auth');
+  Route::get('/edit/{plan_id}', 'PostController@edit')->middleware('auth');
+  Route::post('/create', 'PostController@create')->middleware('auth');
+  Route::post('/delete/{plan_id}', 'PostController@delete')->middleware('auth');
+  Route::post('/update/{plan_id}', 'PostController@update')->middleware('auth');
 });
 
-Route::get('/home', 'Home\HomeController@index')->name('home');
-Route::get('/post', 'PostController@show');
-Route::get('/post/edit/{plan_id}', 'PostController@edit');
+Route::group(['prefix' => 'index'], function(){
+  Route::get('/favspot', 'PlanpageController@registarFavSpot');
+  Route::get('/unfavspot', 'PlanpageController@deleteFavSpot');
+  Route::get('/favplan', 'PlanpageController@registarFavPlan');
+  Route::get('/unfavplan', 'PlanpageController@deleteFavPlan');
+  Route::get('/{plan_id}', 'PlanpageController@index');
+  Route::get('/spot/{spot_id}', 'PlanpageController@indexSpot');
+});
+
+Route::group(['prefix' => 'mypage'], function(){
+  Route::get('/{user_id}', 'MypageController@index')->middleware('auth');
+  Route::post('/nextplan', 'MypageController@index_nextplan')->middleware('auth');
+  Route::post('/nextspot', 'MypageController@index_nextspot')->middleware('auth');
+});
+
+Route::group(['prefix' => 'search'], function(){
+  Route::get('/', 'SearchController@index');
+  Route::post('/main', 'SearchController@mainSearch');
+  Route::post('/nextplan', 'SearchController@index_nextplan');
+  Route::post('/nextspot', 'SearchController@index_nextspot');
+  Route::post('/nextuser', 'SearchController@index_nextuser');
+  Route::post('/plan', 'SearchController@planSearch');
+  Route::post('/spot', 'SearchController@spotSearch');
+});
+
+Route::group(['prefix' => 'comment'], function(){
+  Route::get('/create', 'CommentController@index')->middleware('auth');
+  Route::post('/create', 'CommentController@create')->middleware('auth');
+});
+
+Route::group(['prefix' => 'profile'], function(){
+  Route::get('/edit', 'ProfileController@edit')->middleware('auth');
+  Route::post('/update', 'ProfileController@update')->middleware('auth');
+});
+
+Route::group(['prefix' => 'users'], function(){
+  Route::get('/index', 'UsersViewController@index')->middleware('auth');
+  Route::get('/follow/{user_id}', 'UsersViewController@follow')->middleware('auth');
+  Route::get('/unfollow/{user_id}', 'UsersViewController@unfollow')->middleware('auth');
+  Route::post('/nextuser', 'UsersViewController@index_nextuser')->middleware('auth');
+});
+
 Route::get('/show', 'PostController@index');
-Route::get('/index/favspot', 'PlanpageController@registarFavSpot');
-Route::get('/index/unfavspot', 'PlanpageController@deleteFavSpot');
-Route::get('/index/favplan', 'PlanpageController@registarFavPlan');
-Route::get('/index/unfavplan', 'PlanpageController@deleteFavPlan');
-Route::get('/index/{plan_id}', 'PlanpageController@index');
-Route::get('/mypage/{user_id}', 'MypageController@index');
-Route::get('/search', 'SearchController@index');
-Route::post('/search', 'SearchController@search');
-Route::post('/post/create', 'PostController@create');
-Route::post('/post/delete/{plan_id}', 'PostController@delete');
-Route::post('/post/update/{plan_id}', 'PostController@update');
-Route::post('/home/signin', 'UserRegisterController@register');
-Route::post('/home/login', 'UserAuthController@authenticate');
+Route::get('/home', 'Home\HomeController@index')->name('home');
 Route::post('/home/logout', 'UserAuthController@logoutuser');
-Route::get('/comment/create', 'CommentController@index');
-Route::post('/comment/create', 'CommentController@create');
-Route::get('/profile/edit', 'ProfileController@edit');
-Route::post('/profile/update', 'ProfileController@update');
-Route::get('/users/index', 'UsersViewController@index');
-Route::get('/users/follow/{user_id}', 'UsersViewController@follow');
-Route::get('/users/unfollow/{user_id}', 'UsersViewController@unfollow');
-
-
 Auth::routes();

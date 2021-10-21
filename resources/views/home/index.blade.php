@@ -14,135 +14,79 @@
         <div id="contents-main">
             <div class="wrapper" id="search-wrapper">
                 <h2>お出かけプランを検索してみよう</h2>
-                <i class="bi bi-alarm"></i>
                 <div id="search-form">
-                    <form>
-                        <div>
-                            <input type="text" class="form-item" id="form-control" name="cond_title" value="">
-                            <button class="form-item btn btn-secondary">検索</button>
-                        </div>
-                    </form>
+                  <form class="search_container" method="post" action="{{ action('SearchController@mainSearch') }}">
+                    {{ csrf_field() }}
+                    <div class="search-box-wrapper">
+                      <input type="text" size="25" name="search_word" placeholder="キーワード検索">
+                      <input type="text" size="25" name="search_type" value="plan" style="display:none;">
+                      <button type="submit"><i class="bi bi-search"></i></button>
+                    </div>
+                  </form>
                 </div>
             </div>
             <div class="wrapper" id="popular-area-wrapper">
                 <h2>人気のエリアで検索</h2>
                 <section id="popular-area-section">
                     <div id="popular-area-list">
-                        <a>東京</a>
-                        <a>京都</a>
-                        <a>大阪</a>
-                        <a>沖縄</a>
-                        <a>四国</a>
-                        <a>名古屋</a>
-                        <a>北海道</a>
+                      <a href="#">
+                        <div>
+                          <img src="{{ asset('image/home_Tokyo.png') }}" class="popular-area-image">
+                          <h4>東京</h4>
+                        </div>
+                      </a>
+                      <a href="#">
+                        <div>
+                          <img src="{{ asset('image/home_Osaka.png') }}" class="popular-area-image">
+                          <h4>大阪</h4>
+                        </div>
+                      </a>
+                      <a href="#">
+                        <div>
+                          <img src="{{ asset('image/home_Kyoto.png') }}" class="popular-area-image">
+                          <h4>京都</h4>
+                        </div>
+                      </a>
+                      <a href="#">
+                        <div>
+                          <img src="{{ asset('image/home_Okinawa.png') }}" class="popular-area-image">
+                          <h4>沖縄</h4>
+                        </div>
+                      </a>
                     </div>
                 </section>
             </div>
             <div  class="wrapper" id="plan-wrapper">
                 <div id="new-plan-wrapper">
                     <h2>新着プラン</h2>
-                    <div class="plan-item-wrapper">
-                        <a href="" class="plan-item">
-                            <div class="plan-image-wrapper">
-                                <img class="plan-image" src="{{ asset('image/test1.jpeg') }}">
-                            </div>
-                            <div class="plan-outline-wrapper">
-                                <p class="plan-title">これはテストプランです。</p>
-                                <p class="plan-introduction">これはテストプラン紹介文です。</p>
-                            </div>
-                        </a>
-                        <a href="" class="plan-item">
-                            <div class="plan-image-wrapper">
-                                <img class="plan-image" src="{{ asset('image/test2.jpg') }}">
-                            </div>
-                            <div class="plan-outline-wrapper">
-                                <p class="plan-title">これはテストプランです。</p>
-                                <p class="plan-introduction">これはテストプラン紹介文です。</p>
-                            </div>
-                        </a>
-                        <a href="" class="plan-item">
-                            <div class="plan-image-wrapper">
-                                <img class="plan-image" src="{{ asset('image/test3.jpg') }}">
-                            </div>
-                            <div class="plan-outline-wrapper">
-                                <p class="plan-title">これはテストプランです。</p>
-                                <p class="plan-introduction">これはテストプラン紹介文です。</p>
-                            </div>
-                        </a>
-                    </div>
+                    <planitem-component
+                      :plans="{{ json_encode($newArrivalPlans[0]) }}"
+                      :length="{{ count($newArrivalPlans) }}"
+                      pagetype="home"
+                      parameter="{{ $param_newArrival }}"
+                    ><planitem-component/>
                 </div>
                 <div id="popular-plan-wrapper">
                     <h2>人気プラン</h2>
-                    <div class="plan-item-wrapper">
-                        <a href="" class="plan-item">
-                            <div class="plan-image-wrapper">
-                                <img class="plan-image" src="{{ asset('image/test3.jpg') }}">
-                            </div>
-                            <div class="plan-outline-wrapper">
-                                <p class="plan-title">これはテストプランです。</p>
-                                <p class="plan-introduction">これはテストプラン紹介文です。</p>
-                            </div>
-                        </a>
-                        <a href="" class="plan-item">
-                            <div class="plan-image-wrapper">
-                                <img class="plan-image" src="{{ asset('image/test1.jpeg') }}">
-                            </div>
-                            <div class="plan-outline-wrapper">
-                                <p class="plan-title">これはテストプランです。</p>
-                                <p class="plan-introduction">これはテストプラン紹介文です。</p>
-                            </div>
-                        </a>
-                        <a href="" class="plan-item">
-                            <div class="plan-image-wrapper">
-                                <img class="plan-image" src="{{ asset('image/test2.jpg') }}">
-                            </div>
-                            <div class="plan-outline-wrapper">
-                                <p class="plan-title">これはテストプランです。</p>
-                                <p class="plan-introduction">これはテストプラン紹介文です。</p>
-                            </div>
-                        </a>
-                    </div>
+                    <planitem-component
+                      :plans="{{ json_encode($popularPlans[0]) }}"
+                      :length="{{ count($popularPlans) }}"
+                      pagetype="home"
+                      parameter="{{ $param_popular }}"
+                    ><planitem-component/>
                 </div>
             </div>
             <div class="wrapper" id="spot-wrapper">
                 <h2>人気スポット</h2>
-                <div class="spot-item-wrapper">
-                    <a href="" class="spot-item">
-                        <div class="spot-image-wrapper">
-                            <img class="spot-image" src="{{ asset('image/test1.jpeg') }}">
-                        </div>
-                        <div class="spot-outline-wrapper">
-                            <p class="spot-title">これはテストスポットです。</p>
-                            <p class="spot-introduction">これはテストスポット紹介です。</p>
-                        </div>
-                    </a>
-                    <a href="" class="spot-item">
-                        <div class="spot-image-wrapper">
-                            <img class="spot-image" src="{{ asset('image/test1.jpeg') }}">
-                        </div>
-                        <div class="spot-outline-wrapper">
-                            <p class="spot-title">これはテストスポットです。</p>
-                            <p class="spot-introduction">これはテストスポット紹介です。</p>
-                        </div>
-                    </a>
-                    <a href="" class="spot-item">
-                        <div class="spot-image-wrapper">
-                            <img class="spot-image" src="{{ asset('image/test1.jpeg') }}">
-                        </div>
-                        <div class="spot-outline-wrapper">
-                            <p class="spot-title">これはテストスポットです。</p>
-                            <p class="spot-introduction">これはテストスポット紹介です。</p>
-                        </div>
-                    </a>
-                    <a href="" class="spot-item">
-                        <div class="spot-image-wrapper">
-                            <img class="spot-image" src="{{ asset('image/test1.jpeg') }}">
-                        </div>
-                        <div class="spot-outline-wrapper">
-                            <p class="spot-title">これはテストスポットです。</p>
-                            <p class="spot-introduction">これはテストスポット紹介です。</p>
-                        </div>
-                    </a>
+                <div class="spot-component-area">
+                  <div class="spot-component-outer">
+                    <spotitem-component
+                    :spots="{{ json_encode($popularSpots[0]) }}"
+                    :length="{{ count($popularSpots) }}"
+                    pagetype="home"
+                    parameter="{{ $param_popular }}"
+                    ><spotitem-component/>
+                  </div>
                 </div>
             </div>
         </div>

@@ -52,7 +52,6 @@
 
 .accordion-title:hover {
   background-color: rgba(213, 218, 229, 0.9);
-  transition: 0.4s;
 }
 
 /* アコーディオンのコンテンツ部分 */
@@ -74,8 +73,7 @@
 }
 
 .accordion-content:hover {
-  background-color: rgba(213, 218, 229, 0.6);
-  transition: 0.4s;
+  background-color: #d5dae5;
 }
 
 /* accordion-content-activeクラスが付いているものは初期状態で表示しておく */
@@ -123,10 +121,6 @@
   padding: 0 5%;
   background-color: #fff;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.15);
-}
-
-.list .item--copy {
-  background-color: #f0f0ff;
 }
 
 .list__item {

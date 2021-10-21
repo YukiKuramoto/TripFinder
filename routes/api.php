@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,9 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('api/post/create', 'PostController@create');
+
+Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

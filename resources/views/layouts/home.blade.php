@@ -7,7 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>@yield('title')</title>
         <script src="{{ asset('js/app.js') }}" defer></script>
-        <script src="{{ asset('js/main.js') }}" defer></script>
+        <!-- <script src="{{ asset('js/main.js') }}" defer></script> -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         @yield('css')
         @yield('js')
@@ -19,8 +19,10 @@
                 <div id="header-contents">
                   <nav id="header-list">
                       @guest
-                        <a href="#!" id="sign-in" class="header-button" data-toggle="modal" data-target="#Modal">SIGN IN</a>
-                        <a href="#!" id="log-in" class="header-button" data-toggle="modal" data-target="#Modal">LOG IN</a>
+                        <!-- <a href="/register" id="sign-in" class="header-button" data-toggle="modal" data-target="#Modal">REGISTER</a>
+                        <a href="/login" id="log-in" class="header-button" data-toggle="modal" data-target="#Modal">LOG IN</a> -->
+                        <a href="/register" id="sign-in" class="header-button">REGISTER</a>
+                        <a href="/login" id="log-in" class="header-button">LOG IN</a>
                       @endguest
                   </nav>
                 </div>
@@ -63,29 +65,14 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form role="form" id="modal-form" method="POST">
-                @guest
-                  <div class="modal-body">
-                      <p>ユーザーネーム</p>
-                      <input id="login-name" name="name" type="text">
-                      <p>メールアドレス</p>
-                      <input id="login-address" name="email" type="e-mail">
-                      <p>パスワード</p>
-                    <input id="login-password" name="password" type="password">
-                  </div>
-                  <div class="modal-footer">
-                    {{ csrf_field() }}
-                    <button type="submit" id="button-login" class="btn btn-primary btn-submit" data-action="{{ action('UserAuthController@authenticate') }}">ログイン</button>
-                    <button type="submit" id="button-signin" class="btn btn-primary btn-submit" data-action="{{ action('UserRegisterController@register') }}">登録</button>
-                  </div>
-                @endguest
+              <form role="form" id="modal-form" method="POST" action="{{ action('UserAuthController@logoutuser') }}">
                 @auth
                   <div class="modal-body">
                       <p>ログアウトします。</p>
                   </div>
                   <div class="modal-footer">
                     {{ csrf_field() }}
-                    <button type="submit" id="button-login" class="btn btn-primary btn-submit" data-action="{{ action('UserAuthController@logoutuser') }}">ログアウト</button>
+                    <button type="submit" id="button-login" class="btn btn-primary btn-submit">ログアウト</button>
                   </div>
                 @endauth
               </form>

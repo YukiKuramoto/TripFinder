@@ -19,108 +19,32 @@
         </ul>
         <section class="tabs-content">
           <section id="tabs-1">
-            <div class="users-contents-outer">
-              <div class="users-contents-wrapper">
-                @foreach ($users as $user)
-                @if($user->id != Auth::id())
-                <div class="users-item-wrapper">
-                  <a href="{{ action('MypageController@index', ['user_id' => $user->id]) }}"  class="anker-area">
-                    <div class="user-image-area">
-                      <img src="{{ $user->image_path }}">
-                    </div>
-                    <div class="user-name-area">
-                      <p>{{ $user->name }}</p>
-                    </div>
-                    <div class="user-comment-area">
-                      <p>{{ $user->comment }}</p>
-                    </div>
-                  </a>
-                  @if($user->follow_flg)
-                  <form class="follow-button-area" action="{{ action('UsersViewController@unfollow', ['user_id' => $user->id]) }}">
-                    <button type="submit" class="btn btn-secondary following-btn">フォロー中</button>
-                  </form>
-                  @else
-                  <form class="follow-button-area" action="{{ action('UsersViewController@follow', ['user_id' => $user->id]) }}">
-                    <button type="submit" class="btn btn-secondary">フォローする</button>
-                  </form>
-                  @endif
-                  <div class="icon-area">
-                    <i class="bi bi-star-fill icon"></i>{{ count($user->followers) }} followers
-                    <i class="bi bi-file-earmark-post-fill icon"></i>{{ count($user->plans) }} posts
-                  </div>
-                </div>
-                @endif
-                @endforeach
-              </div>
-            </div>
+            <useritem-component
+              :users="{{ json_encode($users[0]) }}"
+              :currentUid="{{ Auth::id() }}"
+              :length="{{ count($users) }}"
+              pagetype="users"
+              parameter="all"
+            ></useritem-component>
           </section>
           <section id="tabs-2">
-            <div class="users-contents-outer">
-              <div class="users-contents-wrapper">
-                @foreach ($favorite_users as $user)
-                <div class="users-item-wrapper">
-                  <a href="{{ action('MypageController@index', ['user_id' => $user->id]) }}"  class="anker-area">
-                    <div class="user-image-area">
-                      <img src="{{ $user->image_path }}">
-                    </div>
-                    <div class="user-name-area">
-                      <p>{{ $user->name }}</p>
-                    </div>
-                    <div class="user-comment-area">
-                      <p>{{ $user->comment }}</p>
-                    </div>
-                  </a>
-                  @if($user->follow_flg)
-                  <form class="follow-button-area" action="{{ action('UsersViewController@unfollow', ['user_id' => $user->id]) }}">
-                    <button type="submit" class="btn btn-secondary following-btn">フォロー中</button>
-                  </form>
-                  @else
-                  <form class="follow-button-area" action="{{ action('UsersViewController@follow', ['user_id' => $user->id]) }}">
-                    <button type="submit" class="btn btn-secondary">フォローする</button>
-                  </form>
-                  @endif
-                  <div class="icon-area">
-                    <i class="bi bi-star-fill icon"></i>{{ count($user->followers) }} followers
-                    <i class="bi bi-file-earmark-post-fill icon"></i>{{ count($user->plans) }} posts
-                  </div>
-                </div>
-                @endforeach
-              </div>
-            </div>
+            <useritem-component
+              :users="{{ json_encode($favorite_users[0]) }}"
+              :currentUid="{{ Auth::id() }}"
+              :length="{{ count($favorite_users) }}"
+              pagetype="users"
+              parameter="favorite"
+            ></useritem-component>
           </section>
           <section id="tabs-3">
-            <div class="users-contents-outer">
-              <div class="users-contents-wrapper">
-                @foreach ($follower_users as $user)
-                <div class="users-item-wrapper">
-                  <a href="{{ action('MypageController@index', ['user_id' => $user->id]) }}"  class="anker-area">
-                    <div class="user-image-area">
-                      <img src="{{ $user->image_path }}">
-                    </div>
-                    <div class="user-name-area">
-                      <p>{{ $user->name }}</p>
-                    </div>
-                    <div class="user-comment-area">
-                      <p>{{ $user->comment }}</p>
-                    </div>
-                  </a>
-                  @if($user->follow_flg)
-                  <form class="follow-button-area" action="{{ action('UsersViewController@unfollow', ['user_id' => $user->id]) }}">
-                    <button type="submit" class="btn btn-secondary following-btn">フォロー中</button>
-                  </form>
-                  @else
-                  <form class="follow-button-area" action="{{ action('UsersViewController@follow', ['user_id' => $user->id]) }}">
-                    <button type="submit" class="btn btn-secondary">フォローする</button>
-                  </form>
-                  @endif
-                  <div class="icon-area">
-                    <i class="bi bi-star-fill icon"></i>{{ count($user->followers) }} followers
-                    <i class="bi bi-file-earmark-post-fill icon"></i>{{ count($user->plans) }} posts
-                  </div>
-                </div>
-                @endforeach
-              </div>
-            </div>
+            <useritem-component
+              :users="{{ json_encode($follower_users[0]) }}"
+              :currentUid="{{ Auth::id() }}"
+              :length="{{ count($follower_users) }}"
+              pagetype="users"
+              parameter="follower"
+            ></useritem-component>
+          </section>
           </section>
         </section>
       </div>

@@ -29,63 +29,95 @@ class PostController extends Controller
 
     public function create(PostRequest $request)
     {
-      // $spot_form = $request->spot;
-      // dd(isset($spot_form[0]['spot_image']));
-        // dd("stop");
+      dd($request->all());
+      // dd(json_decode($request->all()['day_0_spot_0_image_0']));
+        // ユーザーID特定
+        $uid = Auth::id();
         DB::beginTransaction();
+
         try {
-          // リクエストから投稿用データ取得
-          $spot_form = $request->spot;
-          $plan_form = $request->plan[0];
-          $uid = Auth::id();
-          // dd($request);
-          // プラン処理
+          // リクエスト内容全体を取得
+          $request_body = $request->all();
+          $planOutline = $request_body['planOutline'];
+          $dayInfo = $request_body['dayInfo'];
+          // イメージデータのみにするため不要キー削除
+          unset(
+            $request_body['planOutline'],
+            $request_body['request'],
+            $request_body['dayInfo']
+          );
+          $request_images = $request_body;
+
+
+          // キーに含まれるDay情報、Spot情報をもとに画像データ配列化
+          foreach ($request_images as $key => $image_item) {
+            [$d_index, $s_index, $i_index] = explode('_', $key);
+            // 画像データを$image_array['dayXXspotXX']の配列化
+            $array_key = 'day' . $d_index . 'spot' . $s_index;
+
+            if(!isset($image_array[$array_key])){
+              $image_array[$array_key] = [];
+            }
+            array_push($image_array[$array_key], $image_item);
+          }
+
+          // プランアウトライン保存
           $plan = new Plan;
-          $plan_form += array('user_id' => $uid);
-          $plan_form += array('plan_duration' => end($spot_form)['spot_day']);
-          // タグデータ取出し
-          $plan_tag = explode(",", trim($plan_form['plan_tag']));
-          unset($plan_form['plan_tag']);
-          // DB登録
-          $plan->fill($plan_form)->save();
+          $plan_tags = $planOutline['plan_tag'];
+          $planOutline += [
+            'user_id' => $uid,
+            'plan_duration' => end($dayInfo)['day_count'] + 1
+          ];
+          unset($planOutline['plan_tag'], $planOutline['displayStyle']);
+          $plan->fill($planOutline)->save();
+          // プランタグ保存
+          $plan_tag = explode(',', $plan_tags);
           $this->registerTag($plan_tag, $plan->id, 'plan');
 
+          //スポットデータ保存
+          foreach ($dayInfo as $d_index => $day_form) {
+            foreach ($day_form['spotInfo'] as $s_index => $spot_form) {
+              // 登録必要データをセット
+              $spot_form += ['user_id' => $uid];
+              $spot_form += ['plan_id' => $plan->id];
+              $spot_form['spot_day'] = $spot_form['spot_day'] + 1;
+              // タグの取り出し
+              $spot_tags = $spot_form['spot_tag'];
 
-          foreach ($spot_form as $item) {
-            // スポット処理
-            $spot = new Spot;
-            // ID追加
-            $item += array('user_id' => $uid);
-            $item += array('plan_id' => $plan->id);
+              // 不要キー削除
+              unset(
+                $spot_form['spot_count'],
+                $spot_form['spot_display'],
+                $spot_form['spot_image_preview'],
+                $spot_form['spot_image'],
+                $spot_form['spot_tag'],
+                $spot_form['spot_accordion_display']
+              );
 
-            // タグデータ,画像データ取出し
-            $spot_tag = explode(',', trim($item['spot_tag']));
-            if(isset($item['spot_image'])){
-              $spot_images = $item['spot_image'];
-              unset($item['spot_image']);
-            }
+              $spot = new Spot;
+              $spot->fill($spot_form)->save();
 
-            // DB登録
-            unset($item['spot_tag']);
-            $spot->fill($item);
-            $spot->save();
+              // スポットタグデータ保存処理
+              $spot_tag = explode(',', $spot_tags);
+              $this->registerTag($spot_tag, $spot->id, 'spot');
 
-            //画像データ保存
-            if(isset($spot_images)){
-              foreach($spot_images as $spot_image){
+              // スポット画像データ保存
+              foreach ($image_array['day' . $d_index . 'spot' . $s_index] as $image) {
                 $image = new Image;
-                $path = Storage::disk('s3')->putFile('/', $spot_image, 'public');
+                $path = Storage::disk('s3')->putFile('/', $image_item, 'public');
                 $image->image_path = Storage::disk('s3')->url($path);
                 $image->spot_id = $spot->id;
                 $image->save();
               }
             }
-            $this->registerTag($spot_tag, $spot->id, 'spot');
           }
+          // データをcommit
           DB::commit();
         } catch (\Exception $e){
+          // エラーの場合、ロールバック
           DB::rollback();
           dd($e);
+          return redirect()->action('MypageController@index', ['user_id' => $uid]);
         }
 
         return redirect()->action('MypageController@index', ['user_id' => $uid]);
@@ -209,7 +241,7 @@ class PostController extends Controller
         DB::commit();
         $uid = Auth::id();
         return redirect()->action('MypageController@index', ['user_id' => $uid]);
-        
+
       } catch(\Exception $e){
         DB::rollback();
         dd($e);
@@ -242,4 +274,69 @@ class PostController extends Controller
 
         dd($plan_info->plan_title);
     }
+
+    public function bkcreate(Request $request)
+    {
+    // $spot_form = $request->spot;
+    // dd(isset($spot_form[0]['spot_image']));
+      // dd("stop");
+      DB::beginTransaction();
+      try {
+        // リクエストから投稿用データ取得
+        $spot_form = $request->spot;
+        $plan_form = $request->plan[0];
+        $uid = Auth::id();
+        // dd($request);
+        // プラン処理
+        $plan = new Plan;
+        $plan_form += array('user_id' => $uid);
+        $plan_form += array('plan_duration' => end($spot_form)['spot_day']);
+        // タグデータ取出し
+        $plan_tag = explode(",", trim($plan_form['plan_tag']));
+        unset($plan_form['plan_tag']);
+        // DB登録
+        $plan->fill($plan_form)->save();
+        $this->registerTag($plan_tag, $plan->id, 'plan');
+
+
+        foreach ($spot_form as $item) {
+          // スポット処理
+          $spot = new Spot;
+          // ID追加
+          $item += array('user_id' => $uid);
+          $item += array('plan_id' => $plan->id);
+
+          // タグデータ,画像データ取出し
+          $spot_tag = explode(',', trim($item['spot_tag']));
+          if(isset($item['spot_image'])){
+            $spot_images = $item['spot_image'];
+            unset($item['spot_image']);
+          }
+
+          // DB登録
+          unset($item['spot_tag']);
+          $spot->fill($item);
+          $spot->save();
+
+          //画像データ保存
+          if(isset($spot_images)){
+            foreach($spot_images as $spot_image){
+              dd($spot_image);
+              $image = new Image;
+              $path = Storage::disk('s3')->putFile('/', $spot_image, 'public');
+              $image->image_path = Storage::disk('s3')->url($path);
+              $image->spot_id = $spot->id;
+              $image->save();
+            }
+          }
+          $this->registerTag($spot_tag, $spot->id, 'spot');
+        }
+        DB::commit();
+      } catch (\Exception $e){
+        DB::rollback();
+        dd($e);
+      }
+
+      return redirect()->action('MypageController@index', ['user_id' => $uid]);
+  }
 }

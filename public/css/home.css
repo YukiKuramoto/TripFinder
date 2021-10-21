@@ -1,5 +1,5 @@
 .wrapper {
-  margin: 100px 50px;
+  margin: 150px 50px 100px 50px;
 }
 
 .wrapper:first-child {
@@ -8,23 +8,23 @@
 
 h2 {
   font-weight: 700;
+  border-bottom: 1px solid;
 }
 
 #cover-image {
   padding-top: 60px;
   width: 100%;
-  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
 }
 
 #contents-main {
-  margin: 50px 40px;
-  padding: 10px 0;
+  padding: 40px 0;
   background-color: #fff;
   box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
 }
 
 #search-wrapper h2 {
   text-align: center;
+  border: none;
 }
 
 #search-wrapper #search-form {
@@ -39,6 +39,42 @@ h2 {
   width: 600px;
 }
 
+.search-box-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.search_container input[type=text] {
+  padding-left: 20px;
+  border: none;
+  border: 1px solid #575757;
+  height: 35px;
+  width: 700px;
+}
+
+.search_container input[type=text]:focus {
+  outline: 0;
+}
+
+.search_container button[type=submit] {
+  cursor: pointer;
+  font-family: FontAwesome;
+  border: none;
+  background: #575757;
+  color: #fff;
+  outline: none;
+  min-width: 3em;
+  height: 35px;
+  margin-top: 0.5px;
+  padding: 0 10px;
+  text-align: center;
+}
+
+.search_container button[type=submit] i {
+  font-size: 20px;
+}
+
 #popular-area-wrapper h2 {
   width: 94%;
   margin: 0 auto;
@@ -46,14 +82,29 @@ h2 {
 
 #popular-area-wrapper #popular-area-list {
   list-style-type: none;
-  padding: 10px 20%;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
 }
 
+#popular-area-wrapper #popular-area-list .popular-area-image {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+
 #popular-area-wrapper #popular-area-list a {
   font-size: 30px;
-  margin: 5px 15px;
+  margin: 15px 35px;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: black;
+}
+
+#popular-area-wrapper #popular-area-list h4 {
+  margin-top: 15px;
+  font-weight: 600;
 }
 
 #plan-wrapper {
@@ -69,77 +120,15 @@ h2 {
   width: 45%;
 }
 
-.plan-item-wrapper {
-  padding: 10px 0px;
-}
-
-.plan-item-wrapper .plan-item {
-  height: 200px;
-  padding: 20px 15px;
-  margin-bottom: 15px;
-  border: solid 0.1px rgba(204, 204, 204, 0.8);
-  border-radius: 10px;
-  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.5);
-  display: flex;
-  text-decoration: none;
-  color: black;
-}
-
-.plan-item-wrapper .plan-item .plan-image {
-  height: 100%;
-  width: 120px;
-  border-radius: 10px;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-
-.plan-item-wrapper .plan-item .plan-outline-wrapper {
-  padding-left: 30px;
-}
-
-.plan-item-wrapper .plan-item .plan-outline-wrapper .plan-title {
-  font-size: 20px;
-}
-
-.plan-item-wrapper .plan-item:last-child {
-  margin-bottom: 0;
-}
-
-#spot-wrapper h2 {
-  width: 94%;
+.spot-component-outer {
+  max-width: 1500px;
   margin: 0 auto;
 }
 
 #spot-wrapper .spot-item-wrapper {
-  padding: 20px 0px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-}
-
-#spot-wrapper .spot-item-wrapper .spot-item {
-  height: 300px;
-  width: 250px;
-  margin: 0 20px 20px 20px;
-  padding: 0;
-  border: solid 0.5px rgba(77, 77, 77, 0.5);
-  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.3);
-  text-decoration: none;
-  color: black;
-}
-
-#spot-wrapper .spot-item-wrapper .spot-item .spot-image-wrapper {
-  height: 200px;
-  background-color: #e6e6e6;
-  border-bottom: solid 0.5px rgba(77, 77, 77, 0.5);
-  display: flex;
-  justify-content: center;
-}
-
-#spot-wrapper .spot-item-wrapper .spot-item .spot-image {
-  margin-top: 2%;
-  height: 95%;
-  border-radius: 5px;
 }
 
