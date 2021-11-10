@@ -33,6 +33,6 @@ class ProfileController extends Controller
       $user->comment = $user_request['comment'];
       $user->save();
 
-      dd($user);
+      return redirect()->action('MypageController@index', ['user_id' => $user->id]);
     }
 }
