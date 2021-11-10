@@ -4,7 +4,7 @@
 @section('css')
     <link href="{{ asset('css/post.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.tagsinput.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/start/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/start/jquery-ui.css">
 @endsection
 
 @section('js')
