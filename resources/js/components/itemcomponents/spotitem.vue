@@ -1,7 +1,7 @@
 <template>
-  <div class="item-component-wrapper">
+  <div :class="'item-component-wrapper item-component-wrapper-' + pagetype">
     <div class="spot-item-outer">
-      <v-app v-if="pagetype != 'home'" id="inspire">
+      <v-app v-if="pagetype != 'home' && pagetype != 'view'" id="inspire">
         <div class="text-center">
           <v-container>
             <v-row justify="center">
@@ -21,11 +21,12 @@
         </div>
       </v-app>
       <div :class="'spot-item-wrapper spot-item-wrapper-' + pagetype">
-        <a v-for="spot in page_spots" :href="'/index/spot/' + spot.id" class="spot-item">
+        <a v-for="spot in page_spots" :href="'/index/spot/' + spot.id" :class="'spot-item spot-item-' + pagetype">
           <div class="spot-image-outer">
             <img class="spot-image" :src="spot.images[0].image_path">
           </div>
           <div class="spot-outline-wrapper">
+            <p v-if="pagetype == 'view'">Spot{{ spot.spot_count+1 }}</p>
             <div class="spot-title-area">
               <p class="spot-title">{{ spot.spot_title.substr(0, 25) }}</p>
             </div>
@@ -43,47 +44,57 @@
 <script>
 export default {
     props: [
-        'user',
-        'spots',
+        'postuser',
+        'response',
         'length',
         'pagetype',
         'parameter',
-        'searchword',
+        'search_key',
     ],
     data() {
         return {
           page_current: '',
           page_length: '',
-          page_user: '',
           page_spots: '',
         }
     },
     created: function(){
-      console.log(this.parameter);
+      console.log(this.response);
       this.page_current = 1;
       this.page_length = this.length;
-      this.page_user = this.user;
-      this.page_spots = this.spots;
+      this.page_spots = this.response;
     },
     methods: {
       getNextpage: function(){
         console.log(this.parameter);
-        let params = {};
+        let request = {};
         let that = this;
-        params.page = this.page_current;
-        params.user = this.page_user.id;
-        params.parameter = this.parameter;
-        params.search_word = this.searchword;
+        this.createRequest(request);
 
-        axios.post('/' + this.pagetype + '/nextspot', params)
+        axios.post('/' + this.pagetype + '/nextspot', request)
         .then(function(response){
           console.log(response.data.spots);
-          that.page_user = response.data.user;
-          that.page_length = response.data.spot_length;
-          that.page_spots = response.data.spots;
+          that.page_length = response.data.response_length;
+          that.page_spots = response.data.response;
         }).catch(function(error){
           console.log(error);
         })
+      },
+      createRequest: function(request){
+
+        request.page = this.page_current;
+        request.parameter = this.parameter;
+
+        switch (this.pagetype) {
+          case 'mypage':
+            request.postuser = this.postuser;
+            break;
+          case 'search':
+            request.search_word = this.search_key.search_word;
+            request.stay = this.search_key.stay;
+            request.address = this.search_key.address;
+            break;
+        }
       }
     }
 }
@@ -97,6 +108,11 @@ export default {
 
 .v-application--wrap {
   min-height: 0px;
+}
+
+.item-component-wrapper-view {
+  display: flex;
+  justify-content: center;
 }
 
 .container {
@@ -126,10 +142,17 @@ export default {
   margin-top: 20px;
 }
 
+.spot-item-wrapper-view {
+  margin-top: 40px;
+}
+
+.spot-item-wrapper-search {
+  padding-left: 50px;
+}
 
 .spot-item {
-  height: 320px;
-  width: 250px;
+  height: 300px;
+  width: 220px;
   margin: 0 20px 30px 20px;
   padding: 0;
   border: solid 0.5px rgba(77, 77, 77, 0.5);
@@ -142,8 +165,19 @@ export default {
   transform: scale(1.03);
 }
 
+.spot-item-view {
+  height: 340px;
+  width: 240px;
+  margin: 40px 5%;
+  pointer-events: none;
+}
+
+.spot-item-view:hover {
+  transform: scale(1);
+}
+
 .spot-image-outer {
-  height: 200px;
+  height: 180px;
   background-color: #f5f5f5;
   border-bottom: solid 0.5px rgba(77, 77, 77, 0.5);
   display: flex;
@@ -158,6 +192,11 @@ export default {
   border-radius: 5px;
 }
 
+.spot-outline-wrapper > p {
+  margin: 7px 0 0 0;
+  font-weight: 700;
+  text-align: center;
+}
 
 .spot-title-area {
   padding: 5px 10px;
@@ -189,6 +228,18 @@ export default {
 .bi-pencil-square {
   margin-right: 8px;
   color: #5f5f5f;
+}
+
+@media (min-width: 1301px) {
+  .spot-item-wrapper-view {
+    width: 1100px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .spot-item-wrapper-view {
+    width: 630px;
+  }
 }
 
 </style>

@@ -4,6 +4,7 @@
   padding-top: 60px;
   width: 100vw;
   display: flex;
+  min-height: 800px;
 }
 
 #post-menu {
@@ -11,6 +12,7 @@
   width: 250px;
   background-color: #fff;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.15);
+  position: fixed;
 }
 
 #post-menu #button-area {
@@ -30,6 +32,7 @@
 
 #post-form {
   width: calc(100vw - 250px);
+  margin-left: 250px;
 }
 
 /* アコーディオンのタイトル部分 */
@@ -103,6 +106,7 @@
   white-space: nowrap;
   font-size: 0;
   transition: transform 0.5s;
+  min-height: 800px;
 }
 
 .list .post-content {
@@ -219,6 +223,7 @@
 .submit-button-area {
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .submit-button-area .post-submit-button {

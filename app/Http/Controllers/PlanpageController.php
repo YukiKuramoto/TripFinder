@@ -18,6 +18,7 @@ class PlanpageController extends Controller
     public function index($plan_id)
     {
       $plan = Plan::find($plan_id);
+      $current_user_id = Auth::id() != [] ? Auth::id() : 'undefined_user';
       $current_user_id = Auth::id();
       $current_user = User::find($current_user_id);
       $plan->tags;
@@ -40,6 +41,8 @@ class PlanpageController extends Controller
         $spot->spot_count = $index;
         $spot->tags;
         $spot->images;
+        $spot->favs;
+        $spot->user;
         foreach($spot->comments as $item){
           $user = User::find($item->user_id);
           $item->user_name = $user->name;
@@ -63,13 +66,16 @@ class PlanpageController extends Controller
         }
       }
 
-      return view('planpage.index', ['plan' => $plan, 'spot' => $dayInfo]);
+      return view('planpage.index', [
+        'plan' => $plan,
+        'spot' => $dayInfo,
+        'login_uid' => $current_user_id,
+      ]);
     }
+
 
     public function indexSpot($spot_id)
     {
-      $current_user_id = Auth::id();
-      $current_user = User::find($current_user_id);
       $spot = Spot::find($spot_id);
       $plan = $spot->plans;
       $spot->user;
@@ -77,21 +83,26 @@ class PlanpageController extends Controller
       $spot->tags;
       $spot['spot_count'] = 0;
 
+
       foreach($spot->comments as $item){
         $user = User::find($item->user_id);
         $item->user_name = $user->name;
         $item->user_image = $user->image_path;
       }
 
-      // スポットお気に入り状況取得
-      $fav_spot = FavSpot::where('user_id', $current_user_id)->where('spot_id', $spot->id)->get();
-      if(count($fav_spot) == 0){
-        $spot->fav_status = false;
-      }else{
-        $spot->fav_status = true;
-      };
+      $login_uid = Auth::id() != [] ? Auth::id() : 'undefined_user';
+      if($login_uid != 'undefined_user'){
+        // $current_user = User::find($current_user_id);
+        // スポットお気に入り状況取得
+        $fav_spot = FavSpot::where('user_id', $login_uid)->where('spot_id', $spot->id)->get();
+        if(count($fav_spot) == 0){
+          $spot->fav_status = false;
+        }else{
+          $spot->fav_status = true;
+        };
+      }
 
-      return view('planpage.spot', ['spot' => $spot, 'plan' => $plan]);
+      return view('planpage.spot', ['spot' => $spot, 'plan' => $plan, 'login_uid' => $login_uid]);
     }
 
 

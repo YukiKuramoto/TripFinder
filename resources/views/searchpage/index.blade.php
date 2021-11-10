@@ -42,7 +42,7 @@
             <a href="#">キータグ項目からプランを探す</a>
           </div>
           <div class="form-body-area accordion-content">
-            <form class="search_container" method="post" action="{{ action('SearchController@planSearch') }}">
+            <form class="search_container" method="post" action="{{ action('SearchController@mainSearch', ['search_type' => 'plan']) }}">
               {{ csrf_field() }}
               <div class="keytag-search">
                 <div class="keytag-plan-search">
@@ -87,7 +87,7 @@
             <a href="#">キータグ項目からスポットを探す</a>
           </div>
           <div class="form-body-area accordion-content">
-            <form class="search_container" method="post" action="{{ action('SearchController@spotSearch') }}">
+            <form class="search_container" method="post" action="{{ action('SearchController@mainSearch', ['search_type' => 'spot']) }}">
               {{ csrf_field() }}
               <div class="keytag-search keytag-spot-search">
                 <div class="search-item item-stay">
@@ -120,33 +120,31 @@
         <div class="search-error-result">
           <h4>検索結果はありません</h4>
         </div>
-        @elseif($result == 'user')
-          <useritem-component
-            :users="{{ json_encode($response[0]) }}"
-            :currentUid="{{ Auth::id() }}"
-            :length="{{ count($response) }}"
-            pagetype="search"
-            parameter="all"
-            :searchword="{{ json_encode($search_word) }}"
-          ></useritem-component>
         @elseif($result == 'plan')
           <planitem-component
-            :user="{{ Auth::user() }}"
-            :plans="{{ json_encode($response[0]) }}"
+            :response="{{ json_encode($response[0]) }}"
             :length="{{ count($response) }}"
+            :search_key="{{ json_encode($search_key) }}"
             pagetype="search"
             parameter="{{ $parameter }}"
-            :searchword="{{ json_encode($search_word) }}"
           ><planitem-component/>
         @elseif($result == 'spot')
           <spotitem-component
-            :user="{{ Auth::user() }}"
-            :spots="{{ json_encode($response[0]) }}"
+            :response="{{ json_encode($response[0]) }}"
             :length="{{ count($response) }}"
+            :search_key="{{ json_encode($search_key) }}"
             pagetype="search"
             parameter="{{ $parameter }}"
-            :searchword="{{ json_encode($search_word) }}"
           ><spotitem-component/>
+          @elseif($result == 'user')
+          <useritem-component
+          :login_user="{{ json_encode($login_user) }}"
+          :response="{{ json_encode($response[0]) }}"
+          :length="{{ count($response) }}"
+          :search_key="{{ json_encode($search_key) }}"
+          pagetype="search"
+          parameter="{{ $parameter }}"
+          ></useritem-component>
         @endif
       @endif
     </div>

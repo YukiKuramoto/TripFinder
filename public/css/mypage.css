@@ -1,33 +1,27 @@
 @charset "UTF-8";
 
 .mypage {
-  display: grid;
-  place-items: center;
+  padding: 150px 10% 90px 10%;
 }
 
 .contents-outer {
   background-color: #fff;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
-  margin: 120px 0 60px 0;
   min-height: 920px;
-  min-width: 1300px;
 }
 
 .contents-outer .contents-title {
   text-align: center;
-  margin-top: 30px;
+  padding-top: 30px;
 }
 
 .contents-outer .contents-wrapper {
-  display: flex;
-  justify-content: center;
   height: 85%;
   margin-top: 50px;
 }
 
 .contents-outer .contents-wrapper .contents-profile {
   margin-top: 40px;
-  width: 30%;
 }
 
 .contents-outer .contents-wrapper .contents-profile .profile-area-outer {
@@ -101,8 +95,6 @@
 
 .contents-outer .contents-wrapper .contents-post {
   height: 100%;
-  width: 55%;
-  padding-left: 30px;
   /* ulのデフォルトスタイルを消去 */
   /* タブの基本スタイル */
   /* 非選択のタブにマウスカーソルを乗せたら色を変える */
@@ -161,5 +153,47 @@
 
 .contents-outer .contents-wrapper .contents-post .tabs-content section {
   display: none;
+}
+
+@media (min-width: 1201px) {
+  .contents-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .contents-profile {
+    width: 30%;
+    min-width: 370px;
+  }
+
+  .contents-post {
+    width: 55%;
+    padding-left: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .contents-outer {
+    min-width: 760px;
+  }
+
+  .contents-wrapper {
+    display: block;
+  }
+
+  .contents-profile {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .profile-area-outer {
+    width: 400px;
+  }
+
+  .contents-post {
+    width: 100%;
+    padding: 10%;
+  }
 }
 

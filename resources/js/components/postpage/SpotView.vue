@@ -86,7 +86,7 @@
       'postuser',
       'login_uid',
       'csrf',
-      'showstyle'
+      'showstyle',
     ],
     data() {
       return {
@@ -104,7 +104,7 @@
     },
     created: function(){
       this.setImage(this.spot);
-      console.log(this.spot.spot_title + ':' + this.showstyle)
+      // console.log(this.spot.spot_title + ':' + this.showstyle)
     },
     mounted: function(){
       this.initMapWithAddress(this.spot.spot_count, this.spot.spot_address);
@@ -146,7 +146,69 @@
             count ++;
           }
         }
+
+        if(this.subImage.length < 2){
+          do {
+            this.subImage.push("../image/no_image.png");
+          } while (this.subImage.length < 2);
+        }
       },
     },
   }
 </script>
+
+<style scoped>
+@media (min-width: 1251px) {
+  .spot-image-outline-wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .spot-infocomment-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .spot-outline-wrapper {
+    width: 40%;
+  }
+
+  .spot-info-wrapper {
+    width: 43%;
+  }
+
+  .spot-comment-wrapper {
+    width: 48%;
+  }
+
+}
+
+@media (max-width: 1250px) {
+  .spot-image-outline-wrapper {
+    display: block;
+  }
+
+  .spot-image-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .spot-infocomment-wrapper {
+    display: block;
+  }
+
+  .spot-outline-wrapper {
+    margin-top: 50px;
+    width: 100%;
+  }
+
+  .spot-info-wrapper {
+    width: 100%;
+  }
+
+  .spot-comment-wrapper {
+    margin-top: 50px;
+    width: 100%;
+  }
+}
+</style>

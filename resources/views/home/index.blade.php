@@ -29,30 +29,50 @@
                 <h2>人気のエリアで検索</h2>
                 <section id="popular-area-section">
                     <div id="popular-area-list">
-                      <a href="#">
-                        <div>
-                          <img src="{{ asset('image/home_Tokyo.png') }}" class="popular-area-image">
-                          <h4>東京</h4>
-                        </div>
-                      </a>
-                      <a href="#">
-                        <div>
-                          <img src="{{ asset('image/home_Osaka.png') }}" class="popular-area-image">
-                          <h4>大阪</h4>
-                        </div>
-                      </a>
-                      <a href="#">
-                        <div>
-                          <img src="{{ asset('image/home_Kyoto.png') }}" class="popular-area-image">
-                          <h4>京都</h4>
-                        </div>
-                      </a>
-                      <a href="#">
-                        <div>
-                          <img src="{{ asset('image/home_Okinawa.png') }}" class="popular-area-image">
-                          <h4>沖縄</h4>
-                        </div>
-                      </a>
+                      <form name="thisform_tokyo" action="{{ action('SearchController@mainSearch') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="text" name="search_type" value="plan">
+                        <input type="text" name="search_word" value="東京">
+                        <a href="javascript: thisform_tokyo.submit()">
+                          <div>
+                            <img src="{{ asset('image/home_Tokyo.png') }}" class="popular-area-image">
+                            <h4>東京</h4>
+                          </div>
+                        </a>
+                      </form>
+                      <form class="" action="{{ action('SearchController@mainSearch') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="text" name="search_type" value="plan">
+                        <input type="text" name="search_word" value="大阪">
+                        <a href="javascript: thisform_tokyo.submit()">
+                          <div>
+                            <img src="{{ asset('image/home_Osaka.png') }}" class="popular-area-image">
+                            <h4>大阪</h4>
+                          </div>
+                        </a>
+                      </form>
+                      <form class="" action="{{ action('SearchController@mainSearch') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="text" name="search_type" value="plan">
+                        <input type="text" name="search_word" value="京都">
+                        <a href="javascript: thisform_tokyo.submit()">
+                          <div>
+                            <img src="{{ asset('image/home_Kyoto.png') }}" class="popular-area-image">
+                            <h4>京都</h4>
+                          </div>
+                        </a>
+                      </form>
+                      <form class="" action="{{ action('SearchController@mainSearch') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="text" name="search_type" value="plan">
+                        <input type="text" name="search_word" value="沖縄">
+                        <a href="javascript: thisform_tokyo.submit()">
+                          <div>
+                            <img src="{{ asset('image/home_Okinawa.png') }}" class="popular-area-image">
+                            <h4>沖縄</h4>
+                          </div>
+                        </a>
+                      </form>
                     </div>
                 </section>
             </div>
@@ -60,7 +80,7 @@
                 <div id="new-plan-wrapper">
                     <h2>新着プラン</h2>
                     <planitem-component
-                      :plans="{{ json_encode($newArrivalPlans[0]) }}"
+                      :response="{{ json_encode($newArrivalPlans[0]) }}"
                       :length="{{ count($newArrivalPlans) }}"
                       pagetype="home"
                       parameter="{{ $param_newArrival }}"
@@ -69,7 +89,7 @@
                 <div id="popular-plan-wrapper">
                     <h2>人気プラン</h2>
                     <planitem-component
-                      :plans="{{ json_encode($popularPlans[0]) }}"
+                      :response="{{ json_encode($popularPlans[0]) }}"
                       :length="{{ count($popularPlans) }}"
                       pagetype="home"
                       parameter="{{ $param_popular }}"
@@ -81,7 +101,7 @@
                 <div class="spot-component-area">
                   <div class="spot-component-outer">
                     <spotitem-component
-                    :spots="{{ json_encode($popularSpots[0]) }}"
+                    :response="{{ json_encode($popularSpots[0]) }}"
                     :length="{{ count($popularSpots) }}"
                     pagetype="home"
                     parameter="{{ $param_popular }}"

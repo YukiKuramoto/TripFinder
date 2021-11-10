@@ -132,7 +132,7 @@
     },
     created: function(){
       if(this.type == 'view'){
-        console.log(this.plan_view);
+        // console.log(this.plan_view);
         this.planOutline = this.plan_view;
         this.dayInfo = this.spot_view;
         this.setStyle(this.dayInfo);
@@ -302,3 +302,13 @@
     },
   }
 </script>
+
+<style media="screen" scoped>
+.btn-secondary{
+  color: white;
+}
+
+.btn-success{
+  color: white;
+}
+</style>

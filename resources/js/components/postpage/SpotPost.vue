@@ -54,11 +54,16 @@
           <div class="spot-image-area">
             <div class="spot-image-select">
               <div class="error-mark">*</div>
-              写真を投稿：
-              <input type="file"
-              class="file-select"
-              @input="SelectImage(spot.spot_count, $event.currentTarget)"
-              multiple="multiple">
+              写真投稿：
+              <label :for="'file-select' + spot.spot_day + '_' + spotIndex">
+                <span class="browse_btn">Select</span>
+                <input type="file"
+                class="file-select"
+                :id="'file-select' + spot.spot_day + '_' + spotIndex"
+                @input="SelectImage(spot.spot_count, $event.currentTarget)"
+                multiple="multiple">
+                {{ spot.spot_image.length }}枚選択
+              </label>
             </div>
             <div class="spot-image-view">
               <canvas :id="'canvas' + spot.spot_count" style="display: none"></canvas>
@@ -98,6 +103,9 @@
     },
     methods: {
       SelectImage: function(Key, Target){
+
+        this.spot.spot_image = [];
+        $('#preview-image' + this.spot.spot_count).attr('src', '');
 
         for(let file of Target.files){
 
@@ -171,3 +179,21 @@
     }
   }
 </script>
+
+<style media="screen">
+
+  .file-select {
+    display: none;
+  }
+
+  .browse_btn {
+    background-color: #d3d3d3;
+    padding: 3px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+
+  .browse_btn:hover {
+    cursor : pointer;
+  }
+</style>

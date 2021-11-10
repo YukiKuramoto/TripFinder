@@ -20,17 +20,17 @@
         <section class="tabs-content">
           <section id="tabs-1">
             <useritem-component
-              :users="{{ json_encode($users[0]) }}"
-              :currentUid="{{ Auth::id() }}"
-              :length="{{ count($users) }}"
+              :response="{{ json_encode($users[0]) }}"
+              :login_user="{{ $login_uid }}"
+              :length="{{ json_encode(count($users)) }}"
               pagetype="users"
               parameter="all"
             ></useritem-component>
           </section>
           <section id="tabs-2">
             <useritem-component
-              :users="{{ json_encode($favorite_users[0]) }}"
-              :currentUid="{{ Auth::id() }}"
+              :response="{{ json_encode($favorite_users[0]) }}"
+              :login_user="{{ $login_uid }}"
               :length="{{ count($favorite_users) }}"
               pagetype="users"
               parameter="favorite"
@@ -38,8 +38,8 @@
           </section>
           <section id="tabs-3">
             <useritem-component
-              :users="{{ json_encode($follower_users[0]) }}"
-              :currentUid="{{ Auth::id() }}"
+              :response="{{ json_encode($follower_users[0]) }}"
+              :login_user="{{ $login_uid }}"
               :length="{{ count($follower_users) }}"
               pagetype="users"
               parameter="follower"

@@ -20,28 +20,26 @@ Route::group(['prefix' => 'post'], function(){
 });
 
 Route::group(['prefix' => 'index'], function(){
-  Route::get('/favspot', 'PlanpageController@registarFavSpot');
-  Route::get('/unfavspot', 'PlanpageController@deleteFavSpot');
-  Route::get('/favplan', 'PlanpageController@registarFavPlan');
-  Route::get('/unfavplan', 'PlanpageController@deleteFavPlan');
+  Route::get('/favspot', 'PlanpageController@registarFavSpot')->middleware('auth');
+  Route::get('/unfavspot', 'PlanpageController@deleteFavSpot')->middleware('auth');
+  Route::get('/favplan', 'PlanpageController@registarFavPlan')->middleware('auth');
+  Route::get('/unfavplan', 'PlanpageController@deleteFavPlan')->middleware('auth');
   Route::get('/{plan_id}', 'PlanpageController@index');
   Route::get('/spot/{spot_id}', 'PlanpageController@indexSpot');
 });
 
 Route::group(['prefix' => 'mypage'], function(){
-  Route::get('/{user_id}', 'MypageController@index')->middleware('auth');
-  Route::post('/nextplan', 'MypageController@index_nextplan')->middleware('auth');
-  Route::post('/nextspot', 'MypageController@index_nextspot')->middleware('auth');
+  Route::get('/{user_id}', 'MypageController@index');
+  Route::post('/nextplan', 'MypageController@index_nextplan');
+  Route::post('/nextspot', 'MypageController@index_nextspot');
 });
 
 Route::group(['prefix' => 'search'], function(){
   Route::get('/', 'SearchController@index');
   Route::post('/main', 'SearchController@mainSearch');
-  Route::post('/nextplan', 'SearchController@index_nextplan');
-  Route::post('/nextspot', 'SearchController@index_nextspot');
-  Route::post('/nextuser', 'SearchController@index_nextuser');
-  Route::post('/plan', 'SearchController@planSearch');
-  Route::post('/spot', 'SearchController@spotSearch');
+  Route::post('/nextplan', 'SearchController@planSearch');
+  Route::post('/nextspot', 'SearchController@spotSearch');
+  Route::post('/nextuser', 'SearchController@userSearch');
 });
 
 Route::group(['prefix' => 'comment'], function(){

@@ -11,7 +11,7 @@
           <input type="submit" class="btn btn-secondary" value="削除">
         </form>
       </div>
-      <div class="post-user-wrapper" v-if="postuser.id != login_uid">
+      <div class="post-user-wrapper" v-else>
         <a class="plan-post-user" v-bind:href="'/mypage/' + postuser.id">POSTED BY {{ postuser.name }}</a>
       </div>
       <div class="plan-images-wrapper">
@@ -77,6 +77,7 @@
     },
     methods: {
       setImage: function(dayInfo){
+
         dayInfo.forEach((day, d_index) => {
           day.spotInfo.forEach((spot, s_index) => {
             spot.images.forEach((image, i_index) => {
@@ -88,6 +89,13 @@
             });
           });
         });
+
+        if(this.subImage.length < 4){
+          do {
+            this.subImage.push("../image/no_image.png")
+          } while (this.subImage.length < 4);
+        }
+
       },
     },
   }

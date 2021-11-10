@@ -21,7 +21,7 @@
         :plan_view="{{ $plan }}"
         :spot_view= "{{ json_encode($spot) }}"
         :postuser_view= "{{ $plan->user }}"
-        :loginuid_view= "{{ Auth::user()->id }}"
+        loginuid_view= "{{ $login_uid }}"
         type= "view">
       </postbody-component>
     </div>

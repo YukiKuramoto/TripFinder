@@ -14,6 +14,7 @@ class UsersViewController extends Controller
       // ログインユーザー取得
       $current_user_id = Auth::id();
       $current_user = User::find($current_user_id);
+      $login_uid = Auth::id() != [] ? Auth::id() : 'undefined_user';
       $favorite_users = [];
       $follower_users = [];
 
@@ -21,14 +22,14 @@ class UsersViewController extends Controller
       // 全ユーザ取得
       $users = User::all();
       $this->getFollowInfo($users, $current_user_id);
-      $users_pagenated = $this->RemakeArray($users);
+      $users_pagenated = $this->RemakeArray($users, 6);
 
       // Favoriteユーザー取得
       foreach($current_user->follows as $favorite_user){
         array_push($favorite_users, User::find($favorite_user->followed_user_id));
       }
       $this->getFollowInfo($favorite_users, $current_user_id);
-      $favorite_users_pagenated = $this->RemakeArray($favorite_users);
+      $favorite_users_pagenated = $this->RemakeArray($favorite_users, 6);
 
 
       //Followerユーザー取得
@@ -36,40 +37,17 @@ class UsersViewController extends Controller
         array_push($follower_users, User::find($follower_user->follower_user_id));
       }
       $this->getFollowInfo($follower_users, $current_user_id);
-      $follower_users_pagenated = $this->RemakeArray($follower_users);
+      $follower_users_pagenated = $this->RemakeArray($follower_users,6);
 
 
       return view('users.index', [
         'users' => $users_pagenated,
+        'login_uid' => $login_uid,
         'favorite_users' => $favorite_users_pagenated,
         'follower_users' => $follower_users_pagenated
       ]);
     }
 
-
-    public function RemakeArray($user_arr)
-    {
-      $item_amount = 3;
-      $items = [];
-      $items[0] = [];
-      $i = 0;
-
-      foreach ($user_arr as $index => $user) {
-        $count = $index + 1;
-
-        array_push($items[$i], $user);
-
-        if($index + 1 == count($user_arr)){
-          break;
-        }
-
-        if($count % $item_amount == 0){
-          $i++;
-          $items[$i] = [];
-        }
-      }
-      return $items;
-    }
 
 
     public function index_nextuser(Request $request)
@@ -105,7 +83,7 @@ class UsersViewController extends Controller
       // フォロー状況取得
       $this->getFollowInfo($target_users, $current_user_id);
       // ページネーション用の形式に変換
-      $users_pagenated = $this->RemakeArray($target_users);
+      $users_pagenated = $this->RemakeArray($target_users, 6);
 
       return ([
         'users' => $users_pagenated[$page_index - 1],

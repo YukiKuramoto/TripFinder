@@ -15,7 +15,7 @@
     <body>
         <div id="app">
             <header id="header">
-                <a href="{{ action('PostController@index') }}"><img src="{{ asset('image/logo.JPG') }}" alt="TripFinder" id="logo"></a>
+                <a href="{{ action('Home\HomeController@index') }}"><img src="{{ asset('image/logo.JPG') }}" alt="TripFinder" id="logo"></a>
                 <div id="header-contents">
                   <nav id="header-list">
                       @guest

@@ -1,4 +1,8 @@
 
+.searchpage-outer {
+  padding-bottom: 30px;
+}
+
 .searchpage-title {
   text-align: center;
   margin-top: 40px;
@@ -16,6 +20,10 @@
 
   .search-box-area-wrapper {
     width: 800px;
+
+    .form-body-area {
+      width: 800px;
+    }
 
     .form-title-area p {
         margin: 0;

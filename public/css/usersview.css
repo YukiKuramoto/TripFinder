@@ -8,9 +8,9 @@
 .contents-outer {
   background-color: #fff;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
-  margin: 120px 0 60px 0;
+  margin: 120px 5% 60px 5%;
   min-height: 750px;
-  min-width: 1300px;
+  max-width: 1300px;
 }
 
 .contents-outer .contents-title {
@@ -78,99 +78,5 @@
 
 .contents-outer .contents-wrapper .tabs-content section {
   display: none;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer {
-  padding: 30px 30px;
-  max-width: 1200px;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper:hover {
-  transform: scale(1.03);
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper {
-  border: solid 2px rgba(204, 204, 204, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.3);
-  width: 300px;
-  margin: 30px 40px;
-  padding-bottom: 10px;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .anker-area {
-  text-decoration: none;
-  color: #24140e;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .user-image-area {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .user-image-area img {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .user-name-area {
-  text-align: center;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .user-name-area p {
-  font-size: 25px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .user-comment-area {
-  text-align: center;
-  padding: 0 20px 10px 20px;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .user-comment-area p {
-  font-size: 15px;
-  margin: 0;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .follow-button-area {
-  width: 100%;
-  padding: 0px 35px;
-  margin-bottom: 10px;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .follow-button-area .following-btn {
-  background-color: #FFF;
-  color: #6c757d;
-  font-weight: 600;
-  border: solid 2px #6c757d;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .follow-button-area button {
-  width: 100%;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .icon-area {
-  text-align: center;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .icon-area .bi-star-fill {
-  color: #ffd700;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .icon-area .bi-file-earmark-post-fill {
-  color: #436be0;
-}
-
-.contents-outer .contents-wrapper .users-contents-outer .users-contents-wrapper .users-item-wrapper .icon-area .icon {
-  margin: 0 10px;
 }
 

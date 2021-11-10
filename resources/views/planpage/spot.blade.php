@@ -24,7 +24,7 @@
         :plan-outline= "{{ $plan }}"
         :spot= "{{ $spot }}"
         :postuser = "{{ $spot->user }}"
-        :login_uid = "{{ Auth::user()->id }}"
+        login_uid = "{{ $login_uid }}"
         :csrf = "{{ json_encode(csrf_field()) }}"
         showstyle= "spot.displayStyle"
         spot-index = 0

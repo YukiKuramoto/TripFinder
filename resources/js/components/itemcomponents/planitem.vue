@@ -20,9 +20,9 @@
       </div>
     </v-app>
     <div :class="'plan-item-wrapper plan-item-wrapper-' + pagetype">
-      <a v-for="plan in page_plans" :href="'/index/' + plan.id" class="plan-item">
+      <a v-for="plan in page_plans" :href="'/index/' + plan.id" :class="'plan-item plan-item-' + pagetype">
         <div class="plan-image-wrapper">
-          <img class="plan-image" :src="plan.images[0].image_path">
+          <img class="plan-image" :src="plan.spots[0].images[0].image_path">
         </div>
         <div class="plan-outline-wrapper">
           <p class="plan-title">{{ plan.plan_title }}</p>
@@ -33,7 +33,7 @@
           <p v-for="tag in plan.tags" class="plan-tag">
             #{{ tag.name }}
           </p>
-          <p class="plan-introduction">{{ plan.plan_information.substr(0, 30) }}...</p>
+          <p class="plan-introduction">{{ plan.plan_information }}</p>
         </div>
       </a>
     </div>
@@ -43,47 +43,56 @@
 <script>
 export default {
     props: [
-        'user',
-        'plans',
+        'postuser',
+        'response',
         'length',
         'pagetype',
         'parameter',
-        'searchword',
+        'search_key',
     ],
     data() {
         return {
           page_current: '',
           page_length: '',
-          page_user: '',
           page_plans: '',
         }
     },
     created: function(){
-      console.log(this.plans);
+      console.log(this.login_user);
       this.page_current = 1;
       this.page_length = this.length;
-      this.page_user = this.user;
-      this.page_plans = this.plans;
+      this.page_plans = this.response;
     },
     methods: {
       getNextpage: function(){
-        console.log(this.page_current);
-        let params = {};
+        let request = {};
         let that = this;
-        params.page = this.page_current;
-        params.user = this.page_user.id;
-        params.parameter = this.parameter;
-        params.search_word = this.searchword;
+        this.createRequest(request);
 
-        axios.post('/' + this.pagetype + '/nextplan', params)
+        axios.post('/' + this.pagetype + '/nextplan', request)
         .then(function(response){
           console.log(response.data);
-          that.page_user = response.data.user;
-          that.page_length = response.data.plan_length;
-          that.page_plans = response.data.plans;
+          that.page_length = response.data.response_length;
+          that.page_plans = response.data.response;
         }).catch(function(error){
           console.log(error);
         })
+      },
+      createRequest: function(request){
+
+        request.page = this.page_current;
+        request.parameter = this.parameter;
+
+        switch (this.pagetype) {
+          case 'mypage':
+            request.postuser = this.postuser;
+            break;
+          case 'search':
+            request.search_word = this.search_key.search_word;
+            request.stay = this.search_key.stay;
+            request.address = this.search_key.address;
+            break;
+        }
       }
     }
 }
@@ -111,6 +120,7 @@ export default {
   margin-top: 50px;
   padding: 30px 0px 15px 0px;
   min-height: 615px;
+  max-width: 800px;
 }
 
 .plan-item-wrapper-search{
@@ -125,13 +135,17 @@ export default {
   height: 180px;
   padding: 20px 15px;
   margin-bottom: 15px;
-  min-width: 665px;
+  width: 100%;
   border: solid 1px rgba(204, 204, 204, 0.8);
   border-radius: 10px;
   box-shadow: 0 8px 10px 0 rgba(0, 0, 0, .5);
   display: flex;
   text-decoration: none;
   color: black;
+}
+
+.plan-item-search {
+  min-width: 800px;
 }
 
 .plan-item:hover{
@@ -157,6 +171,7 @@ export default {
 
 .plan-outline-wrapper {
   padding-left: 30px;
+  width: 70%;
 }
 
 .plan-title {
@@ -165,6 +180,11 @@ export default {
   margin: 0 0 7px 0;
   padding: 0;
   text-decoration: underline 0.5px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-overflow: ellipsis;
 }
 
 .icon-area {
@@ -186,6 +206,13 @@ export default {
 .bi-pencil-square {
   margin-right: 8px;
   color: #5f5f5f;
+}
+
+.plan-introduction {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-overflow: ellipsis;
 }
 
 .plan-item:last-child {

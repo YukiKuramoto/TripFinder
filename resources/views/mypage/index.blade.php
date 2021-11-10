@@ -17,24 +17,24 @@
             <h3>Profile</h3>
             <div class="profile-info-area">
               <div class="profile-image-area">
-                <img src="{{ $user->image_path }}">
+                <img src="{{ $postuser->image_path }}">
               </div>
               <div class="profile-count-area">
                 <div class="post-count-area">
                   <h4>Post</h4>
-                  <h4>{{ count($user->plans) }}</h4>
+                  <h4>{{ count($postuser->plans) }}</h4>
                 </div>
                 <div class="followed-count-area">
                   <h4>Followed</h4>
-                  <h4>{{ count($user->followers) }}</h4>
+                  <h4>{{ count($postuser->followers) }}</h4>
                 </div>
               </div>
             </div>
             <div class="profile-name-area">
               <div class="profile-name">
-                <p>{{ $user->name }}</p>
+                <p>{{ $postuser->name }}</p>
               </div>
-              @if(Auth::user()->id == $user->id)
+              @if($login_uid == $postuser->id)
               <div class="profile-edit">
                 <a class="btn btn-secondary btn-submit" href="{{ action('ProfileController@edit') }}">
                   編集
@@ -43,7 +43,7 @@
               @endif
             </div>
             <div class="profile-introduction-area">
-              <p>{{ $user->comment }}</p>
+              <p>{{ $postuser->comment }}</p>
             </div>
           </div>
         </div>
@@ -57,8 +57,8 @@
         <section class="tabs-content">
           <section id="tabs-1">
             <planitem-component
-              :user="{{ $user }}"
-              :plans="{{ json_encode($plans[0]) }}"
+              :postuser="{{ json_encode($postuser) }}"
+              :response="{{ json_encode($plans[0]) }}"
               :length="{{ count($plans) }}"
               pagetype="mypage"
               parameter="myplan"
@@ -66,8 +66,8 @@
           </section>
           <section id="tabs-2">
             <planitem-component
-              :user="{{ $user }}"
-              :plans="{{ json_encode($plans_fav[0]) }}"
+              :postuser="{{ json_encode($postuser) }}"
+              :response="{{ json_encode($plans_fav[0]) }}"
               :length="{{ count($plans_fav) }}"
               pagetype="mypage"
               parameter="favplan"
@@ -75,8 +75,8 @@
           </section>
           <section id="tabs-3">
             <spotitem-component
-              :user="{{ $user }}"
-              :spots="{{ json_encode($spots_fav[0]) }}"
+              :postuser="{{ json_encode($postuser) }}"
+              :response="{{ json_encode($spots_fav[0]) }}"
               :length="{{ count($spots_fav) }}"
               pagetype="mypage"
               parameter="favspot"

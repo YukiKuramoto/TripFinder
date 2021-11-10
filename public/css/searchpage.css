@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.searchpage-outer {
+  padding-bottom: 30px;
+}
+
 .searchpage-title {
   text-align: center;
   margin-top: 40px;
@@ -17,6 +21,10 @@
 }
 
 .search-box-area .search-box-area-wrapper {
+  width: 800px;
+}
+
+.search-box-area .search-box-area-wrapper .form-body-area {
   width: 800px;
 }
 

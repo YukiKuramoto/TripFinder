@@ -20,7 +20,7 @@
       </div>
     </v-app>
     <div class="users-contents-wrapper">
-      <div v-for="user in page_users" v-if="user.id != currentUid" class="users-item-wrapper">
+      <div v-for="user in page_users" class="users-item-wrapper">
         <a :href="'/mypage/' + user.id"  class="anker-area">
           <div class="user-image-area">
             <img :src="user.image_path">
@@ -32,12 +32,14 @@
             <p>{{ user.comment }}</p>
           </div>
         </a>
-        <form v-if="user.follow_flg" class="follow-button-area" :action="'/users/unfollow/' + user.id">
-          <button type="submit" class="btn btn-secondary following-btn">フォロー中</button>
-        </form>
-        <form v-else class="follow-button-area" :action="'/users/follow/' + user.id">
-          <button type="submit" class="btn btn-secondary follow-btn">フォローする</button>
-        </form>
+        <div v-if="login_user != 'undefined_user'">
+          <form v-if="user.follow_flg" class="follow-button-area" :action="'/users/unfollow/' + user.id">
+            <button type="submit" class="btn btn-secondary following-btn">フォロー中</button>
+          </form>
+          <form v-else class="follow-button-area" :action="'/users/follow/' + user.id">
+            <button type="submit" class="btn btn-secondary follow-btn">フォローする</button>
+          </form>
+        </div>
         <div class="icon-area">
           <i class="bi bi-star-fill icon"></i>{{ user.followers.length }} followers
           <i class="bi bi-file-earmark-post-fill icon"></i>{{ user.plans.length }} posts
@@ -50,27 +52,26 @@
 <script>
 export default {
     props: [
-      'users',
-      'currentUid',
+      'login_user',
+      'response',
       'length',
+      'search_key',
       'pagetype',
       'parameter',
-      'searchword',
     ],
     data() {
         return {
           page_current: '',
           page_length: '',
           page_users: '',
-          page_currentUid: '',
+          page_currentUser: '',
         }
     },
     created: function(){
-      console.log(this.length);
+      console.log(this.response);
       this.page_current = 1;
       this.page_length = this.length;
-      this.page_users = this.users;
-      this.page_currentUid = this.currentUid;
+      this.page_users = this.response;
     },
     methods: {
       getNextpage: function(){
@@ -85,8 +86,8 @@ export default {
         axios.post('/' + this.pagetype +'/nextuser', params)
         .then(function(response){
           console.log(response.data);
-          that.page_length = response.data.users_length;
-          that.page_users = response.data.users;
+          that.page_length = response.data.response_length;
+          that.page_users = response.data.response;
         }).catch(function(error){
           console.log(error);
         });
@@ -110,7 +111,7 @@ export default {
 }
 
 .users-contents-outer {
-  padding: 0 30px 30px 30px;
+  padding: 0 20px 30px 20px;
   max-width: 1200px;
 }
 
@@ -130,7 +131,7 @@ export default {
   border-radius: 10px;
   box-shadow: 0 8px 10px 0 rgba(0, 0, 0, .3);
   width: 300px;
-  margin: 30px 40px;
+  margin: 30px 20px;
   padding-bottom: 10px;
 }
 
@@ -146,8 +147,8 @@ export default {
 }
 
 .user-image-area img {
-  width: 180px;
-  height: 180px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
 }
 
@@ -211,6 +212,20 @@ button {
 .icon {
   margin:0 10px;
 }
+
+
+@media (min-width: 1301px) {
+  .users-contents-wrapper {
+    width: 1050px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .users-contents-wrapper {
+    width: 700px;
+  }
+}
+
 </style>
 
 <style media="screen">

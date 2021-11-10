@@ -29,7 +29,7 @@ class PostController extends Controller
 
     public function create(PostRequest $request)
     {
-      dd($request->all());
+      // dd($request->all());
       // dd(json_decode($request->all()['day_0_spot_0_image_0']));
         // ユーザーID特定
         $uid = Auth::id();
@@ -61,6 +61,7 @@ class PostController extends Controller
             array_push($image_array[$array_key], $image_item);
           }
 
+
           // プランアウトライン保存
           $plan = new Plan;
           $plan_tags = $planOutline['plan_tag'];
@@ -77,6 +78,7 @@ class PostController extends Controller
           //スポットデータ保存
           foreach ($dayInfo as $d_index => $day_form) {
             foreach ($day_form['spotInfo'] as $s_index => $spot_form) {
+              // dd($s_index);
               // 登録必要データをセット
               $spot_form += ['user_id' => $uid];
               $spot_form += ['plan_id' => $plan->id];
@@ -102,12 +104,13 @@ class PostController extends Controller
               $this->registerTag($spot_tag, $spot->id, 'spot');
 
               // スポット画像データ保存
+              // dd($image_array);
               foreach ($image_array['day' . $d_index . 'spot' . $s_index] as $image) {
-                $image = new Image;
-                $path = Storage::disk('s3')->putFile('/', $image_item, 'public');
-                $image->image_path = Storage::disk('s3')->url($path);
-                $image->spot_id = $spot->id;
-                $image->save();
+                $new_image = new Image;
+                $path = Storage::disk('s3')->putFile('/', $image, 'public');
+                $new_image->image_path = Storage::disk('s3')->url($path);
+                $new_image->spot_id = $spot->id;
+                $new_image->save();
               }
             }
           }
@@ -116,11 +119,12 @@ class PostController extends Controller
         } catch (\Exception $e){
           // エラーの場合、ロールバック
           DB::rollback();
+          //
           dd($e);
           return redirect()->action('MypageController@index', ['user_id' => $uid]);
         }
 
-        return redirect()->action('MypageController@index', ['user_id' => $uid]);
+        // return redirect()->action('MypageController@index', ['user_id' => $uid]);
     }
 
 

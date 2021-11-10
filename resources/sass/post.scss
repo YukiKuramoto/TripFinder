@@ -1,8 +1,10 @@
 
+
 #post-body{
     padding-top: 60px;
     width: 100vw;
     display: flex;
+    min-height: 800px;
 }
 
 #post-menu {
@@ -10,6 +12,7 @@
     width: 250px;
     background-color: #fff;
     box-shadow: 0 0 8px 0 rgb(0 0 0 / 15%);
+    position: fixed;
 
     #button-area {
         padding: 0 15px;
@@ -29,8 +32,8 @@
 
 #post-form {
   width: calc(100vw - 250px);
+  margin-left: 250px;
 }
-
 
 // ---------------アコーディオンメニュー関連------------------
 
@@ -106,6 +109,7 @@
   white-space: nowrap;
   font-size: 0;
   transition: transform 0.5s;
+  min-height: 800px;
 
   .post-content {
     width: 100%;
@@ -226,6 +230,7 @@
 .submit-button-area {
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 
   .post-submit-button {
     width: 300px;
