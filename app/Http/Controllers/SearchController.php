@@ -24,26 +24,11 @@ class SearchController extends Controller
       return view('searchpage.index');
     }
 
-    public function mainSearch(Request $request)
+    public function homeSearch(Request $request)
     {
-      switch ($request->all()['search_type']) {
-        case 'plan':
-          $result = $this->planSearch($request);
-          return view('searchpage.index', $result);
-          break;
-
-        case 'spot':
-          $result = $this->spotSearch($request);
-          return view('searchpage.index', $result);
-          break;
-
-        case 'user':
-          $result = $this->userSearch($request);
-          return view('searchpage.index', $result);
-          break;
-      }
+      $result = $this->planSearch($request);
+      return view('searchpage.index', $result);
     }
-
 
     public function planSearch(Request $request)
     {
@@ -65,22 +50,30 @@ class SearchController extends Controller
 
       $response = $this->DataBaseService->SearchFromDB_Plan($search_key);
       $response = $this->removeDuplication($response);
+      $response = $this->multiDescSortArray($response, 'updated_at');
       $response = $this->getPlans($response);
       $response = $this->RemakeArray($response, 6);
-
       // 検索結果なしの場合、リターン
       if(count($response) == 0 || $response[0] == []) {
-        return (['result' => 'no_result']);
+        return ([
+          'result' => 'no_result',
+          'search_key' => $search_key,
+        ]);
+      // 非同期処理時のリターン
       }elseif (isset($request_form['parameter'])) {
         return ([
           'response' => $response[$request->all()['page'] - 1],
           'response_length' => count($response),
+          'search_key' => $search_key,
+          'result' => 'plan',
+          'parameter' => 'plan',
         ]);
+      // 通常リターン
       }else{
         return ([
-          'result' => 'plan',
           'response' => $response,
           'search_key' => $search_key,
+          'result' => 'plan',
           'parameter' => 'plan',
         ]);
       }
@@ -102,26 +95,34 @@ class SearchController extends Controller
         $search_key['address'] = $request_form['address'];
       }
 
-
       $response = $this->DataBaseService->SearchFromDB_Spot($search_key);
       $response = $this->removeDuplication($response);
+      $response = $this->multiDescSortArray($response, 'updated_at');
       $response = $this->getSpots($response);
       $response = $this->RemakeArray($response, 6);
 
 
       // 検索結果なしの場合、リターン
       if(count($response) == 0 || $response[0] == []) {
-        return (['result' => 'no_result']);
+        return ([
+          'result' => 'no_result',
+          'search_key' => $search_key,
+        ]);
+      // 非同期処理時のリターン
       }elseif (isset($request_form['parameter'])) {
         return ([
           'response' => $response[$request->all()['page'] - 1],
           'response_length' => count($response),
+          'search_key' => $search_key,
+          'result' => 'spot',
+          'parameter' => 'plan',
         ]);
+      // 通常リターン
       }else{
         return ([
-          'result' => 'spot',
           'response' => $response,
           'search_key' => $search_key,
+          'result' => 'spot',
           'parameter' => 'spot',
         ]);
       }
@@ -150,18 +151,26 @@ class SearchController extends Controller
 
       // 検索結果なしの場合、リターン
       if(count($response) == 0 || $response[0] == []) {
-        return (['result' => 'no_result']);
+        return ([
+          'result' => 'no_result',
+        'search_key' => $search_key,
+      ]);
+      // 非同期処理時のリターン
       }elseif (isset($request_form['parameter'])) {
         return ([
           'response' => $response[$request->all()['page'] - 1],
           'response_length' => count($response),
+          'search_key' => $search_key,
+          'result' => 'user',
+          'parameter' => 'user',
         ]);
+      // 通常リターン
       }else{
         return ([
           'login_user' => $login_user,
-          'result' => 'user',
           'response' => $response,
           'search_key' => $search_key,
+          'result' => 'user',
           'parameter' => 'main',
         ]);
       }

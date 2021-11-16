@@ -36,7 +36,7 @@ Route::group(['prefix' => 'mypage'], function(){
 
 Route::group(['prefix' => 'search'], function(){
   Route::get('/', 'SearchController@index');
-  Route::post('/main', 'SearchController@mainSearch');
+  Route::post('/areasearch', 'SearchController@homeSearch');
   Route::post('/nextplan', 'SearchController@planSearch');
   Route::post('/nextspot', 'SearchController@spotSearch');
   Route::post('/nextuser', 'SearchController@userSearch');

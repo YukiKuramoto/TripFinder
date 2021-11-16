@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -110,7 +110,7 @@ $('.accordion-title a').on('click', function (e) {
 
 /***/ }),
 
-/***/ 7:
+/***/ 6:
 /*!******************************************!*\
   !*** multi ./resources/js/searchpage.js ***!
   \******************************************/

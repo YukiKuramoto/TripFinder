@@ -7,7 +7,6 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>@yield('title')</title>
         <script src="{{ asset('js/app.js') }}" defer></script>
-        <!-- <script src="{{ asset('js/main.js') }}" defer></script> -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         @yield('css')
         @yield('js')
@@ -19,8 +18,6 @@
                 <div id="header-contents">
                   <nav id="header-list">
                       @guest
-                        <!-- <a href="/register" id="sign-in" class="header-button" data-toggle="modal" data-target="#Modal">REGISTER</a>
-                        <a href="/login" id="log-in" class="header-button" data-toggle="modal" data-target="#Modal">LOG IN</a> -->
                         <a href="/register" id="sign-in" class="header-button">REGISTER</a>
                         <a href="/login" id="log-in" class="header-button">LOG IN</a>
                       @endguest
@@ -31,24 +28,9 @@
                 @endauth
             </header>
             @auth
-            <div id="nav-container">
-              <div class="bg"></div>
-              <div class="button" tabindex="0">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </div>
-              <div id="nav-content" tabindex="0">
-                <ul>
-                  <li><a href="{{ action('Home\HomeController@index') }}">Top</a></li>
-                  <li><a href="{{ action('MypageController@index', ['user_id' => Auth::user()->id ]) }}">MyPage</a></li>
-                  <li><a href="{{ action('PostController@show') }}">Post Plan</a></li>
-                  <li><a href="{{ action('UsersViewController@index') }}">Users</a></li>
-                  <li><a href="{{ action('SearchController@index')}}">Search</a></li>
-                  <li><a href="#!" id="log-out" data-toggle="modal" data-target="#Modal">LOGOUT</a></li>
-                </ul>
-              </div>
-            </div>
+            <nav-component
+            :user_id="{{ Auth::user()->id }}"
+            ></nav-component>
             @endauth
             <div class="containers">
                 @yield('content')

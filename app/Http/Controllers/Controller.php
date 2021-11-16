@@ -12,7 +12,12 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
-
+        public function multiDescSortArray($array, $key)
+        {
+          $sort_key = array_column($array, $key);
+          array_multisort($sort_key, SORT_DESC, $array);
+          return $array;
+        }
 
 
         public function removeDuplication($array)
@@ -62,9 +67,6 @@ class Controller extends BaseController
 
         public function getPlans($plans_all)
         {
-          // if(count($plans_all) == 0){
-          //   return [];
-          // }
 
           foreach ($plans_all as $index => $plan) {
             $plan->spots;

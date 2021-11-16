@@ -3,21 +3,15 @@
     <div class="spot-item-outer">
       <v-app v-if="pagetype != 'home' && pagetype != 'view'" id="inspire">
         <div class="text-center">
-          <v-container>
-            <v-row justify="center">
-              <v-col cols="8">
-                <v-container class="max-width">
-                  <v-pagination
-                  v-model="page_current"
-                  class="my-3"
-                  :length="page_length"
-                  circle
-                  @input="getNextpage"
-                  ></v-pagination>
-                </v-container>
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-pagination
+          v-model="page_current"
+          :length="page_length"
+          :total-visible="7"
+          prev-icon="mdi-menu-left"
+          next-icon="mdi-menu-right"
+          circle
+          @input="getNextpage"
+          ></v-pagination>
         </div>
       </v-app>
       <div :class="'spot-item-wrapper spot-item-wrapper-' + pagetype">

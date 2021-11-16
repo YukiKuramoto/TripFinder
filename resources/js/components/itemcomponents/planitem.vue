@@ -2,21 +2,15 @@
   <div class="item-component-wrapper">
     <v-app v-if="pagetype != 'home'" id="inspire">
       <div class="text-center">
-        <v-container>
-          <v-row justify="center">
-            <v-col cols="8">
-              <v-container class="max-width">
-                <v-pagination
-                v-model="page_current"
-                class="my-3"
-                :length="page_length"
-                circle
-                @input="getNextpage"
-                ></v-pagination>
-              </v-container>
-            </v-col>
-          </v-row>
-        </v-container>
+        <v-pagination
+        v-model="page_current"
+        :length="page_length"
+        :total-visible="7"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+        circle
+        @input="getNextpage"
+        ></v-pagination>
       </div>
     </v-app>
     <div :class="'plan-item-wrapper plan-item-wrapper-' + pagetype">
@@ -31,7 +25,7 @@
             <i class="bi bi-geo-fill"></i>{{ plan.spots.length }} spots
           </div>
           <p v-for="tag in plan.tags" class="plan-tag">
-            #{{ tag.name }}
+            #{{ tag.name.substr(0,10) }}
           </p>
           <p class="plan-introduction">{{ plan.plan_information }}</p>
         </div>
@@ -58,7 +52,6 @@ export default {
         }
     },
     created: function(){
-      console.log(this.login_user);
       this.page_current = 1;
       this.page_length = this.length;
       this.page_plans = this.response;
@@ -89,7 +82,8 @@ export default {
             break;
           case 'search':
             request.search_word = this.search_key.search_word;
-            request.stay = this.search_key.stay;
+            request.duration = this.search_key.duration;
+            request.transportation = this.search_key.transportation;
             request.address = this.search_key.address;
             break;
         }

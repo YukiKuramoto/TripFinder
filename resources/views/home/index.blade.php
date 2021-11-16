@@ -15,7 +15,7 @@
             <div class="wrapper" id="search-wrapper">
                 <h2>お出かけプランを検索してみよう</h2>
                 <div id="search-form">
-                  <form class="search_container" method="post" action="{{ action('SearchController@mainSearch') }}">
+                  <form class="search_container" method="post" action="{{ action('SearchController@homeSearch') }}">
                     {{ csrf_field() }}
                     <div class="search-box-wrapper">
                       <input type="text" size="25" name="search_word" placeholder="キーワード検索">
@@ -29,7 +29,7 @@
                 <h2>人気のエリアで検索</h2>
                 <section id="popular-area-section">
                     <div id="popular-area-list">
-                      <form name="thisform_tokyo" action="{{ action('SearchController@mainSearch') }}" method="post">
+                      <form name="thisform_tokyo" action="{{ action('SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
                         <input type="text" name="search_word" value="東京">
@@ -40,33 +40,33 @@
                           </div>
                         </a>
                       </form>
-                      <form class="" action="{{ action('SearchController@mainSearch') }}" method="post">
+                      <form name="thisform_osaka" action="{{ action('SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
                         <input type="text" name="search_word" value="大阪">
-                        <a href="javascript: thisform_tokyo.submit()">
+                        <a href="javascript: thisform_osaka.submit()">
                           <div>
                             <img src="{{ asset('image/home_Osaka.png') }}" class="popular-area-image">
                             <h4>大阪</h4>
                           </div>
                         </a>
                       </form>
-                      <form class="" action="{{ action('SearchController@mainSearch') }}" method="post">
+                      <form name="thisform_kyoto" action="{{ action('SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
                         <input type="text" name="search_word" value="京都">
-                        <a href="javascript: thisform_tokyo.submit()">
+                        <a href="javascript: thisform_kyoto.submit()">
                           <div>
                             <img src="{{ asset('image/home_Kyoto.png') }}" class="popular-area-image">
                             <h4>京都</h4>
                           </div>
                         </a>
                       </form>
-                      <form class="" action="{{ action('SearchController@mainSearch') }}" method="post">
+                      <form name="thisform_okinawa" action="{{ action('SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
                         <input type="text" name="search_word" value="沖縄">
-                        <a href="javascript: thisform_tokyo.submit()">
+                        <a href="javascript: thisform_okinawa.submit()">
                           <div>
                             <img src="{{ asset('image/home_Okinawa.png') }}" class="popular-area-image">
                             <h4>沖縄</h4>

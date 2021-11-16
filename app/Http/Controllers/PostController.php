@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PostRequest;
+use \Symfony\Component\HttpFoundation\Response;
 use Validator;
 use App\Plan;
 use App\Spot;
@@ -36,6 +37,8 @@ class PostController extends Controller
         DB::beginTransaction();
 
         try {
+
+          // throw new \Exception("エラーだよ");
           // リクエスト内容全体を取得
           $request_body = $request->all();
           $planOutline = $request_body['planOutline'];
@@ -120,11 +123,12 @@ class PostController extends Controller
           // エラーの場合、ロールバック
           DB::rollback();
           //
-          dd($e);
-          return redirect()->action('MypageController@index', ['user_id' => $uid]);
+          return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
+          // logs()->error('エラーテスト');
+          return response()->json(['status' => 500]);
         }
-
-        // return redirect()->action('MypageController@index', ['user_id' => $uid]);
+        return response()->json(['response_code' => Response::HTTP_CREATED, 'plan_id' => $plan->id]);
+        // return response()->json(['status' => 200]);
     }
 
 

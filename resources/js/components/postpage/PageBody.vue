@@ -30,7 +30,7 @@
     </div>
     <form id="post-form" action="/post/create" method="post" enctype="multipart/form-data">
       <div>
-        <div v-if="ErrorExist" id="error-msg">
+        <div v-if="errorExist" id="error-msg">
           ＊は入力必須項目です
         </div>
         <div class="carousel">
@@ -45,8 +45,8 @@
             <template v-for="day in dayInfo">
               <div v-for="(spot, index) in day.spotInfo" class="spot-content list__item">
                 <spot-post-component
-                :spot= spot
-                :spotIndex= index
+                :spot=spot
+                :spotIndex=index
                 ref="child_spot"
                 @spotUpdate='spotDataUpdate'
                 ></spot-post-component>
@@ -66,9 +66,9 @@
             <template v-for="day in dayInfo">
               <div v-for="spot in day.spotInfo" class="spot-content list__item">
                 <spot-view-component
-                :showstyle= "spot.spot_display"
-                :planOutline= planOutline
-                :spot= spot
+                :showstyle="spot.spot_display"
+                :planOutline=planOutline
+                :spot=spot
                 :postuser = postuser_view
                 :login_uid = loginuid_view
                 :csrf = csrf
@@ -117,6 +117,7 @@
           plan_tag: 'testPlan1, testPlan2',
           plan_information: 'これはテストプランです。'
         },
+        errorExist: false,
       };
     },
     computed: {
@@ -173,7 +174,6 @@
         }
       },
       addDay: function() {
-        console.log(100);
         let newdayIndex = this.dayInfo.length;
 
         this.dayInfo.push({
@@ -199,7 +199,6 @@
       },
       addSpot: function(dayIndex, displayStyle) {
 
-        console.log(displayStyle);
         this.dayInfo[dayIndex].spotInfo.push({
           spot_accordion_display: `display: ${displayStyle}`,
           spot_image: [],
@@ -281,22 +280,21 @@
         params.planOutline = this.planOutline;
         params.dayInfo = this.dayInfo;
         params = JSON.stringify(params);
-
         formData.append('request', params);
 
-        // $('#post-button').val('送信中...');
-        // $("#post-button").attr('disabled', true);
+        $('#post-button').val('送信中...');
+        $("#post-button").attr('disabled', true);
 
         axios.post('/post/create', formData, config)
         .then(function (response) {
-          console.log(response);
-          console.log('OK');
-          // $('#post-button').val('送信完了！！');
+          window.location.href = '/index/' + response.data.plan_id;
         })
         .catch(function (error) {
-          console.log(error);
-          console.log(error.response.data.errors);
-          // errors[key] = error.response.data.errors[key].join()
+          if(error.response.status == 422){
+            that.errorExist = true;
+            $('#post-button').val('再投稿');
+            $("#post-button").attr('disabled', false);
+          }
         });
       },
     },
