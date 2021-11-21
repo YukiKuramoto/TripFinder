@@ -185,6 +185,7 @@
       registarSpotTag: function(){
         this.spot.spot_tag = document.getElementById(`id${this.spot.spot_count}`).value;
         console.log(this.spot.spot_tag);
+        console.log('OK');
       },
     }
   }
