@@ -81,6 +81,16 @@
           placeholder="スポットの情報を投稿しよう！" >
           </textarea>
         </div>
+        <div class="spot-information-area">
+          <div>
+            <div class="error-mark">*</div>
+            SPOT INFORMATION
+          </div>
+          <textarea class="spot-information-textarea user-input"
+          v-model="spot.spot_information"
+          placeholder="スポットの情報を投稿しよう！" >
+          </textarea>
+        </div>
     </div>
 </template>
 

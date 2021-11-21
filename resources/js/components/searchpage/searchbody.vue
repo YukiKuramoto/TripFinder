@@ -163,13 +163,16 @@
     computed: {
     },
     created: function(){
-      this.result = this.prop_result;
-      this.search_word = this.prop_search_key.search_word;
-      if(this.prop_result != 'no_result'){
-        this.parameter = this.prop_parameter;
-        this.search_key = this.prop_search_key;
-        this.length = this.prop_length;
-        this.response = this.prop_response;
+      console.log(this.prop_result);
+      if(this.prop_result != undefined){
+        this.result = this.prop_result;
+        this.search_word = this.prop_search_key.search_word;
+        if(this.prop_result != 'no_result'){
+          this.parameter = this.prop_parameter;
+          this.search_key = this.prop_search_key;
+          this.length = this.prop_length;
+          this.response = this.prop_response;
+        }
       }
     },
     beforeUpdate: function(){
@@ -202,7 +205,6 @@
 
         axios.post('/search/next' + search_type, request)
         .then(function(response){
-          that.changer = "OK";
           console.log(response.data.search_key);
           console.log(response.data.parameter);
           console.log(that);

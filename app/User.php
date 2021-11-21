@@ -39,12 +39,14 @@ class User extends Authenticatable
 
     public function plans()
     {
-        return $this->hasMany('App\Plan');
+        return $this->hasMany('App\Plan')
+          ->orderBy('created_at', 'desc');
     }
 
     public function spots()
     {
-        return $this->hasMany('App\Spot');
+        return $this->hasMany('App\Spot')
+          ->orderBy('created_at', 'desc');
     }
 
     public function followers()
@@ -59,11 +61,13 @@ class User extends Authenticatable
 
     public function favPlans()
     {
-        return $this->belongsToMany('App\Plan', 'favoriteplans');
+        return $this->belongsToMany('App\Plan', 'favoriteplans')
+          ->orderBy('created_at', 'desc');
     }
 
     public function favSpots()
     {
-        return $this->belongsToMany('App\Spot', 'favoritespots');
+        return $this->belongsToMany('App\Spot', 'favoritespots')
+          ->orderBy('created_at', 'desc');
     }
 }
