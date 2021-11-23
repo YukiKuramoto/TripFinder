@@ -1,6 +1,11 @@
 <template>
     <div class="item">
-      <div class="content-title">Day{{ spot.spot_day+1 }} - Spot{{ spotIndex + 1 }}</div>
+      <div v-if="type == 'post'" class="content-title">
+        Day{{ spot.spot_day+1 }} - Spot{{ spotIndex + 1 }}
+      </div>
+      <div v-if="type == 'spotedit'" class="content-title">
+        Spot編集
+      </div>
         <div class="title-area">
           <div class="error-mark">*</div>
           スポットタイトル：
@@ -62,7 +67,7 @@
                 :id="'file-select' + spot.spot_day + '_' + spotIndex"
                 @input="SelectImage(spot.spot_count, $event.currentTarget)"
                 multiple="multiple">
-                {{ spot.spot_image.length }}枚選択
+                {{ image_count }}枚選択
               </label>
             </div>
             <div class="spot-image-view">
@@ -70,16 +75,6 @@
               <img v-bind:id="'preview-image' + spot.spot_count">
             </div>
           </div>
-        </div>
-        <div class="spot-information-area">
-          <div>
-            <div class="error-mark">*</div>
-            SPOT INFORMATION
-          </div>
-          <textarea class="spot-information-textarea user-input"
-          v-model="spot.spot_information"
-          placeholder="スポットの情報を投稿しよう！" >
-          </textarea>
         </div>
         <div class="spot-information-area">
           <div>
@@ -100,9 +95,17 @@
       'spot',
       'spotIndex',
       'errors',
+      'type',
     ],
+    data() {
+      return {
+        image_count: 0,
+      }
+    },
     created: function(){
-      this.spot.spot_duration = "0.5時間"
+      if(this.type=='post'){
+        this.spot.spot_duration = "0.5時間"
+      }
     },
     beforeUpdate: function(){
       $('.hash-tag').tagsInput({width:'100%'});
@@ -114,6 +117,7 @@
     methods: {
       SelectImage: function(Key, Target){
 
+        console.log(this.spot);
         this.spot.spot_image = [];
         $('#preview-image' + this.spot.spot_count).attr('src', '');
 
@@ -174,6 +178,7 @@
                 console.log(imageFile.size);
                 // 圧縮後ファイルをVueComponentsにセット
                 vueComponents.spot.spot_image.push(imageFile);
+                vueComponents.image_count = vueComponents.spot.spot_image.length;
               }, file.type, 1);
             }
             // 画像プレビュー用にsrcに読み込み後画像をセット
@@ -184,8 +189,6 @@
       },
       registarSpotTag: function(){
         this.spot.spot_tag = document.getElementById(`id${this.spot.spot_count}`).value;
-        console.log(this.spot.spot_tag);
-        console.log('OK');
       },
     }
   }

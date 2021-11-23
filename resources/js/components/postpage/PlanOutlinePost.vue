@@ -1,6 +1,11 @@
 <template>
   <div class="item">
-    <div class="content-title">PlanOutline</div>
+    <div v-if="type=='post'" class="content-title">
+      PlanOutline
+    </div>
+    <div v-if="type=='planedit'" class="content-title">
+      PlanOutline編集
+    </div>
       <div class="title-area">
         <div class="error-mark">*</div>
         プランタイトル：
@@ -57,6 +62,7 @@
       'errors',
       'old',
       'planOutline',
+      'type',
     ],
     beforeUpdate: function(){
       $('.hash-tag').tagsInput({width:'100%'});

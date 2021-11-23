@@ -16,11 +16,20 @@
 
 @section('content')
     <div class="contents" id="post-page">
+      @if ($type == 'post')
       <postbody-component
-        :url="{{ json_encode(action('PostController@create')) }}"
-        :old="{{ json_encode(Session::getOldInput()) }}"
-        :errors= "{{ $errors }}"
         type= "post">
       </postbody-component>
+      @elseif ($type == 'planedit')
+      <postbody-component
+        :plandata="{{ $plan }}"
+        type= "planedit">
+      </postbody-component>
+      @elseif ($type == 'spotedit')
+      <postbody-component
+        :spotdata="{{ $spot }}"
+        type= "spotedit">
+      </postbody-component>
+      @endif
     </div>
 @endsection

@@ -30,11 +30,6 @@
   font-size: 13px;
 }
 
-#post-form {
-  width: calc(100vw - 250px);
-  margin-left: 250px;
-}
-
 /* アコーディオンのタイトル部分 */
 
 .accordion-title {

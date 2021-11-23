@@ -18,8 +18,8 @@
 @section('content')
     <div class="contents" id="post-page">
       <postbody-component
-        :plan_view="{{ $plan }}"
-        :spot_view= "{{ json_encode($spot) }}"
+        :plandata="{{ $plan }}"
+        :spotdata= "{{ json_encode($spot) }}"
         :postuser_view= "{{ $plan->user }}"
         loginuid_view= "{{ $login_uid }}"
         type= "view">

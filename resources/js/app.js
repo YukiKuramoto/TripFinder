@@ -36,6 +36,7 @@ Vue.component('planitem-component', require('./components/itemcomponents/planite
 Vue.component('spotitem-component', require('./components/itemcomponents/spotitem.vue').default);
 Vue.component('useritem-component', require('./components/itemcomponents/useritem.vue').default);
 Vue.component('searchbody-component', require('./components/searchpage/searchbody.vue').default);
+Vue.component('commentitem-component', require('./components/itemcomponents/commentitem.vue').default);
 Vue.use(VueResource);
 Vue.use(Vuetify);
 // Vue.component('postpage-component', require('./components/PostPageComponent.vue').default);

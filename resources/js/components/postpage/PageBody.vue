@@ -1,6 +1,6 @@
 <template>
   <div id="post-body">
-    <div id="post-menu">
+    <div id="post-menu" v-show="type == 'post' || type == 'view'">
       <div>
         <div v-show="type == 'post'" id="button-area">
           <button type="submit" id="dayadd-button" class="btn btn-secondary btn-submit" v-on:click="addDay">Add Day</button>
@@ -28,33 +28,33 @@
         </section>
       </div>
     </div>
-    <form id="post-form" action="/post/create" method="post" enctype="multipart/form-data">
+    <form :id="'post-form-' + type" action="/post/create" method="post" enctype="multipart/form-data">
       <div>
         <div v-if="errorExist" id="error-msg">
           ＊は入力必須項目です
         </div>
         <div class="carousel">
-          <div v-if="type=='post'" class="list" v-bind:style="_listStyle">
-            <div class="list__item">
+          <div class="list" v-bind:style="_listStyle">
+            <div v-if="type=='post' || type=='planedit'" class="list__item">
               <planoutline-post-component
-              :planOutline= planOutline
+              :planOutline=planOutline
+              :type=type
               ref="child_outline"
               @outlineUpdate='outlineDataUpdate'
               ></planoutline-post-component>
             </div>
-            <template v-for="day in dayInfo">
+            <template v-if="type=='post' || type=='spotedit'" v-for="day in dayInfo">
               <div v-for="(spot, index) in day.spotInfo" class="spot-content list__item">
                 <spot-post-component
                 :spot=spot
                 :spotIndex=index
+                :type=type
                 ref="child_spot"
                 @spotUpdate='spotDataUpdate'
                 ></spot-post-component>
               </div>
             </template>
-          </div>
-          <div v-if="type=='view'" class="list" v-bind:style="_listStyle">
-            <div class="list__item">
+            <div v-if="type=='view'" class="list__item">
               <planoutline-view-component
               :planOutline= planOutline
               :dayInfo= dayInfo
@@ -63,7 +63,7 @@
               :csrf = csrf
               ></planoutline-view-component>
             </div>
-            <template v-for="day in dayInfo">
+            <template v-if="type=='view'" v-for="day in dayInfo">
               <div v-for="spot in day.spotInfo" class="spot-content list__item">
                 <spot-view-component
                 :showstyle="spot.spot_display"
@@ -76,9 +76,13 @@
               </div>
             </template>
           </div>
-          <div v-show="type == 'post'" class="submit-button-area">
+          <div v-if="type == 'post'" class="submit-button-area">
             <input type="hidden" name="_token" :value="csrf">
             <input type="button" class="btn btn-success post-submit-button" id="post-button" @click="SendData" value="投稿する">
+          </div>
+          <div v-else-if="type == 'planedit' || type == 'spotedit'" class="submit-button-area">
+            <input type="hidden" name="_token" :value="csrf">
+            <input type="button" class="btn btn-success post-submit-button" id="post-button" @click="EditData" value="編集する">
           </div>
         </div>
       </div>
@@ -89,8 +93,8 @@
 <script>
   export default{
     props:[
-      'plan_view',
-      'spot_view',
+      'plandata',
+      'spotdata',
       'postuser_view',
       'loginuid_view',
       'type',
@@ -111,12 +115,7 @@
           }],
         }],
         currentNum: 0,
-        planOutline: {
-          plan_title: '',
-          main_transportation: '車',
-          plan_tag: 'testPlan1, testPlan2',
-          plan_information: 'これはテストプランです。'
-        },
+        planOutline: {},
         errorExist: false,
       };
     },
@@ -133,10 +132,17 @@
     },
     created: function(){
       if(this.type == 'view'){
-        // console.log(this.plan_view);
-        this.planOutline = this.plan_view;
-        this.dayInfo = this.spot_view;
+        // console.log(this.plan);
+        console.log(this.spotdata);
+        this.planOutline = this.plandata;
+        this.dayInfo = this.spotdata;
         this.setStyle(this.dayInfo);
+      }else if(this.type == 'planedit'){
+        this.planOutline = this.plandata;
+      }else if(this.type == 'spotedit'){
+        this.dayInfo[0].spotInfo[0] = this.spotdata;
+        this.dayInfo[0].spotInfo[0].spot_day -= 1;
+        this.dayInfo[0].spotInfo[0].spot_image = [];
       }
     },
     beforeUpdate: function(){
@@ -247,12 +253,16 @@
         this.planOutline = childData;
       },
       spotDataUpdate: function(childData, spot_count_component){
-        for(let i=0;i<this.dayInfo.length;i++){
-          for(let j=0; j<this.dayInfo[i].spotInfo.length; j++){
-            if(this.dayInfo[i].spotInfo[j].spot_count == spot_count_component){
-              this.dayInfo[i].spotInfo[j] = childData;
+        if(this.type=='post'){
+          for(let i=0;i<this.dayInfo.length;i++){
+            for(let j=0; j<this.dayInfo[i].spotInfo.length; j++){
+              if(this.dayInfo[i].spotInfo[j].spot_count == spot_count_component){
+                this.dayInfo[i].spotInfo[j] = childData;
+              }
             }
           }
+        }else if(this.type=='spotedit'){
+          this.dayInfo[0].spotInfo[0] = childData;
         }
       },
       SendData: function(){
@@ -297,6 +307,75 @@
           }
         });
       },
+      EditData: function(){
+
+        let params = {};
+        let that = this;
+        let id;
+        var config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+
+        switch (this.type) {
+          case 'spotedit':
+            params = this.CreateSpotParams();
+            id = this.dayInfo[0].spotInfo[0].id;
+            break;
+          case 'planedit':
+            params = this.CreatePlanParams();
+            id = this.planOutline.id;
+            break;
+        }
+
+        console.log(id);
+        // $('#post-button').val('送信中...');
+        // $("#post-button").attr('disabled', true);
+
+        axios.post('/post/' + this.type + '/' + id, params, config)
+        .then(function (response) {
+          // window.location.href = '/index/' + response.data.plan_id;
+        })
+        .catch(function (error) {
+          if(error.response.status == 422){
+            that.errorExist = true;
+            $('#post-button').val('再投稿');
+            $("#post-button").attr('disabled', false);
+          }
+        });
+      },
+      CreatePlanParams: function(){
+        let params = {};
+
+        params.planOutline = this.planOutline;
+        return JSON.stringify(params);
+
+      },
+      CreateSpotParams: function(){
+
+        let params = {};
+        let count = 0;
+        var formData = new FormData();
+        this.dayInfo[0].spotInfo[0].spot_day += 1;
+
+        console.log(this.dayInfo[0].spotInfo[0]);
+
+        this.dayInfo[0].spotInfo[0].spot_image.forEach(image => {
+          formData.append(`spot_image_${count}`, image)
+          count++;
+        });
+
+        params.dayInfo = this.dayInfo[0].spotInfo[0];
+        params = JSON.stringify(params);
+        formData.append('request', params);
+
+        // for (let value of formData.entries()) {
+        //     console.log(value);
+        // }
+
+        return formData;
+      },
     },
   }
 </script>
@@ -309,4 +388,23 @@
 .btn-success{
   color: white;
 }
+
+#post-form-post {
+  width: calc(100vw - 250px);
+  margin-left: 250px;
+}
+
+#post-form-view {
+  width: calc(100vw - 250px);
+  margin-left: 250px;
+}
+
+#post-form-planedit {
+  width: 100%;
+}
+
+#post-form-spotedit {
+  width: 100%;
+}
+
 </style>

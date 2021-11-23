@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\SpotEditRequest;
+use App\Http\Requests\PlanEditRequest;
 use \Symfony\Component\HttpFoundation\Response;
 use Validator;
 use App\Plan;
@@ -25,7 +27,7 @@ class PostController extends Controller
     //
     public function show()
     {
-        return view('post.index');
+        return view('post.index', ['type' => 'post']);
     }
 
     public function create(PostRequest $request)
@@ -37,8 +39,6 @@ class PostController extends Controller
         DB::beginTransaction();
 
         try {
-
-          // throw new \Exception("エラーだよ");
           // リクエスト内容全体を取得
           $request_body = $request->all();
           $planOutline = $request_body['planOutline'];
@@ -189,14 +189,90 @@ class PostController extends Controller
           $spot->spot_tag = $spot_tag;
         }
         // dd($plan->plan_title);
-        return view('post.index', ['plan' => $plan, 'spot' => $plan->spots]);
+        return view('post.index', ['plan' => $plan, 'spot' => $plan->spots, 'type' => 'planedit']);
     }
 
-    public function update(Request $request, $plan_id)
+
+    public function spotedit($spot_id)
     {
-      $plan_form = $request->plan[0];
-      $spot_form = $request->spot;
-      dd($request->all());
+      $spot = Spot::find($spot_id);
+      $spot->images;
+      $spot_tag = "";
+      foreach($spot->tags as $tag){
+        $spot_tag = $spot_tag . $tag->name . ",";
+      }
+      $spot->spot_tag = $spot_tag;
+
+      return view('post.index', ['spot' => $spot, 'type' => 'spotedit']);
+    }
+
+
+    public function spotUpdate(SpotEditRequest $request, $spot_id)
+    {
+
+      DB::beginTransaction();
+
+      try{
+        $request_body = $request->all();
+        $request_form = $request_body['dayInfo'];
+        unset($request_body['dayInfo'], $request_body['request']);
+        // dd($request_form);
+
+        $image_array = [];
+        $spot_form = [];
+        $plan_id = $request_form['plan_id'];
+        $tag = $request_form['spot_tag'];
+
+        // スポット特定
+        $spot = Spot::find($spot_id);
+        $images = $spot->images;
+
+        // 既存情報削除
+        foreach($images as $image) {
+          Image::find($image->id)->delete();
+        }
+
+        SpotTag::where('spot_id', $spot_id)->delete();
+
+        // DB登録前処理開始
+        // 写真配列作成
+        foreach ($request_body as $key => $image_item) {
+          array_push($image_array, $image_item);
+        }
+
+        // 必要情報セット
+        $spot_form += ['user_id' => $request_form['user_id']];
+        $spot_form += ['plan_id' => $request_form['plan_id']];
+        $spot_form += ['spot_title' => $request_form['spot_title']];
+        $spot_form += ['spot_duration' => $request_form['spot_duration']];
+        $spot_form += ['spot_address' => $request_form['spot_address']];
+        $spot_form += ['spot_day' => $request_form['spot_day']];
+        $spot_form += ['spot_information' => $request_form['spot_information']];
+
+        $spot->fill($spot_form)->save();
+
+        $spot_tag = explode(',', $tag);
+        $this->registerTag($spot_tag, $spot_id, 'spot');
+
+        foreach ($image_array as $image) {
+          $new_image = new Image;
+          $path = Storage::disk('s3')->putFile('/', $image, 'public');
+          $new_image->image_path = Storage::disk('s3')->url($path);
+          $new_image->spot_id = $spot_id;
+          $new_image->save();
+        }
+        // データをcommit
+        DB::commit();
+      } catch (\Exception $e){
+        // エラーの場合、ロールバック
+        DB::rollback();
+        //
+        // Log::info(var_dump($spot_tag));
+        return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
+        // logs()->error('エラーテスト');
+        // return response()->json(['status' => 500]);
+      }
+      return response()->json(['response_code' => Response::HTTP_CREATED, 'plan_id' => $plan_id]);
     }
 
 
@@ -263,88 +339,4 @@ class PostController extends Controller
       }
     }
 
-    public function index()
-    {
-        $user = User::find(2);
-        dd($user->plans);
-        $plan_reqs = Plan::find(11);
-        $spot_info = $plan_reqs->spots;
-        // dd($spot_info[0]->spot_title);
-
-        $tags = $plan_reqs->tags;
-        // dd($tags[0]->name);
-
-        $spot_reqs = Spot::find(17);
-        // dd($spot_reqs);
-        $tags = $spot_reqs->tags;
-        dd($tags);
-        $plan_info = $spot_reqs->plans;
-
-        dd($plan_info->plan_title);
-    }
-
-    public function bkcreate(Request $request)
-    {
-    // $spot_form = $request->spot;
-    // dd(isset($spot_form[0]['spot_image']));
-      // dd("stop");
-      DB::beginTransaction();
-      try {
-        // リクエストから投稿用データ取得
-        $spot_form = $request->spot;
-        $plan_form = $request->plan[0];
-        $uid = Auth::id();
-        // dd($request);
-        // プラン処理
-        $plan = new Plan;
-        $plan_form += array('user_id' => $uid);
-        $plan_form += array('plan_duration' => end($spot_form)['spot_day']);
-        // タグデータ取出し
-        $plan_tag = explode(",", trim($plan_form['plan_tag']));
-        unset($plan_form['plan_tag']);
-        // DB登録
-        $plan->fill($plan_form)->save();
-        $this->registerTag($plan_tag, $plan->id, 'plan');
-
-
-        foreach ($spot_form as $item) {
-          // スポット処理
-          $spot = new Spot;
-          // ID追加
-          $item += array('user_id' => $uid);
-          $item += array('plan_id' => $plan->id);
-
-          // タグデータ,画像データ取出し
-          $spot_tag = explode(',', trim($item['spot_tag']));
-          if(isset($item['spot_image'])){
-            $spot_images = $item['spot_image'];
-            unset($item['spot_image']);
-          }
-
-          // DB登録
-          unset($item['spot_tag']);
-          $spot->fill($item);
-          $spot->save();
-
-          //画像データ保存
-          if(isset($spot_images)){
-            foreach($spot_images as $spot_image){
-              dd($spot_image);
-              $image = new Image;
-              $path = Storage::disk('s3')->putFile('/', $spot_image, 'public');
-              $image->image_path = Storage::disk('s3')->url($path);
-              $image->spot_id = $spot->id;
-              $image->save();
-            }
-          }
-          $this->registerTag($spot_tag, $spot->id, 'spot');
-        }
-        DB::commit();
-      } catch (\Exception $e){
-        DB::rollback();
-        dd($e);
-      }
-
-      return redirect()->action('MypageController@index', ['user_id' => $uid]);
-  }
 }

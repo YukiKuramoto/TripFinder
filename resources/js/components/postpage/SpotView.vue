@@ -33,6 +33,7 @@
               <a v-if="spot.fav_status" class="spot-fav-button btn btn-warning spot-unfav-btn" v-bind:href="'/index/unfavspot?planId=' + planOutline.id + '&spotId=' + spot.id">登録済み</a>
               <a v-else class="spot-fav-button btn btn-warning" v-bind:href="'/index/favspot?planId=' + planOutline.id + '&spotId=' + spot.id">行きたいスポット</a>
               <a class="spot-fav-button btn btn-secondary" v-bind:href="'/comment/create?spotId=' + spot.id">コメント投稿</a>
+              <a v-if="postuser.id == login_uid" class="spot-fav-button btn btn-secondary" v-bind:href="'/post/spotedit/' + spot.id">編集</a>
             </div>
           </div>
         </div>
@@ -50,21 +51,16 @@
           <div class="spot-comment-header contents-header">
             <p>コメント</p>
           </div>
-          <div class="comment-item" v-for="comment in spot.comments">
-            <div class="balloon2-right">
-              <div class="comment-title">
-                <p>{{ comment.comment_title }}</p>
-              </div>
-              <div class="comment-contents">
-                <p>{{ comment.comment_content }}</p>
-              </div>
-            </div>
-            <div class="comment-user-name">
-              <div class="">
-                <img v-bind:src="comment.user_image">
-                <p>by {{ comment.user_name }}</p>
-              </div>
-            </div>
+          <commentitem-component
+            :plan="planOutline"
+            :comments="commentArray"
+            :login_uid="login_uid">
+          </commentitem-component>
+          <div class="" v-if="commentArray.length == 0">
+            <p>コメントはありません</p>
+          </div>
+          <div class="comment-anker-area" v-else>
+            <a :href="'/comment/show/?plan_id=' + planOutline.id + '&spot_id=' + spot.id" class="comment-anker">全てのコメントを見る >></a>
           </div>
         </div>
       </div>
@@ -101,10 +97,14 @@
           transform: `translatex(${-100 * this.currentNum}%)`,
         };
       },
+      commentArray() {
+        return this.spot.comments.splice(0, 3);
+      }
     },
     created: function(){
       this.setImage(this.spot);
       // console.log(this.spot.spot_title + ':' + this.showstyle)
+      console.log(this.planOutline.id);
     },
     mounted: function(){
       this.initMapWithAddress(this.spot.spot_count, this.spot.spot_address);
@@ -157,7 +157,18 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.comment-anker-area {
+  text-align: right;
+  margin-top: 30px;
+
+  .comment-anker {
+    list-style: none;
+    text-decoration: none;
+    color: #555;
+  }
+}
+
 @media (min-width: 1251px) {
   .spot-image-outline-wrapper {
     display: flex;

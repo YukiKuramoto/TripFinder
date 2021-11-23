@@ -13,10 +13,12 @@
 
 Route::group(['prefix' => 'post'], function(){
   Route::get('/', 'PostController@show')->middleware('auth');
-  Route::get('/edit/{plan_id}', 'PostController@edit')->middleware('auth');
+  Route::get('/planedit/{plan_id}', 'PostController@edit')->middleware('auth');
+  Route::get('/spotedit/{spot_id}', 'PostController@spotedit')->middleware('auth');
   Route::post('/create', 'PostController@create')->middleware('auth');
   Route::post('/delete/{plan_id}', 'PostController@delete')->middleware('auth');
-  Route::post('/update/{plan_id}', 'PostController@update')->middleware('auth');
+  Route::post('/planedit/{plan_id}', 'PostController@planUpdate')->middleware('auth');
+  Route::post('/spotedit/{spot_id}', 'PostController@spotUpdate')->middleware('auth');
 });
 
 Route::group(['prefix' => 'index'], function(){
@@ -45,6 +47,8 @@ Route::group(['prefix' => 'search'], function(){
 Route::group(['prefix' => 'comment'], function(){
   Route::get('/create', 'CommentController@index')->middleware('auth');
   Route::post('/create', 'CommentController@create')->middleware('auth');
+  Route::get('/show', 'CommentController@show');
+  Route::get('/delete', 'CommentController@delete');
 });
 
 Route::group(['prefix' => 'profile'], function(){

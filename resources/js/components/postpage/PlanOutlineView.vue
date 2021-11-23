@@ -4,8 +4,11 @@
       <div class="plan-title">
         <h2>{{ planOutline.plan_title }}</h2>
       </div>
-      <div class="plan-edit-button" v-if="postuser.id == login_uid">
-        <!-- <a v-bind:href="'/post/edit/' + planOutline.id_DB" class="btn btn-secondary">編集</a> -->
+      <div class="plan-editdelete-button" v-if="postuser.id == login_uid">
+        <form v-bind:action="'/post/planedit/' + planOutline.id" method="get" enctype="multipart/form-data">
+          <input type="hidden" name="_token" :value="csrf">
+          <input type="submit" class="btn btn-secondary" value="編集">
+        </form>
         <form v-bind:action="'/post/delete/' + planOutline.id" method="post" enctype="multipart/form-data">
           <input type="hidden" name="_token" :value="csrf">
           <input type="submit" class="btn btn-secondary" value="削除">
@@ -100,3 +103,131 @@
     },
   }
 </script>
+
+<style media="screen" lang="scss" scoped>
+
+.btn-secondary{
+  color: white;
+}
+
+.btn-success{
+  color: white;
+}
+
+.plan-outline-wrapper {
+  width: 100%;
+  padding: 0 70px;
+
+  .plan-editdelete-button {
+    display: flex;
+    justify-content: right;
+    padding-right: 20px;
+
+    input {
+      margin-right: 5px;
+      width: 100px;
+    }
+  }
+
+  .post-user-wrapper {
+    text-align: right;
+
+    .plan-post-user {
+      text-decoration: none;
+      color: #3e3e3e;
+    }
+
+    .plan-post-user:hover {
+      background-color: rgba(213, 218, 229, 0.9);
+      transition: 0.4s;
+    }
+  }
+
+  .plan-images-wrapper {
+    margin: 20px 0 auto 0;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+
+    .outline-images {
+      padding: 2px 2px 0 0;
+    }
+
+    .main-image-wrapper {
+      width: 450px;
+
+      .main-image {
+        height: 100%;
+        width: 100%;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+    }
+
+    .sub-image-wrapper {
+      width: 650px;
+      display: flex;
+      flex-wrap: wrap;
+
+      .sub-image {
+        height: 50%;
+        width: 50%;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .plan-taginfo-area {
+    padding: 60px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+    .plan-tag-area {
+      width: 37%;
+
+      i {
+        font-size: 25px;
+        width: 50px;
+      }
+    }
+
+    .plan-info-area {
+      width: 50%;
+
+      .plan-info {
+        white-space: pre-wrap;
+      }
+    }
+
+    .fav-button-area {
+      margin-top: 30px;
+
+      a {
+        width: 100%;
+      }
+
+      .plan-unfav-btn {
+        background-color: #FFF;
+        color: #fcc800;
+        font-weight: 600;
+        border: solid 2px #fcc800;
+      }
+    }
+  }
+
+  .plan-map-area {
+    margin: 30px 0 0 0;
+    padding-bottom: 50px;
+
+    .plan-map{
+      border: solid 1px;
+      height: 400px;
+      width: 70%;
+    }
+  }
+}
+
+</style>
