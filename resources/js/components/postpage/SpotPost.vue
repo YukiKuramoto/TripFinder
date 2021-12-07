@@ -86,6 +86,26 @@
           placeholder="スポットの情報を投稿しよう！" >
           </textarea>
         </div>
+        <div class="spot-link-area">
+          <div>
+            関連サイトリンク
+          </div>
+          <div class="link-form-area">
+            <section v-for="(link, link_index) in spot.spot_link">
+              <div class="link-title-header form-row form-header spot-accordion-title">
+                <a href="#!" v-on:click.prevent="showLinkInput">リンク{{ link_index + 1 }}</a>
+              </div>
+              <div class="spot-accordion-content">
+                <div class="link-title form-row form-content">
+                  <span>Title：</span><input v-model="link.link_title" type="text">
+                </div>
+                <div class="link-title form-row form-content">
+                  <span>URL：</span><input v-model="link.link_url" type="text">
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
     </div>
 </template>
 
@@ -103,8 +123,11 @@
       }
     },
     created: function(){
+      console.log(this.type);
       if(this.type=='post'){
         this.spot.spot_duration = "0.5時間"
+      }else if(this.type == 'spotedit'){
+        this.setLinks();
       }
     },
     beforeUpdate: function(){
@@ -190,11 +213,35 @@
       registarSpotTag: function(){
         this.spot.spot_tag = document.getElementById(`id${this.spot.spot_count}`).value;
       },
+      setLinks: function(){
+        let count = this.spot.spot_link.length;
+
+        if(count != 3){
+          for(let i = 0; i <= 2; i++){
+            if(i>count-1){
+              this.spot.spot_link.push({});
+            }
+          }
+        }
+
+        console.log(count);
+      },
+      showLinkInput: function(e) {
+        e.preventDefault();
+        const content = $(e.target)
+        .closest('section')
+        .find('.spot-accordion-content');
+
+        if (!content.is(':visible')) {
+          $('.spot-accordion-content:visible').slideUp();
+          content.slideDown();
+        }
+      },
     }
   }
 </script>
 
-<style media="screen">
+<style media="screen" lang="scss">
 
   .file-select {
     display: none;
@@ -210,4 +257,41 @@
   .browse_btn:hover {
     cursor : pointer;
   }
+
+
+  /* アコーディオンのタイトル部分 */
+  .spot-accordion-title {
+    margin: 0;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    font-size: 1rem;
+  }
+  .spot-accordion-title a {
+    display: block;
+    color: #3F4548;
+    text-decoration: none;
+  }
+
+  .spot-accordion-title:hover {
+    background-color: rgba(213, 218, 229, 0.9);
+    // transition: 0.4s;
+  }
+
+  /* アコーディオンのコンテンツ部分 */
+  .spot-accordion-content {
+    display: none;
+    border: 1px solid #ccc;
+    cursor: pointer;
+
+    .spot-accordion-content-area {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  /* accordion-content-activeクラスが付いているものは初期状態で表示しておく */
+  .spot-accordion-content-active {
+    display: block;
+  }
+
 </style>

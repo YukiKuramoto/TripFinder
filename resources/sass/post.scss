@@ -83,23 +83,13 @@
 
 // ---------------カールセール関連------------------
 
-#error-msg {
-    position: fixed;
-    text-align: center;
-    width: calc(100vw - 250px);
-    height: 30px;
-    background-color: rgba(255,0,0,0.5);
-    padding: 5px;
-    color: #fff;
-}
-
 .carousel {
   overflow: hidden;
 }
 
 .list {
   width: calc(100vw - 250px);
-  height: calc(100vh - 130px);
+  // height: calc(100vh - 130px);
   margin: 0 auto;
   white-space: nowrap;
   font-size: 0;
@@ -159,7 +149,8 @@
     }
 
     .plan-information-textarea {
-      height: 150px;
+      height: 350px;
+      margin-bottom: 120px;
     }
 
     .spot-detail-wrapper {
@@ -213,6 +204,7 @@
 
     .spot-information-textarea {
       height: 150px;
+      margin-bottom: 30px;
     }
   }
 }
@@ -236,4 +228,36 @@
   text-decoration: none;
   display: inline;
   color: #FF3333;
+}
+
+
+
+
+.link-form-area {
+  padding-bottom: 50px;
+
+  p {
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+  }
+
+  input {
+    width: 90%;
+  }
+
+  textarea {
+    width: 100%;
+  }
+
+  .form-row {
+    min-width: 800px;
+    margin: 0 0 -1px 0;
+    padding: 8px;
+    border: 1px solid rgb(85,85,85, 0.5);
+  }
+
+  .form-header {
+    background-color: #EEEEEE;
+  }
 }

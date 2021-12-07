@@ -13,12 +13,11 @@ class SpotEditRequest extends FormRequest
      */
     public function authorize()
     {
-      // if($this->path() == 'post/spotedit/*'){
-      //   return true;
-      // }else{
-      //   return false;
-      // }
-      return true;
+      if(strpos($this->path(),'post/spotedit/') == 0){
+        return true;
+      }else{
+        return false;
+      }
     }
 
     /**
@@ -29,18 +28,17 @@ class SpotEditRequest extends FormRequest
     public function rules()
     {
         return [
-          // 'dayInfo.*.spotInfo.*.spot_address' => 'required',
-          // 'dayInfo.*.spotInfo.*.spot_duration' => 'required',
-          // 'dayInfo.*.spotInfo.*.spot_title' => 'required',
-          // 'dayInfo.*.spotInfo.*.spot_information' => 'required',
-          // 'dayInfo.*.spotInfo.*.spot_image' => 'required',
+          'dayInfo.spot_address' => 'required',
+          'dayInfo.spot_duration' => 'required',
+          'dayInfo.spot_title' => 'required',
+          'dayInfo.spot_information' => 'required',
+          'dayInfo.spot_image' => 'required',
         ];
     }
 
     protected function prepareForValidation()
     {
       $newData = $this->all();
-      // dd($newData);
       $data = json_decode($newData['request'],true);
       // dd($data);
       $this->merge([

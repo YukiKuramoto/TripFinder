@@ -7,15 +7,15 @@
       <div class="spot-image-outline-wrapper">
         <div class="spot-image-wrapper">
           <div class="spot-main-image-wrapper">
-            <img class="spot-main-image" v-bind:src="mainImage">
+            <img class="spot-main-image" v-bind:src="mainImage" @click="showImgModal(mainImage, spot.spot_title)">
           </div>
           <div class="spot-sub-image-wrapper">
-            <img class="spot-sub-image" v-for="image in subImage" v-bind:src="image">
+            <img class="spot-sub-image" v-for="image in subImage" v-bind:src="image"  @click="showImgModal(image, spot.spot_title)">
           </div>
         </div>
         <div class="spot-outline-wrapper">
           <div class="spot-title-wrapper">
-            <h3><span>Spot.{{ spot.spot_count + 1 }}</span>{{ spot.spot_title }}</h3>
+            <h3><span v-if="spotkey != null">Spot.{{ spotkey + 1 }}</span>{{ spot.spot_title }}</h3>
           </div>
           <div class="spot-detail-wrapper">
             <div class="spot-address-wrapper spot-detail-item">
@@ -64,6 +64,24 @@
           </div>
         </div>
       </div>
+      <div class="spot-link-wrapper">
+        <div class="spot-link-header contents-header">
+          <p>関連サイトURL</p>
+        </div>
+        <div class="spot-link-contents">
+          <div v-if="spot.links.length > 0" v-for="link in spot.links" class="link-form-area">
+              <div class="link-title-header form-row form-header">
+                {{ link.link_title }}
+              </div>
+              <div class="form-row form-content">
+                <a :href="link.link_url" target="_blank">{{ link.link_url }}</a>
+              </div>
+          </div>
+          <div v-if="spot.links.length == 0">
+            <p>関連リンクはありません</p>
+          </div>
+        </div>
+      </div>
       <div class="spot-map-wrapper">
         <div class="spot-map-header contents-header">
           <p>MAP</p>
@@ -79,6 +97,7 @@
     props:[
       'planOutline',
       'spot',
+      'spotkey',
       'postuser',
       'login_uid',
       'csrf',
@@ -88,6 +107,7 @@
       return {
         mainImage: '',
         subImage: [],
+        targetImage: '',
       };
     },
     computed: {
@@ -104,7 +124,7 @@
     created: function(){
       this.setImage(this.spot);
       // console.log(this.spot.spot_title + ':' + this.showstyle)
-      console.log(this.planOutline.id);
+      console.log(this.spot);
     },
     mounted: function(){
       this.initMapWithAddress(this.spot.spot_count, this.spot.spot_address);
@@ -149,9 +169,25 @@
 
         if(this.subImage.length < 2){
           do {
-            this.subImage.push("../image/no_image.png");
+            this.subImage.push("/image/no_image.png");
           } while (this.subImage.length < 2);
         }
+      },
+      showImgModal: function(targetImg, spotTitle){
+        let div_element = $('#modal-content');
+        let img_element = div_element.find('img');
+        let h2_element = div_element.find('h2');
+
+        div_element.attr({
+          style: 'display: block',
+        });
+
+        h2_element.text('Spot Title: ' + spotTitle);
+
+        img_element.attr({
+          src: targetImg,
+          style: 'max-height: 600px',
+        })
       },
     },
   }
@@ -167,6 +203,10 @@
     text-decoration: none;
     color: #555;
   }
+}
+
+.spot-image-outline-wrapper img{
+  cursor: pointer;
 }
 
 @media (min-width: 1251px) {

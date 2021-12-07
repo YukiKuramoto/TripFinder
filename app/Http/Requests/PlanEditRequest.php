@@ -13,7 +13,11 @@ class PlanEditRequest extends FormRequest
      */
     public function authorize()
     {
+      if(strpos($this->path(),'post/planedit/') == 0){
+        return true;
+      }else{
         return false;
+      }
     }
 
     /**
@@ -24,7 +28,18 @@ class PlanEditRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+          'planOutline.plan_title' => 'required',
+          'planOutline.main_transportation' => 'required',
+          'planOutline.plan_information' => 'required',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+      $newData = $this->all();
+      $data = json_decode($newData['request'],true);
+      $this->merge([
+        'planOutline' => $data['planOutline'],
+      ]);
     }
 }

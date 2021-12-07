@@ -86,8 +86,8 @@ class UsersViewController extends Controller
       $users_pagenated = $this->RemakeArray($target_users, 6);
 
       return ([
-        'users' => $users_pagenated[$page_index - 1],
-        'users_length' => count($users_pagenated),
+        'response' => $users_pagenated[$page_index - 1],
+        'response_length' => count($users_pagenated),
         'users_current' => $page_index,
       ]);
     }

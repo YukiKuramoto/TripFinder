@@ -14,6 +14,7 @@ use App\Plan;
 use App\Spot;
 use App\Tag;
 use App\Image;
+use App\Link;
 use App\PlanTag;
 use App\SpotTag;
 use App\User;
@@ -32,7 +33,6 @@ class PostController extends Controller
 
     public function create(PostRequest $request)
     {
-      // dd($request->all());
       // dd(json_decode($request->all()['day_0_spot_0_image_0']));
         // ユーザーID特定
         $uid = Auth::id();
@@ -41,6 +41,7 @@ class PostController extends Controller
         try {
           // リクエスト内容全体を取得
           $request_body = $request->all();
+          // dd($request->all());
           $planOutline = $request_body['planOutline'];
           $dayInfo = $request_body['dayInfo'];
           // イメージデータのみにするため不要キー削除
@@ -88,6 +89,7 @@ class PostController extends Controller
               $spot_form['spot_day'] = $spot_form['spot_day'] + 1;
               // タグの取り出し
               $spot_tags = $spot_form['spot_tag'];
+              $spot_link = $spot_form['spot_link'];
 
               // 不要キー削除
               unset(
@@ -96,15 +98,28 @@ class PostController extends Controller
                 $spot_form['spot_image_preview'],
                 $spot_form['spot_image'],
                 $spot_form['spot_tag'],
-                $spot_form['spot_accordion_display']
+                $spot_form['spot_link'],
+                $spot_form['spot_accordion_display'],
               );
 
               $spot = new Spot;
               $spot->fill($spot_form)->save();
-
               // スポットタグデータ保存処理
               $spot_tag = explode(',', $spot_tags);
               $this->registerTag($spot_tag, $spot->id, 'spot');
+
+
+              //スポットリンク保存処理
+              foreach($spot_link as $key => $link){
+                if(count($link) != 0){
+                  $new_link = new Link;
+                  $new_link->spot_id = $spot->id;
+                  $new_link->link_title = $link['link_title'];
+                  // dd(1);
+                  $new_link->link_url = $link['link_url'];
+                  $new_link->save();
+                }
+              }
 
               // スポット画像データ保存
               // dd($image_array);
@@ -135,6 +150,9 @@ class PostController extends Controller
     public function registerTag($tag_array, $post_id, $post_type)
     {
       foreach ($tag_array as $tag_name) {
+        if($tag_name == ""){
+          break;
+        }
         // タグのDB登録処理
         $tag = new Tag;
         // リクエスト内タグ名でDB検索
@@ -174,6 +192,13 @@ class PostController extends Controller
     public function edit($plan_id)
     {
         $plan = Plan::find($plan_id);
+        $post_uid = $plan->user['id'];
+        $current_uid = Auth::id();
+        // ユーザー確認
+        if($this->checkLoginStatus($current_uid, $post_uid) == false){
+          return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
+        }
+
         $plan_tag = "";
         foreach($plan->tags as $tag){
           $plan_tag = $plan_tag . $tag->name . ",";
@@ -197,13 +222,76 @@ class PostController extends Controller
     {
       $spot = Spot::find($spot_id);
       $spot->images;
+      $spot['spot_link'] = $spot->links;
       $spot_tag = "";
+
+      //ユーザー特定
+      $current_uid = Auth::id();
+      $post_uid = $spot->user['id'];
+
+      // ユーザー確認
+      if($this->checkLoginStatus($current_uid, $post_uid) == false){
+        return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
+      }
+
       foreach($spot->tags as $tag){
         $spot_tag = $spot_tag . $tag->name . ",";
       }
       $spot->spot_tag = $spot_tag;
 
       return view('post.index', ['spot' => $spot, 'type' => 'spotedit']);
+    }
+
+
+    public function planUpdate(PlanEditRequest $request, $plan_id)
+    {
+
+      DB::beginTransaction();
+
+      try{
+        $request_body = $request->all();
+        $request_form = $request_body['planOutline'];
+
+        $plan_form = [];
+        $tag = $request_form['plan_tag'];
+
+        // プラン特定
+        $plan = Plan::find($plan_id);
+
+        //ユーザー特定
+        $current_uid = Auth::id();
+        $post_uid = $plan->user['id'];
+
+        // ユーザー確認
+        if($this->checkLoginStatus($current_uid, $post_uid) == false){
+          return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
+        }
+
+        // 既存情報削除
+        PlanTag::where('plan_id', $plan_id)->delete();
+
+        // 必要情報セット
+        $plan_form += ['user_id' => $request_form['user_id']];
+        $plan_form += ['plan_title' => $request_form['plan_title']];
+        $plan_form += ['main_transportation' => $request_form['main_transportation']];
+        $plan_form += ['plan_duration' => $request_form['plan_duration']];
+        $plan_form += ['plan_information' => $request_form['plan_information']];
+
+        $plan->fill($plan_form)->save();
+
+        $plan_tag = explode(',', $tag);
+        $this->registerTag($plan_tag, $plan_id, 'plan');
+
+        // データをcommit
+        DB::commit();
+      } catch (\Exception $e){
+        // エラーの場合、ロールバック
+        DB::rollback();
+        //
+        return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
+      }
+      return response()->json(['response_code' => Response::HTTP_CREATED, 'plan_id' => $plan_id]);
+
     }
 
 
@@ -216,20 +304,34 @@ class PostController extends Controller
         $request_body = $request->all();
         $request_form = $request_body['dayInfo'];
         unset($request_body['dayInfo'], $request_body['request']);
-        // dd($request_form);
 
         $image_array = [];
         $spot_form = [];
         $plan_id = $request_form['plan_id'];
         $tag = $request_form['spot_tag'];
+        $link_array =  $request_form['spot_link'];
 
         // スポット特定
         $spot = Spot::find($spot_id);
         $images = $spot->images;
+        $links = $spot->links;
+
+        //ユーザー特定
+        $current_uid = Auth::id();
+        $post_uid = $spot->user['id'];
+
+        // ユーザー確認
+        if($this->checkLoginStatus($current_uid, $post_uid) == false){
+          return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
+        }
 
         // 既存情報削除
         foreach($images as $image) {
           Image::find($image->id)->delete();
+        }
+
+        foreach($links as $link) {
+          Link::find($link->id)->delete();
         }
 
         SpotTag::where('spot_id', $spot_id)->delete();
@@ -254,6 +356,19 @@ class PostController extends Controller
         $spot_tag = explode(',', $tag);
         $this->registerTag($spot_tag, $spot_id, 'spot');
 
+        // dd($link_array);
+
+        //スポットリンク保存処理
+        foreach($link_array as $key => $link){
+          if(count($link) != 0){
+            $new_link = new Link;
+            $new_link->spot_id = $spot->id;
+            $new_link->link_title = $link['link_title'];
+            $new_link->link_url = $link['link_url'];
+            $new_link->save();
+          }
+        }
+
         foreach ($image_array as $image) {
           $new_image = new Image;
           $path = Storage::disk('s3')->putFile('/', $image, 'public');
@@ -267,10 +382,7 @@ class PostController extends Controller
         // エラーの場合、ロールバック
         DB::rollback();
         //
-        // Log::info(var_dump($spot_tag));
         return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
-        // logs()->error('エラーテスト');
-        // return response()->json(['status' => 500]);
       }
       return response()->json(['response_code' => Response::HTTP_CREATED, 'plan_id' => $plan_id]);
     }
@@ -284,12 +396,19 @@ class PostController extends Controller
         $spots = $plan->spots;
         $plan_tags = $plan->tags;
         $plan_favs = $plan->favs;
+        $post_uid = $plan->user['id'];
+        $current_uid = Auth::id();
 
         foreach ($spots as $spot) {
           $images = $spot->images;
           $comments = $spot->comments;
           $spot_favs = $spot->favs;
           $spot_tags = $spot->tags;
+        }
+
+        // ユーザー確認
+        if($this->checkLoginStatus($current_uid, $post_uid) == false){
+          return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
         }
 
         Plan::find($plan->id)->delete();

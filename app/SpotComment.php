@@ -15,4 +15,10 @@ class SpotComment extends Model
     return $this->belongsTo('App\Spot', 'spot_id');
   }
 
+
+  public function user()
+  {
+    return $this->belongsTo('App\User');
+  }
+
 }

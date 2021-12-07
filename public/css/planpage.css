@@ -268,6 +268,21 @@
   white-space: pre-wrap;
 }
 
+.spot-wrapper .spot-link-wrapper {
+  margin-top: 50px;
+}
+
+.spot-wrapper .spot-link-wrapper .form-row {
+  min-width: 800px;
+  margin: 0 0 -1px 0;
+  padding: 8px;
+  border: 1px solid rgba(85, 85, 85, 0.5);
+}
+
+.spot-wrapper .spot-link-wrapper .form-header {
+  background-color: #f6f6f6;
+}
+
 .spot-wrapper .spot-map-wrapper {
   margin-top: 50px;
 }

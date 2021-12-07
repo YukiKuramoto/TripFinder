@@ -26,7 +26,11 @@
               <input type="file" class="profile-image-input" name="image_path">
               <div class="profile-image-view">
                 <img class="preview-image profile-image preview-hide">
+                @if(isset($postuser->image_path))
                 <img class="preview-current-image profile-image" src="{{ $user->image_path }}">
+                @else
+                <img class="preview-current-image profile-image" src="{{ asset('image/default.png') }}">
+                @endif
               </div>
             </div>
           </div>

@@ -30,6 +30,7 @@
         "@mdi/js": "^6.2.95",
         "@mdi/react": "^1.5.0",
         "bootstrap-icons": "^1.5.0",
+        "vue-js-modal": "^2.0.1",
         "vue-resource": "^1.5.3",
         "vuetify": "^2.5.9",
         "vuex": "^3.6.2"

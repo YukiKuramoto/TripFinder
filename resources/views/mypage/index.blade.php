@@ -17,7 +17,11 @@
             <h3>Profile</h3>
             <div class="profile-info-area">
               <div class="profile-image-area">
+                @if(isset($postuser->image_path))
                 <img src="{{ $postuser->image_path }}">
+                @else
+                <img src="{{ asset('image/default.png') }}">
+                @endif
               </div>
               <div class="profile-count-area">
                 <div class="post-count-area">

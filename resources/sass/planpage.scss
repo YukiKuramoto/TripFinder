@@ -283,6 +283,21 @@
     }
   }
 
+  .spot-link-wrapper{
+    margin-top: 50px;
+
+    .form-row {
+      min-width: 800px;
+      margin: 0 0 -1px 0;
+      padding: 8px;
+      border: 1px solid rgb(85,85,85, 0.5);
+    }
+
+    .form-header {
+      background-color: #f6f6f6;
+    }
+  }
+
   .spot-map-wrapper {
     margin-top: 50px;
 

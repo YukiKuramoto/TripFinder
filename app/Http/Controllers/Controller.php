@@ -11,6 +11,15 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+        public function checkLoginStatus($current_uid, $post_uid)
+        {
+          if($current_uid !== $post_uid){
+            return false;
+          }else{
+            return true;
+          }
+        }
+
 
         public function multiDescSortArray($array, $key)
         {
@@ -76,7 +85,6 @@ class Controller extends BaseController
               $spot->images;
             }
           }
-          //ここで並べ替え！！！
 
           return $plans_all;
         }
@@ -89,6 +97,7 @@ class Controller extends BaseController
             $spot->images;
             $spot->favs;
             $spot->user;
+            $spot->links;
           }
           return $spots_all;
 

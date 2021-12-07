@@ -17,13 +17,14 @@
       <div v-for="user in page_users" class="users-item-wrapper">
         <a :href="'/mypage/' + user.id"  class="anker-area">
           <div class="user-image-area">
-            <img :src="user.image_path">
+            <img v-if="user.image_path !== null" :src="user.image_path">
+            <img v-else src="/image/default.png">
           </div>
           <div class="user-name-area">
             <p>{{ user.name }}</p>
           </div>
           <div class="user-comment-area">
-            <p>{{ user.comment }}</p>
+            <p v-if="user.comment !== null">{{ user.comment }}</p>
           </div>
         </a>
         <div v-if="login_user != 'undefined_user'">

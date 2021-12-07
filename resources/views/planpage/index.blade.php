@@ -10,6 +10,7 @@
 
 @section('js')
     <script src="{{ asset('js/jquery.tagsinput.js') }}" defer></script>
+    <script src="{{ asset('js/modal.js') }}" defer></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYiiRUxzLEZR56BBQFxGCgcIr88vcnhrU&language=ja"></script>

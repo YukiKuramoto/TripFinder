@@ -28,6 +28,11 @@ class Spot extends Model
       return $this->hasMany('App\Image');
     }
 
+    public function links()
+    {
+      return $this->hasMany('App\Link');
+    }
+
     public function comments()
     {
       return $this->hasMany('App\SpotComment');

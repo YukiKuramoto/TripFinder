@@ -8,6 +8,8 @@
         <title>@yield('title')</title>
         <script src="{{ asset('js/app.js') }}" defer></script>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.31/dist/index.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.31/dist/styles.css">
         @yield('css')
         @yield('js')
     </head>
@@ -36,6 +38,26 @@
                 @yield('content')
             </div>
         </div>
+
+        <!-- 画像プレビュー用モーダル -->
+        <div style="display: none" name="hello-world" :draggable="true" :resizable="true" id="modal-content">
+          <div id="modal-template">
+            <div id="modal-background" @click="hide"></div>
+            <div id="modal-outer">
+              <div id="modal-box">
+                <div id="modal-wrapper">
+                  <div class="modal-header">
+                    <h2>Spot Image</h2>
+                  </div>
+                  <div class="modal-body">
+                    <img>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <!-- Modal -->
         <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

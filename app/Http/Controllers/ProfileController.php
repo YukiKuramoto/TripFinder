@@ -17,9 +17,17 @@ class ProfileController extends Controller
       return view('profile.index', ['user' => $user]);
     }
 
+
     public function update(Request $request)
     {
       $user_request = $request->all();
+      $current_uid = Auth::id();
+
+      // ユーザー確認
+      if($this->checkLoginStatus($current_uid, $user_request['user_id']) == false){
+        return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
+      }
+
       unset($user_request['_token']);
       $user = User::find($user_request['user_id']);
 

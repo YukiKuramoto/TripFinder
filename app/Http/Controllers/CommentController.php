@@ -20,6 +20,7 @@ class CommentController extends Controller
       return view('comment.index', ['user' => $user, 'spot' => $spot]);
     }
 
+
     public function create(Request $request)
     {
       $comment = new SpotComment;
@@ -27,6 +28,7 @@ class CommentController extends Controller
       unset($comment_form['_token']);
       $comment->fill($comment_form)->save();
     }
+
 
     public function show(Request $request)
     {
@@ -43,9 +45,19 @@ class CommentController extends Controller
       return view('comment.show', ['plan' => $plan, 'spot' => $spot]);
     }
 
+
     public function delete(Request $request)
     {
-      SpotComment::find($request->all()['comment_id'])->delete();
+      $comment = SpotComment::find($request->all()['comment_id']);
+      $post_uid = $comment->user['id'];
+      $current_uid = Auth::id();
+      // ユーザー確認
+      if($this->checkLoginStatus($current_uid, $post_uid) == false){
+        return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
+      }
+
+      $comment->delete();
+
       return redirect()->action('PlanpageController@index', ['plan_id' => $request->all()['plan_id']]);
     }
 }

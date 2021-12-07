@@ -43,6 +43,7 @@ class PlanpageController extends Controller
         $spot->images;
         $spot->favs;
         $spot->user;
+        $spot->links;
         foreach($spot->comments as $item){
           $user = User::find($item->user_id);
           $item->user_name = $user->name;
@@ -81,6 +82,7 @@ class PlanpageController extends Controller
       $spot->user;
       $spot->images;
       $spot->tags;
+      $spot->links;
       $spot['spot_count'] = 0;
 
 

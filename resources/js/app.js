@@ -14,6 +14,8 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css'
 
+import VModal from 'vue-js-modal'
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -37,8 +39,10 @@ Vue.component('spotitem-component', require('./components/itemcomponents/spotite
 Vue.component('useritem-component', require('./components/itemcomponents/useritem.vue').default);
 Vue.component('searchbody-component', require('./components/searchpage/searchbody.vue').default);
 Vue.component('commentitem-component', require('./components/itemcomponents/commentitem.vue').default);
+Vue.component('modal-component', require('./components/itemcomponents/modal.vue').default);
 Vue.use(VueResource);
 Vue.use(Vuetify);
+Vue.use(VModal);
 // Vue.component('postpage-component', require('./components/PostPageComponent.vue').default);
 
 

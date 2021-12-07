@@ -80,23 +80,12 @@
   display: block;
 }
 
-#error-msg {
-  position: fixed;
-  text-align: center;
-  width: calc(100vw - 250px);
-  height: 30px;
-  background-color: rgba(255, 0, 0, 0.5);
-  padding: 5px;
-  color: #fff;
-}
-
 .carousel {
   overflow: hidden;
 }
 
 .list {
   width: calc(100vw - 250px);
-  height: calc(100vh - 130px);
   margin: 0 auto;
   white-space: nowrap;
   font-size: 0;
@@ -154,7 +143,8 @@
 }
 
 .list__item .plan-information-textarea {
-  height: 150px;
+  height: 350px;
+  margin-bottom: 120px;
 }
 
 .list__item .spot-detail-wrapper {
@@ -209,6 +199,7 @@
 
 .list__item .spot-information-textarea {
   height: 150px;
+  margin-bottom: 30px;
 }
 
 .user-input {
@@ -229,5 +220,34 @@
   text-decoration: none;
   display: inline;
   color: #FF3333;
+}
+
+.link-form-area {
+  padding-bottom: 50px;
+}
+
+.link-form-area p {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+}
+
+.link-form-area input {
+  width: 90%;
+}
+
+.link-form-area textarea {
+  width: 100%;
+}
+
+.link-form-area .form-row {
+  min-width: 800px;
+  margin: 0 0 -1px 0;
+  padding: 8px;
+  border: 1px solid rgba(85, 85, 85, 0.5);
+}
+
+.link-form-area .form-header {
+  background-color: #EEEEEE;
 }
 

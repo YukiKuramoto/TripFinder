@@ -30,7 +30,7 @@
     </div>
     <form :id="'post-form-' + type" action="/post/create" method="post" enctype="multipart/form-data">
       <div>
-        <div v-if="errorExist" id="error-msg">
+        <div v-if="errorExist" class="error-msg" :id="'error-msg-' + type">
           ＊は入力必須項目です
         </div>
         <div class="carousel">
@@ -64,11 +64,12 @@
               ></planoutline-view-component>
             </div>
             <template v-if="type=='view'" v-for="day in dayInfo">
-              <div v-for="spot in day.spotInfo" class="spot-content list__item">
+              <div v-for="(spot, key) in day.spotInfo" class="spot-content list__item">
                 <spot-view-component
                 :showstyle="spot.spot_display"
                 :planOutline=planOutline
                 :spot=spot
+                :spotkey=key
                 :postuser = postuser_view
                 :login_uid = loginuid_view
                 :csrf = csrf
@@ -111,6 +112,7 @@
             spot_display: '',
             spot_image_preview: [],
             spot_image: [],
+            spot_link: [{}, {}, {}],
             spot_accordion_display: 'display:none'
           }],
         }],
@@ -132,16 +134,14 @@
     },
     created: function(){
       if(this.type == 'view'){
-        // console.log(this.plan);
-        console.log(this.spotdata);
         this.planOutline = this.plandata;
         this.dayInfo = this.spotdata;
         this.setStyle(this.dayInfo);
       }else if(this.type == 'planedit'){
         this.planOutline = this.plandata;
       }else if(this.type == 'spotedit'){
+        console.log(this.spotdata);
         this.dayInfo[0].spotInfo[0] = this.spotdata;
-        this.dayInfo[0].spotInfo[0].spot_day -= 1;
         this.dayInfo[0].spotInfo[0].spot_image = [];
       }
     },
@@ -187,7 +187,8 @@
           spotInfo: [{
             spot_image_preview: [],
             spot_image: [],
-            spot_duration: '0.5時間'
+            spot_duration: '0.5時間',
+            spot_link: [{}, {}, {}],
           }]
         });
 
@@ -210,6 +211,7 @@
           spot_image: [],
           spot_image_preview: [],
           spot_duration: '0.5時間',
+          spot_link: [{}, {}, {}],
         });
 
         this.assignKey();
@@ -254,6 +256,7 @@
       },
       spotDataUpdate: function(childData, spot_count_component){
         if(this.type=='post'){
+          console.log(childData);
           for(let i=0;i<this.dayInfo.length;i++){
             for(let j=0; j<this.dayInfo[i].spotInfo.length; j++){
               if(this.dayInfo[i].spotInfo[j].spot_count == spot_count_component){
@@ -292,12 +295,12 @@
         params = JSON.stringify(params);
         formData.append('request', params);
 
-        $('#post-button').val('送信中...');
-        $("#post-button").attr('disabled', true);
+        // $('#post-button').val('送信中...');
+        // $("#post-button").attr('disabled', true);
 
         axios.post('/post/create', formData, config)
         .then(function (response) {
-          window.location.href = '/index/' + response.data.plan_id;
+          // window.location.href = '/index/' + response.data.plan_id;
         })
         .catch(function (error) {
           if(error.response.status == 422){
@@ -329,7 +332,6 @@
             break;
         }
 
-        console.log(id);
         // $('#post-button').val('送信中...');
         // $("#post-button").attr('disabled', true);
 
@@ -347,19 +349,19 @@
       },
       CreatePlanParams: function(){
         let params = {};
+        let formData = new FormData();
 
         params.planOutline = this.planOutline;
-        return JSON.stringify(params);
+        params = JSON.stringify(params);
+        formData.append('request', params);
 
+        return formData;
       },
       CreateSpotParams: function(){
 
         let params = {};
         let count = 0;
         var formData = new FormData();
-        this.dayInfo[0].spotInfo[0].spot_day += 1;
-
-        console.log(this.dayInfo[0].spotInfo[0]);
 
         this.dayInfo[0].spotInfo[0].spot_image.forEach(image => {
           formData.append(`spot_image_${count}`, image)
@@ -369,10 +371,6 @@
         params.dayInfo = this.dayInfo[0].spotInfo[0];
         params = JSON.stringify(params);
         formData.append('request', params);
-
-        // for (let value of formData.entries()) {
-        //     console.log(value);
-        // }
 
         return formData;
       },
@@ -387,6 +385,27 @@
 
 .btn-success{
   color: white;
+}
+
+.error-msg {
+    position: fixed;
+    text-align: center;
+    height: 30px;
+    background-color: rgba(255,0,0,0.5);
+    padding: 5px;
+    color: #fff;
+}
+
+#error-msg-planedit{
+  width: 100%;
+}
+
+#error-msg-spotedit{
+  width: 100%;
+}
+
+#error-msg-post{
+  width: calc(100vw - 250px);
 }
 
 #post-form-post {

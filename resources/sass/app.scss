@@ -186,3 +186,46 @@ html, body {
 #nav-container:focus-within #nav-content {
     transform: translateX(20%);
 }
+
+#modal-content {
+  display: none;
+}
+
+#modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #333;
+  opacity: 0.5;
+}
+
+#modal-outer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1050;
+  display: flex;
+  justify-content: center;
+
+  #modal-wrapper {
+    margin-top: 100px;
+    background-color: #FFF;
+    border-radius: 20px;
+
+    h2 {
+      margin: 15px 30px;
+    }
+
+    img {
+      max-height: 800px;
+      display: block;
+      margin: auto;
+      padding: 20px 0;
+    }
+  }
+}
