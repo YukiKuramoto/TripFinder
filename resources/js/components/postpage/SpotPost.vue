@@ -59,8 +59,13 @@
           <div class="spot-image-area">
             <div class="spot-image-select">
               <div class="error-mark">*</div>
-              写真投稿：
+              写真：
               <label :for="'file-select' + spot.spot_day + '_' + spotIndex">
+                <input type="button"
+                class="browse_btn"
+                :id="'file-clear' + spot.spot_day + '_' + spotIndex"
+                @click="ClearImage"
+                value="Clear">
                 <span class="browse_btn">Select</span>
                 <input type="file"
                 class="file-select"
@@ -138,11 +143,22 @@
       this.$emit('spotUpdate', this.spot, this.spot.spot_count);
     },
     methods: {
+      ClearImage: function(){
+        console.log("clear");
+        console.log(this.spot);
+        this.spot.spot_image = [];
+        this.image_count = this.spot.spot_image.length;
+        $('#preview-image' + this.spot.spot_count).attr('src', "");
+      },
       SelectImage: function(Key, Target){
 
         console.log(this.spot);
-        this.spot.spot_image = [];
-        $('#preview-image' + this.spot.spot_count).attr('src', '');
+        // this.spot.spot_image = [];
+        if (this.spot.spot_image.length === 3){
+          alert('登録ファイルの上限数は3つまでです');
+          return;
+        }
+        // $('#preview-image' + this.spot.spot_count).attr('src', '');
 
         for(let file of Target.files){
 
