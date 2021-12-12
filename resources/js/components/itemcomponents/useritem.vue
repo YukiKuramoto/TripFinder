@@ -14,7 +14,7 @@
       </div>
     </v-app>
     <div class="users-contents-wrapper">
-      <div v-for="user in page_users" class="users-item-wrapper">
+      <div v-for="user in page_users" v-if="user.id != login_user" class="users-item-wrapper">
         <a :href="'/mypage/' + user.id"  class="anker-area">
           <div class="user-image-area">
             <img v-if="user.image_path !== null" :src="user.image_path">
@@ -63,7 +63,7 @@ export default {
         }
     },
     created: function(){
-      console.log(this.response);
+      console.log(this);
       this.page_current = 1;
       this.page_length = this.length;
       this.page_users = this.response;
