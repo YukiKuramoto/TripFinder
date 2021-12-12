@@ -9,6 +9,7 @@ use App\Http\Requests\PostRequest;
 use App\Http\Requests\SpotEditRequest;
 use App\Http\Requests\PlanEditRequest;
 use \Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Plan;
 use App\Spot;
@@ -39,6 +40,7 @@ class PostController extends Controller
         DB::beginTransaction();
 
         try {
+          Log::info('ログサンプル', ['memo' => 'sample1']);
           // リクエスト内容全体を取得
           $request_body = $request->all();
           // dd($request->all());

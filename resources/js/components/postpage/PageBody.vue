@@ -117,7 +117,9 @@
           }],
         }],
         currentNum: 0,
-        planOutline: {},
+        planOutline: {
+          main_transportation: '車',
+        },
         errorExist: false,
       };
     },

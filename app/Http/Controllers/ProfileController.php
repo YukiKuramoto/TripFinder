@@ -23,8 +23,11 @@ class ProfileController extends Controller
       $user_request = $request->all();
       $current_uid = Auth::id();
 
+      // dd($current_uid == $user_request['user_id']);
+      // dd($user_request['user_id']);
+
       // ユーザー確認
-      if($this->checkLoginStatus($current_uid, $user_request['user_id']) == false){
+      if($current_uid != $user_request['user_id']){
         return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
       }
 
