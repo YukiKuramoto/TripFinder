@@ -67,3 +67,5 @@ Route::get('/show', 'PostController@index');
 Route::get('/home', 'Home\HomeController@index')->name('home');
 Route::post('/home/logout', 'UserAuthController@logoutuser');
 Auth::routes();
+
+Route::post('/register', 'Auth\RegisterController@register')->name('register');
