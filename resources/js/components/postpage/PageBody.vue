@@ -126,18 +126,13 @@
     computed: {
       /**
        * this.currentNumを用いて右方向にどれだけスライドさせるかを算出する算出プロパティ
-       * @return {object}   result           - css内容をプロパティにもつオブジェクト
-       * @return {string}   result.transform - 右方向に何％スライドするか
+       * @return {object}   result.transform - 右方向に何％スライドするか
        */
       _listStyle() {
         return {
-          // transition: '',
           transform: `translatex(${-100 * this.currentNum}%)`,
         };
       },
-      // ErrorExist() {
-      //   return this.errorExist === 'Exist';
-      // }
     },
     /**
      * vueインスタンス生成時（ページ構成時）初期値セット用関数
@@ -231,16 +226,11 @@
           });
         }
       },
-
       /**
        * 「addDay」ボタン押下時の新しい空の「Day」と「Spot」追加処理
        * @return {void}   - 戻り値なし
        */
       addDay: function() {
-        /**
-         * spot情報が何日目に当たるかを識別するための日数用変数
-         * @type {number}
-         */
         let newdayIndex = this.dayInfo.length;
 
         if (newdayIndex === 6){
@@ -263,16 +253,11 @@
         //新スポット追加により各スポットを採番し直し
         this.assignKey();
       },
-
       /**
        * 「Delete Day」ボタン押下時のDay,Spot削除処理
        * @return {void}   - 戻り値なし
        */
       deleteDay: function() {
-        /**
-         * dayInfo内削除対象インデックス番号
-         * @type {number}
-         */
         let targetIndex = this.dayInfo.length - 1;
 
         //要素がひとつしかない場合は実行しない

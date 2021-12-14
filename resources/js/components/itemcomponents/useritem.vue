@@ -63,7 +63,7 @@ export default {
         }
     },
     created: function(){
-      console.log(this);
+      console.log(this.response);
       this.page_current = 1;
       this.page_length = this.length;
       this.page_users = this.response;
