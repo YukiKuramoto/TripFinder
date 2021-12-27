@@ -13,7 +13,7 @@
         <h2>コメントを投稿しよう！</h2>
       </div>
       <div class="comment-contents-outer">
-        <form class="comment-form-area" method="POST" action="{{ action('CommentController@create', ['user_id' => $user, 'spot_id' => $spot->id]) }}">
+        <form class="comment-form-area" method="POST" action="{{ action('CommentController@create', ['user_id' => $user, 'spot_id' => $spot->id, 'plan_id' => $plan->id]) }}">
           <div class="spot-title-header form-row form-header">
             <p>スポットタイトル</p>
           </div>

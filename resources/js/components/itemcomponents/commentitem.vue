@@ -11,7 +11,8 @@
       </div>
       <div class="comment-user-name">
         <div>
-          <img :src="comment.user_image">
+          <img v-if="comment.user_image != null" :src="comment.user_image">
+          <img v-else src="/image/default.png">
           <a v-if="comment.user_id == login_uid"
             class="comment-delete"
             :href="'/comment/delete/?comment_id=' + comment.id + '&plan_id=' + plan.id">

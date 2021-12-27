@@ -15,7 +15,7 @@
         </div>
         <div class="spot-outline-wrapper">
           <div class="spot-title-wrapper">
-            <h3><span v-if="spotkey != null">Spot.{{ spotkey + 1 }}</span>{{ spot.spot_title }}</h3>
+            <h3><span>Spot. </span>{{ spot.spot_title }}</h3>
           </div>
           <div class="spot-detail-wrapper">
             <div class="spot-address-wrapper spot-detail-item">

@@ -7,14 +7,12 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import store from './store.js'
 import VueResource from "vue-resource"
 
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css'
 
-import VModal from 'vue-js-modal'
 
 /**
  * The following block of code may be used to automatically register your
@@ -27,7 +25,7 @@ import VModal from 'vue-js-modal'
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
 Vue.component('nav-component', require('./components/itemcomponents/navitem.vue').default);
 Vue.component('postbody-component', require('./components/postpage/PageBody.vue').default);
 Vue.component('planoutline-post-component', require('./components/postpage/PlanOutlinePost.vue').default);
@@ -39,11 +37,8 @@ Vue.component('spotitem-component', require('./components/itemcomponents/spotite
 Vue.component('useritem-component', require('./components/itemcomponents/useritem.vue').default);
 Vue.component('searchbody-component', require('./components/searchpage/searchbody.vue').default);
 Vue.component('commentitem-component', require('./components/itemcomponents/commentitem.vue').default);
-Vue.component('modal-component', require('./components/itemcomponents/modal.vue').default);
 Vue.use(VueResource);
 Vue.use(Vuetify);
-Vue.use(VModal);
-// Vue.component('postpage-component', require('./components/PostPageComponent.vue').default);
 
 
 /**
@@ -56,7 +51,6 @@ Vue.use(VModal);
 
 const app = new Vue({
     el: '#app',
-    store: store,
     vuetify: new Vuetify(),
     components: {
     }

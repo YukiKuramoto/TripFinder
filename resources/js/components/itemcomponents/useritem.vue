@@ -24,11 +24,14 @@
             <p>{{ user.name }}</p>
           </div>
           <div class="user-comment-area">
-            <p v-if="user.comment !== null">{{ user.comment }}</p>
+            <p v-if="user.comment !== null">{{ user.comment.substr(0,30) }}</p>
           </div>
         </a>
         <div v-if="login_user != 'undefined_user'">
-          <form v-if="user.follow_flg" class="follow-button-area" :action="'/users/unfollow/' + user.id">
+          <form v-if="user.id == login_user" class="follow-button-area" :action="'/users/unfollow/' + user.id">
+            <button type="submit" class="btn btn-secondary follow-btn" disabled>フォローする</button>
+          </form>
+          <form v-else-if="user.follow_flg" class="follow-button-area" :action="'/users/unfollow/' + user.id">
             <button type="submit" class="btn btn-secondary following-btn">フォロー中</button>
           </form>
           <form v-else class="follow-button-area" :action="'/users/follow/' + user.id">
@@ -162,6 +165,7 @@ export default {
 .user-comment-area {
   text-align: center;
   padding: 0 20px 10px 20px;
+  height: 50px;
 }
 
 .user-comment-area p {
