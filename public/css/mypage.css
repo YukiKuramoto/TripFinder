@@ -1,7 +1,5 @@
-@charset "UTF-8";
-
 .mypage {
-  padding: 150px 10% 90px 10%;
+  padding: 120px 10% 90px 10%;
 }
 
 .contents-outer {
@@ -95,64 +93,6 @@
 
 .contents-outer .contents-wrapper .contents-post {
   height: 100%;
-  /* ulのデフォルトスタイルを消去 */
-  /* タブの基本スタイル */
-  /* 非選択のタブにマウスカーソルを乗せたら色を変える */
-  /* 選択中のタブの色を設定 */
-  /* タブコンテンツ表示エリア */
-  /* 各タブのコンテンツはデフォルトで非表示 */
-}
-
-.contents-outer .contents-wrapper .contents-post .tabs-menu {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  margin: 0 auto;
-  display: table;
-}
-
-.contents-outer .contents-wrapper .contents-post .tabs-menu li {
-  float: left;
-  text-align: center;
-  width: 160px;
-  margin-bottom: -1px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #999;
-  border-radius: 4px 4px 0 0;
-  /* 各プロパティをふわっと変える演出 */
-  transition: all 0.15s;
-}
-
-.contents-outer .contents-wrapper .contents-post .tabs-menu a {
-  display: block;
-  padding: 10px 20px;
-  color: #557F95;
-  text-decoration: none;
-}
-
-.contents-outer .contents-wrapper .contents-post .tabs-menu li:not(.active) {
-  background-color: #f3f3f3;
-}
-
-.contents-outer .contents-wrapper .contents-post .tabs-menu .active {
-  border-color: #999 #999 transparent #999;
-  background-color: #fff;
-}
-
-.contents-outer .contents-wrapper .contents-post .tabs-menu .active a {
-  color: #3F4548;
-}
-
-.contents-outer .contents-wrapper .contents-post .tabs-content {
-  clear: both;
-  border-top: 1px solid #999;
-  border-radius: 0 4px 4px 4px;
-  padding: 10px;
-}
-
-.contents-outer .contents-wrapper .contents-post .tabs-content section {
-  display: none;
 }
 
 @media (min-width: 1201px) {

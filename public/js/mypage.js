@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -93,40 +93,11 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-/**
- * selectorに該当するタブを表示する関数
- */
-var showTab = function showTab(selector) {
-  // 引数selectorの中身をコンソールで確認する
-  console.log(selector);
-  /* 1. タブの選択状態のリセット */
-  // いったん、すべての.tabs-menu > liからactiveクラスを削除する
-
-  $('.tabs-menu > li').removeClass('active'); // いったん、すべての.tabs-content > sectionを非表示にする
-
-  $('.tabs-content > section').hide();
-  /* 2. 選択されたタブの表示 */
-  // .tabs-menu liのうち、selectorに該当するものにだけactiveクラスを付ける
-
-  $(".tabs-menu a[href=\"".concat(selector, "\"]")).parent('li').addClass('active'); // .tabs-content > sectionのうち、selectorに該当するものだけを表示する
-
-  $(selector).show();
-}; // タブがクリックされたらコンテンツを表示
-
-
-$('.tabs-menu a').on('click', function (e) {
-  // hrefへのページ遷移を止める
-  e.preventDefault(); // hrefの値を受け取った後、showTab()関数に渡す。e.targetはクリックされたタブ（.tabs-menu a）を表す
-
-  var selector = $(e.target).attr('href');
-  showTab(selector);
-}); // 初期状態として1番目のタブを表示
-
-showTab('#tabs-1');
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/mypage.js'");
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!**************************************!*\
   !*** multi ./resources/js/mypage.js ***!
   \**************************************/

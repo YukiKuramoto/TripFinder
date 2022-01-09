@@ -8,7 +8,7 @@
 @endsection
 
 @section('child-js')
-<script src="{{ asset('js/searchpage.js') }}" defer></script>
+<script src="{{ asset('js/accordion.js') }}" defer></script>
 @endsection
 
 @section('form-content')

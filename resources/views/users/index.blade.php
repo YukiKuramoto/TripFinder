@@ -1,9 +1,10 @@
-@extends('layouts.home')
+@extends('app')
 @section('title', 'users')
 
 @section('css')
 <link href="{{ asset('css/usersview.css') }}" rel="stylesheet">
-<script src="{{ asset('js/mypage.js') }}" defer></script>
+<link href="{{ asset('css/tabs.css') }}" rel="stylesheet">
+<script src="{{ asset('js/tabs.js') }}" defer></script>
 @endsection
 
 @section('content')

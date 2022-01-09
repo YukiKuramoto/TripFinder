@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('app')
 @section('title', 'ホーム画面')
 
 @section('css')
@@ -15,7 +15,7 @@
             <div class="wrapper" id="search-wrapper">
                 <h2>お出かけプランを検索してみよう</h2>
                 <div id="search-form">
-                  <form class="search_container" method="post" action="{{ action('SearchController@homeSearch') }}">
+                  <form class="search_container" method="post" action="{{ action('Main\SearchController@homeSearch') }}">
                     {{ csrf_field() }}
                     <div class="search-box-wrapper">
                       <input type="text" size="25" name="search_word" placeholder="キーワード検索">
@@ -29,7 +29,7 @@
                 <h2>人気のエリアで検索</h2>
                 <section id="popular-area-section">
                     <div id="popular-area-list">
-                      <form name="thisform_tokyo" action="{{ action('SearchController@homeSearch') }}" method="post">
+                      <form name="thisform_tokyo" action="{{ action('Main\SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
                         <input type="text" name="search_word" value="東京">
@@ -40,7 +40,7 @@
                           </div>
                         </a>
                       </form>
-                      <form name="thisform_osaka" action="{{ action('SearchController@homeSearch') }}" method="post">
+                      <form name="thisform_osaka" action="{{ action('Main\SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
                         <input type="text" name="search_word" value="大阪">
@@ -51,7 +51,7 @@
                           </div>
                         </a>
                       </form>
-                      <form name="thisform_kyoto" action="{{ action('SearchController@homeSearch') }}" method="post">
+                      <form name="thisform_kyoto" action="{{ action('Main\SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
                         <input type="text" name="search_word" value="京都">
@@ -62,7 +62,7 @@
                           </div>
                         </a>
                       </form>
-                      <form name="thisform_okinawa" action="{{ action('SearchController@homeSearch') }}" method="post">
+                      <form name="thisform_okinawa" action="{{ action('Main\SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
                         <input type="text" name="search_word" value="沖縄">

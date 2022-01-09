@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -93,24 +93,11 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-// アコーディオンのタイトルがクリックされたら
-$('.accordion-title a').on('click', function (e) {
-  // hrefにページ遷移しない
-  e.preventDefault(); // 同じsection内の.accordion-contentを選択
-
-  var content = $(e.target).closest('section').find('.accordion-content'); // .accordion-contentが非表示の場合は
-
-  if (!content.is(':visible')) {
-    // 表示中のコンテンツを閉じる
-    $('.accordion-content:visible').slideUp(); // クリックされたコンテンツを表示
-
-    content.slideDown();
-  }
-});
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/searchpage.js'");
 
 /***/ }),
 
-/***/ 6:
+/***/ 5:
 /*!******************************************!*\
   !*** multi ./resources/js/searchpage.js ***!
   \******************************************/

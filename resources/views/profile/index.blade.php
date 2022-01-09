@@ -17,7 +17,7 @@
         <h2>プロフィールを編集しよう！</h2>
       </div>
       <div class="profile-form-outer">
-        <form class="profile-form-area" action="{{ action('ProfileController@update') }}" method="POST" enctype="multipart/form-data">
+        <form class="profile-form-area" action="{{ action('Main\ProfileController@update') }}" method="POST" enctype="multipart/form-data">
           <div class="profile-image-outer">
             <div class="profile-image-header form-row form-header">
               <p>写真を選択</p>

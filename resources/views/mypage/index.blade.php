@@ -1,9 +1,10 @@
-@extends('layouts.home')
+@extends('app')
 @section('title', 'mypage')
 
 @section('css')
 <link href="{{ asset('css/mypage.css') }}" rel="stylesheet">
-<script src="{{ asset('js/mypage.js') }}" defer></script>
+<link href="{{ asset('css/tabs.css') }}" rel="stylesheet">
+<script src="{{ asset('js/tabs.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -40,7 +41,7 @@
               </div>
               @if($login_uid == $postuser->id)
               <div class="profile-edit">
-                <a class="btn btn-secondary btn-submit" href="{{ action('ProfileController@edit') }}">
+                <a class="btn btn-secondary btn-submit" href="{{ action('Main\ProfileController@edit') }}">
                   編集
                 </a>
               </div>

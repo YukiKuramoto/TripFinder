@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -93,20 +93,11 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-/* jshint curly:true, debug:true */
-
-/* globals $ */
-
-/* globals Vue */
-$(function () {
-  $('.hash-tag').tagsInput({
-    width: '100%'
-  });
-});
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/post.js'");
 
 /***/ }),
 
-/***/ 3:
+/***/ 2:
 /*!************************************!*\
   !*** multi ./resources/js/post.js ***!
   \************************************/

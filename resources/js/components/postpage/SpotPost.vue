@@ -257,57 +257,177 @@
   }
 </script>
 
-<style media="screen" lang="scss">
+<style media="screen" lang="scss" scoped>
 
-  .file-select {
-    display: none;
+.item {
+  width: 100%;
+  height: 100%;
+  padding: 0 5%;
+  background-color: #fff;
+  box-shadow: 0 0 8px 0 rgb(0 0 0 / 15%);
+
+  .content-title {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
   }
 
-  .browse_btn {
-    background-color: #d3d3d3;
-    padding: 3px 15px;
-    border-radius: 8px;
-    font-weight: bold;
-  }
+  .title-area {
+    margin-top: 30px;
 
-  .browse_btn:hover {
-    cursor : pointer;
-  }
-
-
-  /* アコーディオンのタイトル部分 */
-  .spot-accordion-title {
-    margin: 0;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    font-size: 1rem;
-  }
-  .spot-accordion-title a {
-    display: block;
-    color: #3F4548;
-    text-decoration: none;
-  }
-
-  .spot-accordion-title:hover {
-    background-color: rgba(213, 218, 229, 0.9);
-    // transition: 0.4s;
-  }
-
-  /* アコーディオンのコンテンツ部分 */
-  .spot-accordion-content {
-    display: none;
-    border: 1px solid #ccc;
-    cursor: pointer;
-
-    .spot-accordion-content-area {
-      display: flex;
-      justify-content: space-between;
+    input {
+      width: calc(100% - 130px);
     }
   }
 
-  /* accordion-content-activeクラスが付いているものは初期状態で表示しておく */
-  .spot-accordion-content-active {
-    display: block;
+  .spot-detail-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    height: 300px;
+
+    .spot-detail-area {
+      width: 65%;
+
+      .spot-address-area {
+        margin-top: 30px;
+
+        input {
+          width: calc(100% - 90px);
+        }
+      }
+
+      .spot-tag-area {
+        margin-top: 50px;
+
+        textarea {
+          width: 100%;
+          height: 80px;
+        }
+      }
+
+      .spot-area-title {
+        display: inline-block;
+        width: 90px;
+      }
+
+    }
+
+    .spot-image-area {
+      width: 30%;
+
+      .spot-image-view {
+        height: calc(100% - 35px);
+
+        img {
+          border-radius: 20px;
+          margin-top: 10px;
+          object-fit: cover;
+          max-width: 100%;
+          max-height: 100%;
+        }
+      }
+    }
+
   }
+
+  .spot-information-textarea {
+    height: 100px;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  .user-input {
+    border:1px solid #999;
+  }
+
+  .error-mark {
+    text-decoration: none;
+    display: inline;
+    color: #FF3333;
+  }
+
+  .link-form-area {
+    padding-bottom: 50px;
+
+    p {
+      margin: 0;
+      padding: 0;
+      font-size: 15px;
+    }
+
+    input {
+      width: 90%;
+    }
+
+    textarea {
+      width: 100%;
+    }
+
+    .form-row {
+      margin: 0 0 -1px 0;
+      padding: 8px;
+      border: 1px solid rgb(85,85,85, 0.5);
+    }
+
+    .form-header {
+      background-color: #EEEEEE;
+    }
+  }
+
+}
+
+
+// ここから手直し必要
+.file-select {
+  display: none;
+}
+
+.browse_btn {
+  background-color: #d3d3d3;
+  padding: 3px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.browse_btn:hover {
+  cursor : pointer;
+}
+
+
+/* アコーディオンのタイトル部分 */
+.spot-accordion-title {
+  margin: 0;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  font-size: 1rem;
+}
+.spot-accordion-title a {
+  display: block;
+  color: #3F4548;
+  text-decoration: none;
+}
+
+.spot-accordion-title:hover {
+  background-color: rgba(213, 218, 229, 0.9);
+  // transition: 0.4s;
+}
+
+/* アコーディオンのコンテンツ部分 */
+.spot-accordion-content {
+  display: none;
+  border: 1px solid #ccc;
+  cursor: pointer;
+
+  .spot-accordion-content-area {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+/* accordion-content-activeクラスが付いているものは初期状態で表示しておく */
+.spot-accordion-content-active {
+  display: block;
+}
 
 </style>

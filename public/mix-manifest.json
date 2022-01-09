@@ -1,9 +1,7 @@
 {
+    "/js/accordion.js": "/js/accordion.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/css/jquery.tagsinput.css": "/css/jquery.tagsinput.css",
-    "/css/post.css": "/css/post.css",
-    "/css/planpage.css": "/css/planpage.css",
     "/css/home.css": "/css/home.css",
     "/css/mypage.css": "/css/mypage.css",
     "/css/login.css": "/css/login.css",
@@ -13,11 +11,12 @@
     "/css/usersview.css": "/css/usersview.css",
     "/css/searchpage.css": "/css/searchpage.css",
     "/css/spotview.css": "/css/spotview.css",
+    "/css/jquery.tagsinput.css": "/css/jquery.tagsinput.css",
+    "/css/accordion.css": "/css/accordion.css",
+    "/css/tabs.css": "/css/tabs.css",
     "/js/jquery.tagsinput.js": "/js/jquery.tagsinput.js",
     "/js/modal.js": "/js/modal.js",
-    "/js/mypage.js": "/js/mypage.js",
-    "/js/post.js": "/js/post.js",
     "/js/profile.js": "/js/profile.js",
-    "/js/searchpage.js": "/js/searchpage.js",
-    "/js/store.js": "/js/store.js"
+    "/js/tabs.js": "/js/tabs.js",
+    "/js/tags.js": "/js/tags.js"
 }

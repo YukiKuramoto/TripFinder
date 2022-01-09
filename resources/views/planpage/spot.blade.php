@@ -1,8 +1,7 @@
-@extends('layouts.home')
+@extends('app')
 @section('title', 'プランページ')
 
 @section('css')
-    <link href="{{ asset('css/planpage.css') }}" rel="stylesheet">
     <link href="{{ asset('css/spotview.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.tagsinput.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/start/jquery-ui.css">
@@ -32,7 +31,7 @@
         ></spot-view-component>
       </div>
       <div class="plan-move-area">
-        <a href="{{ action('PlanpageController@index', ['plan_id' => $plan->id]) }}" class="move-button btn btn-primary">プラン全体を見る</a>
+        <a href="{{ action('Main\PlanpageController@index', ['plan_id' => $plan->id]) }}" class="move-button btn btn-primary">プラン全体を見る</a>
       </div>
     </div>
   </div>

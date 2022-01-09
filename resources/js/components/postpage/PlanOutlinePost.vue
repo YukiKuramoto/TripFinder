@@ -77,3 +77,57 @@
     }
   }
 </script>
+
+<style media="screen" lang="scss" scoped>
+
+.item {
+  width: 100%;
+  height: 100%;
+  padding: 0 5%;
+  background-color: #fff;
+  box-shadow: 0 0 8px 0 rgb(0 0 0 / 15%);
+
+  .content-title {
+    text-align: center;
+    padding: 30px 0;
+    font-size: 30px;
+  }
+
+  .title-area {
+    margin-top: 30px;
+
+    input {
+      width: calc(100% - 130px);
+    }
+  }
+
+  .plan-textarea-title {
+    margin-top: 50px;
+
+  }
+
+  // 共通？？
+  textarea {
+    width: 100%;
+  }
+
+  .plan-information-textarea {
+    height: 250px;
+    margin-bottom: 120px;
+  }
+
+  // 共通？？
+  .user-input {
+    border:1px solid #999;
+  }
+
+  // 共通？？
+  .error-mark {
+    text-decoration: none;
+    display: inline;
+    color: #FF3333;
+  }
+
+}
+
+</style>

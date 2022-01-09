@@ -1,12 +1,11 @@
 .mypage {
-  padding: 150px 10% 90px 10%;
+  padding: 120px 10% 90px 10%;
 }
 
 .contents-outer {
   background-color: #fff;
   box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
   min-height: 920px;
-  // max-width: 1200px;
 
   .contents-title {
     text-align: center;
@@ -14,15 +13,11 @@
   }
 
   .contents-wrapper {
-    // display: flex;
-    // justify-content: center;
     height: 85%;
     margin-top: 50px;
 
     .contents-profile {
       margin-top: 40px;
-      // width: 30%;
-      // min-width: 370px;
 
       .profile-area-outer {
         border: solid 1px rgba(204, 204, 204, 0.8);
@@ -98,66 +93,6 @@
 
     .contents-post {
       height: 100%;
-      // width: 55%;
-      // padding-left: 30px;
-
-      /* ulのデフォルトスタイルを消去 */
-      .tabs-menu {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        margin: 0 auto;
-        display: table;
-      }
-
-      /* タブの基本スタイル */
-      .tabs-menu li {
-        float: left;
-        text-align: center;
-        width: 160px;
-        margin-bottom: -1px;
-        border-style: solid;
-        border-width: 1px;
-        border-color: #999;
-        border-radius: 4px 4px 0 0;
-
-        /* 各プロパティをふわっと変える演出 */
-        transition: all .15s;
-      }
-      .tabs-menu a {
-        display: block;
-        padding: 10px 20px;
-        color: #557F95;
-        text-decoration: none;
-      }
-
-      /* 非選択のタブにマウスカーソルを乗せたら色を変える */
-      .tabs-menu li:not(.active) {
-        background-color: #f3f3f3;
-      }
-
-      /* 選択中のタブの色を設定 */
-      .tabs-menu .active {
-        border-color: #999 #999 transparent #999;
-        background-color: #fff;
-      }
-
-      .tabs-menu .active a {
-        color: #3F4548;
-      }
-
-      /* タブコンテンツ表示エリア */
-      .tabs-content {
-        clear: both;
-        border-top: 1px solid #999;
-        border-radius: 0 4px 4px 4px;
-        padding: 10px;
-      }
-
-      /* 各タブのコンテンツはデフォルトで非表示 */
-      .tabs-content section {
-        display: none;
-      }
     }
   }
 }

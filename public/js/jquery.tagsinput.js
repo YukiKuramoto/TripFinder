@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/jquery.tagsinput.js":
-/*!******************************************!*\
-  !*** ./resources/js/jquery.tagsinput.js ***!
-  \******************************************/
+/***/ "./resources/js/functions/jquery.tagsinput.js":
+/*!****************************************************!*\
+  !*** ./resources/js/functions/jquery.tagsinput.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -270,7 +270,7 @@
       defaultText: '投稿にタグをつけよう！',
       minChars: 0,
       width: '300px',
-      height: '100px',
+      height: '70px',
       autocomplete: {
         selectFirst: false
       },
@@ -503,14 +503,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 8:
-/*!************************************************!*\
-  !*** multi ./resources/js/jquery.tagsinput.js ***!
-  \************************************************/
+/***/ 7:
+/*!**********************************************************!*\
+  !*** multi ./resources/js/functions/jquery.tagsinput.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/jquery.tagsinput.js */"./resources/js/jquery.tagsinput.js");
+module.exports = __webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/functions/jquery.tagsinput.js */"./resources/js/functions/jquery.tagsinput.js");
 
 
 /***/ })

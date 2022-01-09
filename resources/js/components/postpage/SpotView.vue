@@ -194,6 +194,17 @@
 </script>
 
 <style scoped lang="scss">
+
+.item {
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - 60px);
+  padding: 0 5%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
 .comment-anker-area {
   text-align: right;
   margin-top: 30px;
@@ -209,7 +220,169 @@
   cursor: pointer;
 }
 
-@media (min-width: 1251px) {
+//ここからスタート
+.spot-wrapper {
+  height: 100%;
+  padding: 0 50px;
+
+  .contents-header {
+    margin-bottom: 35px;
+    border-bottom: 1px solid rgb(85,85,85, 0.3);
+  }
+
+  .plan-title {
+    padding-top: 50px;
+    display: inline-block;
+
+    h2 {
+      border-bottom: solid 1px;
+    }
+  }
+
+  .spot-image-outline-wrapper {
+    height: 100%;
+    margin: 40px 0 0 0;
+
+    .spot-image-wrapper {
+      height: 300px;
+      display: flex;
+      justify-content: space-right;
+
+      img {
+        margin: 0 2px 2px 0;
+      }
+
+      .spot-main-image-wrapper {
+        height: 100%;
+
+        .spot-main-image {
+          height: 100%;
+          width: 250px;
+          border-radius: 10px;
+          object-fit: cover;
+        }
+      }
+
+      .spot-sub-image-wrapper {
+        width: 280px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .spot-sub-image {
+          height: 50%;
+          width: 250px;
+          border-radius: 10px;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .spot-outline-wrapper {
+
+      h3 {
+        font-weight: 700;
+      }
+
+      span {
+        margin-right: 20px;
+      }
+
+      .spot-detail-wrapper {
+
+        .tag-name {
+            display: inline-block;
+            font-size: 15px;
+            border-radius: 100vh;
+            padding: 2px 10px;
+            margin: 8px 10px 15px 0;
+            color: #fff;
+            background-color: #7dcafa;
+        }
+
+        .spot-detail-item {
+          margin-top: 20px;
+          font-size: 20px;
+
+          i {
+            margin-right: 10px;
+            font-size: 25px;
+          }
+        }
+
+        .spot-address-wrapper {
+          margin-top: 50px;
+
+          i {
+            color: #ff3333;
+          }
+        }
+
+        .spot-tag-wrapper {
+          margin-bottom: 30px;
+          i {
+            color: #666666;
+          }
+        }
+
+        .spot-fav-button {
+          margin-right: 10px;
+        }
+
+        .spot-unfav-btn {
+          background-color: #FFF;
+          color: #fcc800;
+          font-weight: 600;
+          border: solid 2px #fcc800;
+        }
+      }
+    }
+  }
+
+  .spot-infocomment-wrapper {
+    margin-top: 80px;
+    // display: flex;
+    // justify-content: space-between;
+    width: 100%;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .spot-info-wrapper {
+      white-space: pre-wrap;
+    }
+  }
+
+  .spot-link-wrapper{
+    margin-top: 50px;
+
+    .form-row {
+      min-width: 800px;
+      margin: 0 0 -1px 0;
+      padding: 8px;
+      border: 1px solid rgb(85,85,85, 0.5);
+    }
+
+    .form-header {
+      background-color: #f6f6f6;
+    }
+  }
+
+  .spot-map-wrapper {
+    margin-top: 50px;
+
+    .map {
+      margin: 30px 0 60px 0;
+      height: 400px;
+      width: 100%;
+    }
+  }
+}
+
+
+//レスポンシブ対応用CSS
+@media (min-width: 1341px) {
   .spot-image-outline-wrapper {
     display: flex;
     justify-content: space-around;
@@ -234,7 +407,7 @@
 
 }
 
-@media (max-width: 1250px) {
+@media (max-width: 1340px) {
   .spot-image-outline-wrapper {
     display: block;
   }

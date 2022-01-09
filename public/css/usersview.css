@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 .users-page {
   display: grid;
   place-items: center;
@@ -21,62 +19,5 @@
 .contents-outer .contents-wrapper {
   margin: 50px 0 0 0;
   padding: 0px 50px;
-  /* タブの基本スタイル */
-  /* 非選択のタブにマウスカーソルを乗せたら色を変える */
-  /* 選択中のタブの色を設定 */
-  /* タブコンテンツ表示エリア */
-  /* 各タブのコンテンツはデフォルトで非表示 */
-}
-
-.contents-outer .contents-wrapper .tabs-menu {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  margin: 0 auto;
-  display: table;
-}
-
-.contents-outer .contents-wrapper .tabs-menu li {
-  float: left;
-  text-align: center;
-  width: 200px;
-  margin-bottom: -1px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #999;
-  border-radius: 4px 4px 0 0;
-  /* 各プロパティをふわっと変える演出 */
-  transition: all 0.15s;
-}
-
-.contents-outer .contents-wrapper .tabs-menu a {
-  display: block;
-  padding: 10px 20px;
-  color: #557F95;
-  text-decoration: none;
-}
-
-.contents-outer .contents-wrapper .tabs-menu li:not(.active) {
-  background-color: #f3f3f3;
-}
-
-.contents-outer .contents-wrapper .tabs-menu .active {
-  border-color: #999 #999 transparent #999;
-  background-color: #fff;
-}
-
-.contents-outer .contents-wrapper .tabs-menu .active a {
-  color: #3F4548;
-}
-
-.contents-outer .contents-wrapper .tabs-content {
-  clear: both;
-  border-top: 1px solid #999;
-  border-radius: 0 4px 4px 4px;
-  padding: 10px;
-}
-
-.contents-outer .contents-wrapper .tabs-content section {
-  display: none;
 }
 

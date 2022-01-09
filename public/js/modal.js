@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/modal.js":
-/*!*******************************!*\
-  !*** ./resources/js/modal.js ***!
-  \*******************************/
+/***/ "./resources/js/functions/modal.js":
+/*!*****************************************!*\
+  !*** ./resources/js/functions/modal.js ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -106,14 +106,14 @@ $('body').on('click', function (e) {
 
 /***/ }),
 
-/***/ 7:
-/*!*************************************!*\
-  !*** multi ./resources/js/modal.js ***!
-  \*************************************/
+/***/ 6:
+/*!***********************************************!*\
+  !*** multi ./resources/js/functions/modal.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/modal.js */"./resources/js/modal.js");
+module.exports = __webpack_require__(/*! /Users/kuramotoyuuki/workspace/TechBoost/TripFinder/resources/js/functions/modal.js */"./resources/js/functions/modal.js");
 
 
 /***/ })

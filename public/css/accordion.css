@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+/* アコーディオンのタイトル部分 */
+
+.accordion-title {
+  margin: 0;
+  height: 60px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  font-size: 1rem;
+}
+
+.accordion-title a {
+  display: block;
+  height: 60px;
+  padding: 20px;
+  color: #3F4548;
+  text-decoration: none;
+}
+
+.accordion-title:hover {
+  background-color: rgba(213, 218, 229, 0.9);
+}
+
+/* アコーディオンのコンテンツ部分 */
+
+.accordion-content {
+  display: none;
+  padding: 20px 30px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.accordion-content .accordion-content-area {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion-content .accordion-content-area .plus-button {
+  margin-right: 10px;
+}
+
+.accordion-content:hover {
+  background-color: rgba(213, 218, 229, 0.6);
+}
+
+/* accordion-content-activeクラスが付いているものは初期状態で表示しておく */
+
+.accordion-content.accordion-content-active {
+  display: block;
+}
+

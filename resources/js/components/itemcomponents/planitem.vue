@@ -107,7 +107,7 @@ export default {
 }
 
 .item-component-wrapper {
-  padding-bottom: 80px;
+  padding-bottom: 40px;
 }
 
 .plan-item-wrapper{

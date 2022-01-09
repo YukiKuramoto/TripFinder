@@ -34,8 +34,8 @@
           ＊は入力必須項目です
         </div>
         <div class="carousel">
-          <div class="list" v-bind:style="_listStyle">
-            <div v-if="type=='post' || type=='planedit'" class="list__item">
+          <div :class="'list_' + type " v-bind:style="_listStyle">
+            <div v-if="type=='post' || type=='planedit'" class="list__item item_post">
               <planoutline-post-component
               :planOutline=planOutline
               :type=type
@@ -44,7 +44,7 @@
               ></planoutline-post-component>
             </div>
             <template v-if="type=='post' || type=='spotedit'" v-for="day in dayInfo">
-              <div v-for="(spot, index) in day.spotInfo" class="spot-content list__item">
+              <div v-for="(spot, index) in day.spotInfo" class="spot-content list__item item_post">
                 <spot-post-component
                 :spot=spot
                 :spotIndex=index
@@ -54,7 +54,7 @@
                 ></spot-post-component>
               </div>
             </template>
-            <div v-if="type=='view'" class="list__item">
+            <div v-if="type=='view'" class="item_view">
               <planoutline-view-component
               :planOutline= planOutline
               :dayInfo= dayInfo
@@ -64,7 +64,7 @@
               ></planoutline-view-component>
             </div>
             <template v-if="type=='view'" v-for="day in dayInfo">
-              <div v-for="(spot, key) in day.spotInfo" class="spot-content list__item">
+              <div v-for="(spot, key) in day.spotInfo" class="spot-content item_view">
                 <spot-view-component
                 :showstyle="spot.spot_display"
                 :planOutline=planOutline
@@ -472,7 +472,39 @@
   }
 </script>
 
-<style media="screen" scoped>
+<style media="screen" lang="scss" scoped>
+
+#post-body{
+    padding-top: 60px;
+    width: 100vw;
+    display: flex;
+    min-height: 800px;
+}
+
+#post-menu {
+    height: calc(100vh - 60px);
+    width: 250px;
+    background-color: #fff;
+    box-shadow: 0 0 8px 0 rgb(0 0 0 / 15%);
+    position: fixed;
+    z-index: 80;
+
+    #button-area {
+        padding: 0 15px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: space-around;
+
+        button {
+          padding: 8px 2px;
+          margin: 20px 0;
+          width: 80px;
+          font-size: 13px;
+        }
+    }
+}
+
 .btn-secondary{
   color: white;
 }
@@ -491,14 +523,64 @@
     color: #fff;
 }
 
-#error-msg-planedit{
-  width: 100%;
+.carousel {
+  overflow: hidden;
+
+  .list_post {
+    width: calc(100vw - 250px);
+    margin: 0 auto;
+    white-space: nowrap;
+    font-size: 0;
+    transition: transform 0.5s;
+    min-height: 800px;
+
+    .item_post {
+      display: inline-block;
+      vertical-align: top;
+      width: 100%;
+      height: 100%;
+      font-size: 16px;
+      padding: 50px 100px 25px 100px;
+    }
+  }
+
+  .list_view {
+    min-height: calc(100vh - 60px);
+    margin: 0 auto;
+    white-space: nowrap;
+    font-size: 0;
+    transition: transform 0.5s;
+
+    //コンテンツが見切れないために必要
+    .item_view {
+      white-space: normal;
+      overflow: scroll;
+    }
+
+    .item_view {
+        display: inline-block;
+        vertical-align: top;
+        width: 100%;
+        height: 100%;
+        font-size: 16px;
+      }
+  }
 }
 
-#error-msg-spotedit{
-  width: 100%;
+.submit-button-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  .post-submit-button {
+    width: 300px;
+  }
 }
 
+
+//呼び出しモードによってCSSを切り替え
+
+//投稿モード「postpage」時のCSS
 #error-msg-post{
   width: calc(100vw - 250px);
 }
@@ -508,17 +590,29 @@
   margin-left: 250px;
 }
 
-#post-form-view {
-  width: calc(100vw - 250px);
-  margin-left: 250px;
+//編集モード「planedit」時のCSS
+#error-msg-planedit{
+  width: 100%;
 }
 
 #post-form-planedit {
   width: 100%;
 }
 
+//編集モード「spotedit」時のCSS
+#error-msg-spotedit{
+  width: 100%;
+}
+
 #post-form-spotedit {
   width: 100%;
 }
+
+//閲覧モード「view」時のCSS
+#post-form-view {
+  width: calc(100vw - 250px);
+  margin-left: 250px;
+}
+
 
 </style>
