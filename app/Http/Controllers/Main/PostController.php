@@ -27,7 +27,7 @@ use Storage;
 
 class PostController extends Controller
 {
-    //
+
     public function show()
     {
         return view('post.index', ['type' => 'post']);
@@ -35,13 +35,12 @@ class PostController extends Controller
 
     public function create(PostRequest $request)
     {
-      // dd(json_decode($request->all()['day_0_spot_0_image_0']));
+
         // ユーザーID特定
         $uid = Auth::id();
         DB::beginTransaction();
 
         try {
-          Log::info('ログサンプル', ['memo' => 'sample1']);
           // リクエスト内容全体を取得
           $request_body = $request->all();
           // dd($request->all());

@@ -13,170 +13,147 @@ use App\Tag;
 
 class SearchController extends Controller
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Search Controller
+  |--------------------------------------------------------------------------
+  |
+  | リクエスト内の検索ワードに基づき検索処理を行うコントローラー
+  | 検索処理実行はDataBaseService内に定義したFunctionによって実行
+  | index       : 検索画面用ビュー表示
+  | homeSearch  : ホーム画面から検索時のプラン処理
+  | planSearch  : 検索画面から検索時のプラン検索処理
+  | spotSearch  : 検索画面から検索時のスポット検索処理
+  | userSearch  : 検索画面から検索時のユーザー検索処理
+  |
+  */
+
+    // ホーム画面表示プラン・スポット・ユーザー数
+    const planViewNum = 6;
+    const spotViewNum = 6;
+    const userViewNum = 3;
     private $DataBaseService;
+
     public function __construct(DataBaseService $DB_service)
     {
         $this->DataBaseService = $DB_service;
     }
 
 
+    /**
+    * コメント投稿用ビュー表示用function
+    *
+    * @return Illuminate\Contracts\Support\Renderable      検索用ビュー
+    */
     public function index()
     {
       return view('searchpage.index');
     }
 
+
+    /**
+    * ホーム画面から検索実行function
+    *
+    * @param Illuminate\Http\Request $request              Httpリクエスト
+    * @return Illuminate\Contracts\Support\Renderable      検索結果表示用ビュー
+    */
     public function homeSearch(Request $request)
     {
       $result = $this->planSearch($request);
       return view('searchpage.index', $result);
     }
 
+
+    /**
+    * 検索画面よりプラン検索実行function
+    *
+    * @param Illuminate\Http\Request $request              Httpリクエスト
+    * @return array $response                              検索結果配列
+    */
     public function planSearch(Request $request)
     {
       $request_form = $request->all();
       $search_key = [];
 
-      if(isset($request_form['search_word'])){
-        $search_key['search_word'] = $request_form['search_word'];
-      }
-      if(isset($request_form['transportation'])){
-        $search_key['transportation'] = $request_form['transportation'];
-      }
-      if(isset($request_form['duration'])){
-        $search_key['duration'] = $request_form['duration'];
-      }
-      if(isset($request_form['address'])){
-        $search_key['address'] = $request_form['address'];
-      }
-
+      // 検索キーワード取得処理
+      $search_key = $this->DataBaseService->getSearchKey($request_form, 'plan');
+      // 取得したキーワードを元にDB検索実行
       $response = $this->DataBaseService->SearchFromDB_Plan($search_key);
+      // 検索結果から重複データを削除実行
       $response = $this->removeDuplication($response);
+      // 検索結果を保存最新順にソート
       $response = $this->multiDescSortArray($response, 'updated_at');
+
+      // Vue.js表示用に関連情報を取得
       $response = $this->getPlans($response);
-      $response = $this->RemakeArray($response, 6);
-      // 検索結果なしの場合、リターン
-      if(count($response) == 0 || $response[0] == []) {
-        return ([
-          'result' => 'no_result',
-          'search_key' => $search_key,
-        ]);
-      // 非同期処理時のリターン
-      }elseif (isset($request_form['parameter'])) {
-        return ([
-          'response' => $response[$request->all()['page'] - 1],
-          'response_length' => count($response),
-          'search_key' => $search_key,
-          'result' => 'plan',
-          'parameter' => 'plan',
-        ]);
-      // 通常リターン
-      }else{
-        return ([
-          'response' => $response,
-          'search_key' => $search_key,
-          'result' => 'plan',
-          'parameter' => 'plan',
-        ]);
-      }
+
+      // ページネーション表示用に配列編集
+      $response = $this->RemakeArray($response, self::planViewNum);
+      // リターン用レスポンスを作成
+      $response = $this->DataBaseService->completeResponse($request_form, $response, $search_key, 'plan');
+
+      return $response;
+
     }
 
 
+    /**
+    * 検索画面よりスポット検索実行function
+    *
+    * @param Illuminate\Http\Request $request              Httpリクエスト
+    * @return array $response                              検索結果配列
+    */
     public function spotSearch(Request $request)
     {
       $request_form = $request->all();
       $search_key = [];
 
-      if(isset($request_form['search_word'])){
-        $search_key['search_word'] = $request_form['search_word'];
-      }
-      if(isset($request_form['stay'])){
-        $search_key['stay'] = $request_form['stay'];
-      }
-      if(isset($request_form['address'])){
-        $search_key['address'] = $request_form['address'];
-      }
-
+      // 検索キーワード取得処理
+      $search_key = $this->DataBaseService->getSearchKey($request_form, 'spot');
+      // 取得したキーワードを元にDB検索実行
       $response = $this->DataBaseService->SearchFromDB_Spot($search_key);
+      // 検索結果から重複データを削除実行
       $response = $this->removeDuplication($response);
+      // 検索結果を保存最新順にソート
       $response = $this->multiDescSortArray($response, 'updated_at');
+
+      // Vue.js表示用に関連情報を取得
       $response = $this->getSpots($response);
-      $response = $this->RemakeArray($response, 6);
+      // ページネーション表示用に配列編集
+      $response = $this->RemakeArray($response, self::spotViewNum);
+      // リターン用レスポンスを作成
+      $response = $this->DataBaseService->completeResponse($request, $response, $search_key, 'spot');
 
+      return $response;
 
-      // 検索結果なしの場合、リターン
-      if(count($response) == 0 || $response[0] == []) {
-        return ([
-          'result' => 'no_result',
-          'search_key' => $search_key,
-        ]);
-      // 非同期処理時のリターン
-      }elseif (isset($request_form['parameter'])) {
-        return ([
-          'response' => $response[$request->all()['page'] - 1],
-          'response_length' => count($response),
-          'search_key' => $search_key,
-          'result' => 'spot',
-          'parameter' => 'plan',
-        ]);
-      // 通常リターン
-      }else{
-        return ([
-          'response' => $response,
-          'search_key' => $search_key,
-          'result' => 'spot',
-          'parameter' => 'spot',
-        ]);
-      }
     }
 
 
-
+    /**
+    * 検索画面よりユーザー検索実行function
+    *
+    * @param Illuminate\Http\Request $request              Httpリクエスト
+    * @return array $response                              検索結果配列
+    */
     public function userSearch(Request $request)
     {
       $request_form = $request->all();
+      $login_user = Auth::user() == null ? 'undefined_user' : Auth::user();
       $search_key = [];
-      if(Auth::user()){
-        $login_user = Auth::user();
-      }else{
-        $login_user = 'undefined_user';
-      }
 
-      if(isset($request_form['search_word'])){
-        $search_key['search_word'] = $request_form['search_word'];
-      }
-
+      // 検索キーワード取得処理
+      $search_key = $this->DataBaseService->getSearchKey($request_form, 'user');
+      // 検索実行処理
       $response = $this->DataBaseService->SearchFromDB_User($search_key);
+
+      // Vue.js表示用に関連情報を取得
       $response = $this->getFollowInfo($response, Auth::id());
-      $response = $this->RemakeArray($response, 3);
+      // ページネーション表示用に配列編集
+      $response = $this->RemakeArray($response, self::userViewNum);
+      // リターン用レスポンスを作成
+      $response = $this->DataBaseService->completeResponse($request, $response, $search_key, 'user');
 
-
-      // 検索結果なしの場合、リターン
-      if(count($response) == 0 || $response[0] == []) {
-        return ([
-          'result' => 'no_result',
-        'search_key' => $search_key,
-      ]);
-      // 非同期処理時のリターン
-      }elseif (isset($request_form['parameter'])) {
-        return ([
-          'response' => $response[$request->all()['page'] - 1],
-          'response_length' => count($response),
-          'search_key' => $search_key,
-          'result' => 'user',
-          'parameter' => 'user',
-        ]);
-      // 通常リターン
-      }else{
-        return ([
-          'login_user' => $login_user,
-          'response' => $response,
-          'search_key' => $search_key,
-          'result' => 'user',
-          'parameter' => 'main',
-        ]);
-      }
+      return $response;
     }
-
-
 
 }

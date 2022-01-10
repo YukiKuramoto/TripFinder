@@ -22,7 +22,7 @@
 ></searchbody-component>
 @else
 <searchbody-component
-  :prop_response="{{ json_encode($response[0]) }}"
+  :prop_response="{{ json_encode($response) }}"
   :prop_length="{{ count($response) }}"
   :prop_search_key="{{ json_encode($search_key) }}"
   :prop_parameter="{{ json_encode($parameter) }}"

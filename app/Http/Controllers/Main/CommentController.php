@@ -12,63 +12,99 @@ use App\SpotComment;
 
 class CommentController extends Controller
 {
-    //
+  /*
+  |--------------------------------------------------------------------------
+  | Comment Controller
+  |--------------------------------------------------------------------------
+  |
+  | 投稿されたスポットに対するユーザーのコメントの表示、登録削除を行うコントローラー
+  | index   : コメント投稿用ビュー表示
+  | create  : コメント登録
+  | show    : コメント一覧画面表示
+  | delete  : コメント削除
+  |
+  */
+
+
+   /**
+   * コメント投稿用ビュー表示用function
+   *
+   * @param Illuminate\Http\Request $request              Httpリクエスト
+   * @return Illuminate\Contracts\Support\Renderable      コメント投稿用ビュー
+   */
     public function index(Request $request)
     {
+      // スポット情報からコメント投稿対象スポット、プランを特定
+      $user = Auth::id();
       $spot = Spot::find($request->spotId);
       $plan = $spot->plans;
-      $user = Auth::id();
 
       return view('comment.index', ['user' => $user, 'spot' => $spot, 'plan' => $plan]);
     }
 
 
+   /**
+   * コメント登録用function
+   *
+   * @param Illuminate\Http\Request $request              Httpリクエスト
+   * @return Illuminate\Contracts\Support\Renderable      コメント一覧表示用ビュー
+   */
     public function create(Request $request)
     {
       $comment = new SpotComment;
-      $comment_form = $request->all();
       $spot = Spot::find($comment_form['spot_id']);
       $plan = Plan::find($comment_form['plan_id']);
+
+      // DB登録処理
+      $comment_form = $request->all();
       unset($comment_form['_token']);
       unset($comment_form['plan_id']);
       $comment->fill($comment_form)->save();
 
-      foreach($spot->comments as $item){
-        $user = User::find($item->user_id);
-        $item->user_name = $user->name;
-        $item->user_image = $user->image_path;
-      }
+      // Vue.js表示用に関連情報を取得
+      $this->getCommentInfo($spot);
 
       return view('comment.show', ['plan' => $plan, 'spot' => $spot]);
     }
 
 
+   /**
+   * コメント一覧表示用function
+   *
+   * @param Illuminate\Http\Request $request              Httpリクエスト
+   * @return Illuminate\Contracts\Support\Renderable      コメント一覧表示用ビュー
+   */
     public function show(Request $request)
     {
       $request_form = $request->all();
       $plan = Plan::find($request_form['plan_id']);
       $spot = Spot::find($request_form['spot_id']);
 
-      foreach($spot->comments as $item){
-        $user = User::find($item->user_id);
-        $item->user_name = $user->name;
-        $item->user_image = $user->image_path;
-      }
+      // Vue.js表示用に関連情報を取得
+      $this->getCommentInfo($spot);
 
       return view('comment.show', ['plan' => $plan, 'spot' => $spot]);
     }
 
 
+   /**
+   * コメント削除用function
+   *
+   * @param Illuminate\Http\Request $request              Httpリクエスト
+   * @return Illuminate\Http\RedirectResponse　　　　      コメント削除対象プラン画面ビュー
+   */
     public function delete(Request $request)
     {
+      $current_uid = Auth::id();
       $comment = SpotComment::find($request->all()['comment_id']);
       $post_uid = $comment->user['id'];
-      $current_uid = Auth::id();
+
       // ユーザー確認
       if($this->checkLoginStatus($current_uid, $post_uid) == false){
         return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
       }
 
+      // DB削除処理
       $comment->delete();
 
       return redirect()->action('Main\PlanpageController@index', ['plan_id' => $request->all()['plan_id']]);

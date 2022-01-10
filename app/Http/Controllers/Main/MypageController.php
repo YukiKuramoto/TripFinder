@@ -14,17 +14,45 @@ use App\User;
 
 class MypageController extends Controller
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Mypage Controller
+  |--------------------------------------------------------------------------
+  |
+  | マイページ表示制御コントローラー
+  | index           : マイページ遷移時マイページ用ビューを表示
+  | index_nextplan  : プラン用ページネーションボタン押下時に次の表示用プランを取得・リターン
+  | index_nextspot  : スポット用ページネーションボタン押下時に次の表示用スポットを取得・リターン
+  |
+  */
+
+    // ホーム画面表示プラン・スポット数
+    const planViewNum = 3;
+    const spotViewNum = 4;
+
+
+    /**
+    * 対象ユーザーのマイページ画面ビュー表示用function
+    *
+    * @param  string $user_id                              ユーザーID
+    * @return Illuminate\Contracts\Support\Renderable      ホーム画面用ビュー
+    */
     public function index($user_id)
     {
       $user = User::find($user_id);
       $login_uid = Auth::id() != [] ? Auth::id() : 'undefined_user';
+
+      // Vue.js表示用に関連情報を取得
       $plans = $this->getPlans($user->plans);
       $plans_fav = $this->getPlans($user->favPlans);
       $spots_fav = $this->getSpots($user->favSpots);
-      $plans = $this->RemakeArray($plans, 3);
-      $plans_fav = $this->RemakeArray($plans_fav, 3);
-      $spots_fav = $this->RemakeArray($spots_fav, 4);
 
+      // ページネーション用に配列編集
+      $plans = $this->RemakeArray($plans, self::planViewNum);
+      $plans_fav = $this->RemakeArray($plans_fav, self::planViewNum);
+      $spots_fav = $this->RemakeArray($spots_fav, self::spotViewNum);
+
+      // マイページ取得＆リターン
       return view('mypage.index', [
         'login_uid' => $login_uid,
         'postuser' => $user,
@@ -35,24 +63,36 @@ class MypageController extends Controller
     }
 
 
-
+    /**
+    * プラン用ページネーションボタン押下時次のプラン取得・リターン用function
+    *
+    * @param  Illuminate\Http\Request $request      Httpリクエスト
+    * @return array                                 ページネート後プラン情報、ユーザー情報、ページネート数
+    */
     public function index_nextplan(Request $request)
     {
+      // requestからパラメータ、投稿ユーザーを取得
       $type = $request->all()['parameter'];
       $postuser = $request->all()['postuser'];
       $user = User::find($postuser['id']);
 
+      // パラメータによって取得対象がユーザーの投稿プラン一覧かお気に入りプラン一覧かを判別
       switch ($type) {
         case 'myplan':
+          // 投稿一覧情報取得し、Vue.js表示用に関連情報を取得
           $plans = $this->getPlans($user->plans);
           break;
 
         case 'favplan':
+          // お気に入り情報取得し、Vue.js表示用に関連情報を取得
           $plans = $this->getPlans($user->favPlans);
           break;
       }
-      $plans = $this->RemakeArray($plans, 3);
 
+      // ページネーション用に配列編集
+      $plans = $this->RemakeArray($plans, self::planViewNum);
+
+      // ページネート後プラン情報を含む連想配列リターン
       return ([
         'postuser' => $user,
         'response' => $plans[$request->all()['page'] - 1],
@@ -61,13 +101,23 @@ class MypageController extends Controller
     }
 
 
+    /**
+    * スポット用ページネーションボタン押下時次のスポット取得・リターン用function
+    *
+    * @param  Illuminate\Http\Request $request      Httpリクエスト
+    * @return array                                 ページネート後プラン情報、ユーザー情報、ページネート数
+    */
     public function index_nextspot(Request $request)
     {
       $postuser = $request->all()['postuser'];
       $user = User::find($postuser['id']);
-      $spots = $this->getSpots($user->favSpots);
-      $spots = $this->RemakeArray($spots, 4);
 
+      // お気に入り情報取得し、Vue.js表示用に関連情報を取得
+      $spots = $this->getSpots($user->favSpots);
+      // ページネーション用に配列編集
+      $spots = $this->RemakeArray($spots, self::spotViewNum);
+
+      // ページネート後スポット情報を含む連想配列リターン
       return ([
         'postuser' => $user,
         'response' => $spots[$request->all()['page'] - 1],

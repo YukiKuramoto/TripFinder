@@ -53,7 +53,7 @@ export default {
         }
     },
     created: function(){
-      console.log(this.response);
+      console.log(this.parameter);
       this.page_current = 1;
       this.page_length = this.length;
       this.page_spots = this.response;

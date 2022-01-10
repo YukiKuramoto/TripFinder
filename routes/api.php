@@ -14,7 +14,8 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::post('api/post/create', 'PostController@create');
+// ?不要かも 20210111
+// Route::post('api/post/create', 'PostController@create');
 
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::middleware('auth:api')->get('/user', function (Request $request) {

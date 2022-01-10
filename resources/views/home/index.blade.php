@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'ホーム画面')
+@section('title', 'home')
 
 @section('css')
 <link href="{{ asset('css/home.css') }}" rel="stylesheet">
@@ -19,6 +19,7 @@
                     {{ csrf_field() }}
                     <div class="search-box-wrapper">
                       <input type="text" size="25" name="search_word" placeholder="キーワード検索">
+                      <input name="page" value=1 style="display:none;">
                       <input type="text" size="25" name="search_type" value="plan" style="display:none;">
                       <button type="submit"><i class="bi bi-search"></i></button>
                     </div>
@@ -32,6 +33,7 @@
                       <form name="thisform_tokyo" action="{{ action('Main\SearchController@homeSearch') }}" method="post">
                         {{ csrf_field() }}
                         <input type="text" name="search_type" value="plan">
+                        <input name="page" value=1>
                         <input type="text" name="search_word" value="東京">
                         <a href="javascript: thisform_tokyo.submit()">
                           <div>

@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'mypage')
+@section('title', 'profile')
 
 @section('css')
 <link href="{{ asset('css/mypage.css') }}" rel="stylesheet">
@@ -41,7 +41,7 @@
               </div>
               @if($login_uid == $postuser->id)
               <div class="profile-edit">
-                <a class="btn btn-secondary btn-submit" href="{{ action('Main\ProfileController@edit') }}">
+                <a class="btn btn-secondary btn-submit" href="{{ action('Main\ProfileController@index') }}">
                   編集
                 </a>
               </div>

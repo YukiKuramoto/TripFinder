@@ -55,8 +55,10 @@ export default {
       this.page_current = 1;
       this.page_length = this.length;
       this.page_plans = this.response;
+      console.log(this);
     },
     methods: {
+
       getNextpage: function(){
         let request = {};
         let that = this;
