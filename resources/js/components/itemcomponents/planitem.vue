@@ -37,11 +37,9 @@
 <script>
 export default {
     props: [
-        'postuser',
         'response',
         'length',
         'pagetype',
-        'parameter',
         'search_key',
     ],
     data() {
@@ -55,41 +53,23 @@ export default {
       this.page_current = 1;
       this.page_length = this.length;
       this.page_plans = this.response;
-      console.log(this);
     },
     methods: {
-
       getNextpage: function(){
         let request = {};
         let that = this;
-        this.createRequest(request);
+        
+        request.page = this.page_current;
+        request.search_key = this.search_key;
 
         axios.post('/' + this.pagetype + '/nextplan', request)
         .then(function(response){
-          console.log(response.data);
           that.page_length = response.data.response_length;
           that.page_plans = response.data.response;
         }).catch(function(error){
           console.log(error);
         })
       },
-      createRequest: function(request){
-
-        request.page = this.page_current;
-        request.parameter = this.parameter;
-
-        switch (this.pagetype) {
-          case 'mypage':
-            request.postuser = this.postuser;
-            break;
-          case 'search':
-            request.search_word = this.search_key.search_word;
-            request.duration = this.search_key.duration;
-            request.transportation = this.search_key.transportation;
-            request.address = this.search_key.address;
-            break;
-        }
-      }
     }
 }
 </script>

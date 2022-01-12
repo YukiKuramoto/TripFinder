@@ -1,6 +1,6 @@
 
 @extends('layouts.form')
-@section('title', 'comment')
+@section('title', 'Comment')
 
 @section('child-css')
 <link href="{{ asset('css/comment.css') }}" rel="stylesheet">

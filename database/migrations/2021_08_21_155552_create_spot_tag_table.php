@@ -15,8 +15,13 @@ class CreateSpotTagTable extends Migration
     {
         Schema::create('spot_tag', function (Blueprint $table) {
             $table->integer('tag_id');
-            $table->integer('spot_id');
+            $table->unsignedBigInteger('spot_id');
             $table->timestamps();
+
+            $table->foreign('spot_id')
+                  ->references('id')
+                  ->on('spots')
+                  ->onDelete('cascade');
         });
     }
 

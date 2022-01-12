@@ -8,226 +8,157 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\SpotEditRequest;
 use App\Http\Requests\PlanEditRequest;
+use App\Services\DBRegisterService;
 use \Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\Plan;
 use App\Spot;
-use App\Tag;
-use App\Image;
-use App\Link;
-use App\PlanTag;
-use App\SpotTag;
 use App\User;
-use App\FavPlan;
-use App\FavSpot;
-use App\SpotComment;
-use Storage;
+
 
 class PostController extends Controller
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Post Controller
+  |--------------------------------------------------------------------------
+  |
+  | プラン・スポット投稿保存用コントローラー
+  | ビジネスロジックはDBRegisterService内に定義したFunctionによって実行
+  |
+  | index          : 投稿画面用ビュー表示
+  | create         : プラン・スポット投稿データ新規保存処理
+  | planEditIndex  : 投稿済みPlanOutline編集画面用ビュー表示
+  | spotEditIndex  : 投稿済みSpot編集画面用ビュー表示
+  | planUpdate     : 投稿済みPlanOutline更新処理
+  | spotUpdate     : 投稿済みSpot更新処理
+  | delete         : プラン・スポット削除処理
+  |
+  */
 
-    public function show()
+
+    private $DBRegisterService;
+
+
+    public function __construct(DBRegisterService $DB_service)
     {
-        return view('post.index', ['type' => 'post']);
+      $this->DBRegisterService = $DB_service;
     }
 
+
+    /**
+    * プラン・スポット投稿用ビュー表示用function
+    *
+    * @return Illuminate\Contracts\Support\Renderable        プラン投稿用ビュー
+    */
+    public function index()
+    {
+      return view('post.index', ['type' => 'post']);
+    }
+
+
+    /**
+    * プラン・スポット新規作成function
+    * ユーザーが投稿したプラン・スポット内容をDBに保存する
+    *
+    * @param App\Http\Requests\PostRequest $request           Httpリクエスト
+    * @return \Symfony\Component\HttpFoundation\Response      実行結果レスポンスコード
+    */
     public function create(PostRequest $request)
     {
+      DB::beginTransaction();
 
+      try {
         // ユーザーID特定
         $uid = Auth::id();
-        DB::beginTransaction();
+        // リクエスト内ベース情報取得
+        $request_body = $request->all();
+        // プランアウトライン情報取得
+        $planOutline = $request_body['planOutline'];
+        // プラン情報取得
+        $dayInfo = $request_body['dayInfo'];
+        // プランタグ切り出し
+        $plan_tags = $planOutline['plan_tag'];
 
-        try {
-          // リクエスト内容全体を取得
-          $request_body = $request->all();
-          // dd($request->all());
-          $planOutline = $request_body['planOutline'];
-          $dayInfo = $request_body['dayInfo'];
-          // イメージデータのみにするため不要キー削除
-          unset(
-            $request_body['planOutline'],
-            $request_body['request'],
-            $request_body['dayInfo']
-          );
-          $request_images = $request_body;
+        // スポット画像配列作成
+        $image_array = $this->DBRegisterService->createImageArray('create', $request_body);
 
+        // プランアウトライン保存処理
+        $plan = $this->DBRegisterService->registerPlanOutline('create', $planOutline, $dayInfo, $uid, '');
+        // プランタグ保存処理
+        $this->DBRegisterService->registerTag($plan_tags, $plan->id, 'plan');
 
-          // キーに含まれるDay情報、Spot情報をもとに画像データ配列化
-          foreach ($request_images as $key => $image_item) {
-            [$d_index, $s_index, $i_index] = explode('_', $key);
-            // 画像データを$image_array['dayXXspotXX']の配列化
-            $array_key = 'day' . $d_index . 'spot' . $s_index;
+        //スポット関連情報保存処理
+        foreach ($dayInfo as $d_index => $day_form) {
+          foreach ($day_form['spotInfo'] as $s_index => $spot_form) {
 
-            if(!isset($image_array[$array_key])){
-              $image_array[$array_key] = [];
-            }
-            array_push($image_array[$array_key], $image_item);
+            // 画像連想配列のキーを作成
+            $image_key = 'day' . $d_index . 'spot' . $s_index;
+            // タグの取り出し
+            $spot_tags = $spot_form['spot_tag'];
+            $spot_link = $spot_form['spot_link'];
+
+            // スポット保存処理
+            $spot = $this->DBRegisterService->registerSpot('create', $spot_form, $plan, $uid, '');
+            // スポットタグ保存処理
+            $this->DBRegisterService->registerTag($spot_tags, $spot->id, 'spot');
+            // スポットリンク保存処理
+            $this->DBRegisterService->registerLink($spot_link, $spot->id);
+            // スポット画像保存処理
+            $this->DBRegisterService->registerImage($image_array[$image_key], $spot->id);
+
           }
-
-
-          // プランアウトライン保存
-          $plan = new Plan;
-          $plan_tags = $planOutline['plan_tag'];
-          $planOutline += [
-            'user_id' => $uid,
-            'plan_duration' => end($dayInfo)['day_count'] + 1
-          ];
-          unset($planOutline['plan_tag'], $planOutline['displayStyle']);
-          $plan->fill($planOutline)->save();
-          // プランタグ保存
-          $plan_tag = explode(',', $plan_tags);
-          $this->registerTag($plan_tag, $plan->id, 'plan');
-
-          //スポットデータ保存
-          foreach ($dayInfo as $d_index => $day_form) {
-            foreach ($day_form['spotInfo'] as $s_index => $spot_form) {
-              // dd($s_index);
-              // 登録必要データをセット
-              $spot_form += ['user_id' => $uid];
-              $spot_form += ['plan_id' => $plan->id];
-              $spot_form['spot_day'] = $spot_form['spot_day'] + 1;
-              // タグの取り出し
-              $spot_tags = $spot_form['spot_tag'];
-              $spot_link = $spot_form['spot_link'];
-
-              // 不要キー削除
-              unset(
-                $spot_form['spot_count'],
-                $spot_form['spot_display'],
-                $spot_form['spot_image_preview'],
-                $spot_form['spot_image'],
-                $spot_form['spot_tag'],
-                $spot_form['spot_link'],
-                $spot_form['spot_accordion_display'],
-              );
-
-              $spot = new Spot;
-              $spot->fill($spot_form)->save();
-              // スポットタグデータ保存処理
-              $spot_tag = explode(',', $spot_tags);
-              $this->registerTag($spot_tag, $spot->id, 'spot');
-
-
-              //スポットリンク保存処理
-              foreach($spot_link as $key => $link){
-                if(count($link) != 0){
-                  $new_link = new Link;
-                  $new_link->spot_id = $spot->id;
-                  $new_link->link_title = $link['link_title'];
-                  // dd(1);
-                  $new_link->link_url = $link['link_url'];
-                  $new_link->save();
-                }
-              }
-
-              // スポット画像データ保存
-              // dd($image_array);
-              foreach ($image_array['day' . $d_index . 'spot' . $s_index] as $image) {
-                $new_image = new Image;
-                $path = Storage::disk('s3')->putFile('/', $image, 'public');
-                $new_image->image_path = Storage::disk('s3')->url($path);
-                $new_image->spot_id = $spot->id;
-                $new_image->save();
-              }
-            }
-          }
-          // データをcommit
-          DB::commit();
-        } catch (\Exception $e){
-          // エラーの場合、ロールバック
-          DB::rollback();
-          //
-          return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
-          // logs()->error('エラーテスト');
-          return response()->json(['status' => 500]);
         }
-        return response()->json(['response_code' => Response::HTTP_CREATED, 'plan_id' => $plan->id]);
-        // return response()->json(['status' => 200]);
-    }
+        // データをcommit
+        DB::commit();
 
-
-    public function registerTag($tag_array, $post_id, $post_type)
-    {
-      foreach ($tag_array as $tag_name) {
-        if($tag_name == ""){
-          break;
-        }
-        // タグのDB登録処理
-        $tag = new Tag;
-        // リクエスト内タグ名でDB検索
-        $tag_db = Tag::where('name', $tag_name)->first();
-        // NULLの場合はタグをDBに新規登録
-        if($tag_db == null){
-          $tag_form = array('name' => $tag_name);
-          $tag->fill($tag_form)->save();
-          $tag_id = $tag->id;
-        }else{
-          $tag_id = $tag_db->id;
-        }
-
-        // Postタイプによって中間テーブル登録先変更
-        switch ($post_type) {
-          case 'plan':
-            $post_tag = new PlanTag;
-            $post_tag_form = array('plan_id' => $post_id, 'tag_id' => $tag_id);
-            break;
-
-          case 'spot':
-            $post_tag = new SpotTag;
-            $post_tag_form = array('spot_id' => $post_id, 'tag_id' => $tag_id);
-            break;
-
-          default:
-            echo "該当なし";
-            break;
-        }
-
-        // DB登録
-        $post_tag->fill($post_tag_form)->save();
+      } catch (\Exception $e){
+        // エラーの場合、ロールバック
+        DB::rollback();
+        // エラーレスポンス
+        return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
       }
+      // 実行完了レスポンス
+      return response()->json(['response_code' => Response::HTTP_CREATED, 'plan_id' => $plan->id]);
     }
 
 
-    public function edit($plan_id)
+    /**
+    * プランアウトライン編集画面表示用function
+    *
+    * @param string $plan_id                                  プランID
+    * @return Illuminate\Contracts\Support\Renderable         PlanOutline編集画面
+    */
+    public function planEditIndex($plan_id)
     {
-        $plan = Plan::find($plan_id);
-        $post_uid = $plan->user['id'];
-        $current_uid = Auth::id();
-        // ユーザー確認
-        if($this->checkLoginStatus($current_uid, $post_uid) == false){
-          return redirect()->action('Main\MypageController@index', ['user_id' => $current_uid]);
-        }
+      //ユーザー・プランアウトライン特定
+      $plan = Plan::find($plan_id);
+      $current_uid = Auth::id();
+      $post_uid = $plan->user['id'];
 
-        $plan_tag = "";
-        foreach($plan->tags as $tag){
-          $plan_tag = $plan_tag . $tag->name . ",";
-        }
-        $plan->plan_tag = $plan_tag;
+      // ユーザー確認
+      if($this->checkLoginStatus($current_uid, $post_uid) == false){
+        return redirect()->action('Main\MypageController@index', ['user_id' => $current_uid]);
+      }
 
-        foreach ($plan->spots as $spot) {
-          $spot->images;
-          $spot_tag = "";
-          foreach($spot->tags as $tag){
-            $spot_tag = $spot_tag . $tag->name . ",";
-          }
-          $spot->spot_tag = $spot_tag;
-        }
-        // dd($plan->plan_title);
-        return view('post.index', ['plan' => $plan, 'spot' => $plan->spots, 'type' => 'planedit']);
+      // Vue.js表示用に関連情報取得（タグは区切りに変換）
+      $plan->plan_tag = $this->mergeTags($plan);
+
+      return view('post.index', ['plan' => $plan, 'spot' => $plan->spots, 'type' => 'planedit']);
     }
 
 
-    public function spotedit($spot_id)
+    /**
+    * スポット編集画面表示用function
+    *
+    * @param string $spot_id                                  スポットID
+    * @return Illuminate\Contracts\Support\Renderable         スポット編集画面
+    */
+    public function spotEditIndex($spot_id)
     {
+      //ユーザー・スポット特定
       $spot = Spot::find($spot_id);
-      $spot->images;
-      $spot['spot_link'] = $spot->links;
-      $spot_tag = "";
-
-      //ユーザー特定
       $current_uid = Auth::id();
       $post_uid = $spot->user['id'];
 
@@ -236,228 +167,143 @@ class PostController extends Controller
         return redirect()->action('Main\MypageController@index', ['user_id' => $current_uid]);
       }
 
-      foreach($spot->tags as $tag){
-        $spot_tag = $spot_tag . $tag->name . ",";
-      }
-      $spot->spot_tag = $spot_tag;
+      // Vue.js表示用に関連情報取得（タグは区切りに変換）
+      $spot->images;
+      $spot['spot_link'] = $spot->links;
+      $spot->spot_tag = $this->mergeTags($spot);
 
       return view('post.index', ['spot' => $spot, 'type' => 'spotedit']);
     }
 
 
+    /**
+    * プランアウトライン更新用function
+    *
+    * @param App\Http\Requests\PostRequest $request           Httpリクエスト
+    * @return \Symfony\Component\HttpFoundation\Response      実行結果レスポンスコード
+    */
     public function planUpdate(PlanEditRequest $request, $plan_id)
     {
 
       DB::beginTransaction();
 
       try{
+        // リクエスト内ベース情報取得
         $request_body = $request->all();
-        $request_form = $request_body['planOutline'];
+        $planOutline = $request_body['planOutline'];
 
-        $plan_form = [];
-        $tag = $request_form['plan_tag'];
+        // タグ情報取得
+        $tag = $planOutline['plan_tag'];
 
-        // プラン特定
-        $plan = Plan::find($plan_id);
+        // 情報更新前に関連情報をInit
+        $this->DBRegisterService->initRelationalInfo('planOutline', $plan_id);
 
-        //ユーザー特定
-        $current_uid = Auth::id();
-        $post_uid = $plan->user['id'];
-
-        // ユーザー確認
-        if($this->checkLoginStatus($current_uid, $post_uid) == false){
-          return redirect()->action('Main\MypageController@index', ['user_id' => $current_uid]);
-        }
-
-        // 既存情報削除
-        PlanTag::where('plan_id', $plan_id)->delete();
-
-        // 必要情報セット
-        $plan_form += ['user_id' => $request_form['user_id']];
-        $plan_form += ['plan_title' => $request_form['plan_title']];
-        $plan_form += ['main_transportation' => $request_form['main_transportation']];
-        $plan_form += ['plan_duration' => $request_form['plan_duration']];
-        $plan_form += ['plan_information' => $request_form['plan_information']];
-
-        $plan->fill($plan_form)->save();
-
-        $plan_tag = explode(',', $tag);
-        $this->registerTag($plan_tag, $plan_id, 'plan');
+        // スポット保存処理
+        $plan = $this->DBRegisterService->registerPlanOutline('update', $planOutline,'','', $plan_id);
+        // プランタグ保存処理
+        $this->DBRegisterService->registerTag($tag, $plan_id, 'plan');
 
         // データをcommit
         DB::commit();
+
       } catch (\Exception $e){
         // エラーの場合、ロールバック
         DB::rollback();
-        //
+        //エラーレスポンス
         return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
       }
+      // 実行完了レスポンス
       return response()->json(['response_code' => Response::HTTP_CREATED, 'plan_id' => $plan_id]);
-
     }
 
 
+    /**
+    * スポット更新用function
+    *
+    * @param App\Http\Requests\PostRequest $request           Httpリクエスト
+    * @return \Symfony\Component\HttpFoundation\Response      実行結果レスポンスコード
+    */
     public function spotUpdate(SpotEditRequest $request, $spot_id)
     {
 
       DB::beginTransaction();
 
       try{
+        // リクエスト内ベース情報取得
         $request_body = $request->all();
-        $request_form = $request_body['dayInfo'];
-        unset($request_body['dayInfo'], $request_body['request']);
+        $dayInfo = $request_body['dayInfo'];
 
-        $image_array = [];
-        $spot_form = [];
-        $plan_id = $request_form['plan_id'];
-        $tag = $request_form['spot_tag'];
-        $link_array =  $request_form['spot_link'];
+        // タグ情報取得
+        $tag = $dayInfo['spot_tag'];
+        // リンク情報取得
+        $link =  $dayInfo['spot_link'];
+        // 画像配列取得
+        $image_array = $this->DBRegisterService->createImageArray('update', $request_body);
 
-        // スポット特定
-        $spot = Spot::find($spot_id);
-        $images = $spot->images;
-        $links = $spot->links;
+        // 情報更新前に関連情報をInit
+        $this->DBRegisterService->initRelationalInfo('spot', $spot_id);
 
-        //ユーザー特定
-        $current_uid = Auth::id();
-        $post_uid = $spot->user['id'];
+        // スポット保存処理
+        $spot = $this->DBRegisterService->registerSpot('update', $dayInfo, '', '', $spot_id);
+        // スポットタグ保存処理
+        $this->DBRegisterService->registerTag($tag, $spot->id, 'spot');
+        // スポットリンク保存処理
+        $this->DBRegisterService->registerLink($link, $spot->id);
+        // スポット画像保存処理
+        $this->DBRegisterService->registerImage($image_array, $spot->id);
 
-        // ユーザー確認
-        if($this->checkLoginStatus($current_uid, $post_uid) == false){
-          return redirect()->action('Main\MypageController@index', ['user_id' => $current_uid]);
-        }
-
-        // 既存情報削除
-        foreach($images as $image) {
-          Image::find($image->id)->delete();
-        }
-
-        foreach($links as $link) {
-          Link::find($link->id)->delete();
-        }
-
-        SpotTag::where('spot_id', $spot_id)->delete();
-
-        // DB登録前処理開始
-        // 写真配列作成
-        foreach ($request_body as $key => $image_item) {
-          array_push($image_array, $image_item);
-        }
-
-        // 必要情報セット
-        $spot_form += ['user_id' => $request_form['user_id']];
-        $spot_form += ['plan_id' => $request_form['plan_id']];
-        $spot_form += ['spot_title' => $request_form['spot_title']];
-        $spot_form += ['spot_duration' => $request_form['spot_duration']];
-        $spot_form += ['spot_address' => $request_form['spot_address']];
-        $spot_form += ['spot_day' => $request_form['spot_day']];
-        $spot_form += ['spot_information' => $request_form['spot_information']];
-
-        $spot->fill($spot_form)->save();
-
-        $spot_tag = explode(',', $tag);
-        $this->registerTag($spot_tag, $spot_id, 'spot');
-
-        // dd($link_array);
-
-        //スポットリンク保存処理
-        foreach($link_array as $key => $link){
-          if(count($link) != 0){
-            $new_link = new Link;
-            $new_link->spot_id = $spot->id;
-            $new_link->link_title = $link['link_title'];
-            $new_link->link_url = $link['link_url'];
-            $new_link->save();
-          }
-        }
-
-        foreach ($image_array as $image) {
-          $new_image = new Image;
-          $path = Storage::disk('s3')->putFile('/', $image, 'public');
-          $new_image->image_path = Storage::disk('s3')->url($path);
-          $new_image->spot_id = $spot_id;
-          $new_image->save();
-        }
         // データをcommit
         DB::commit();
+
       } catch (\Exception $e){
         // エラーの場合、ロールバック
         DB::rollback();
-        //
+        //エラーレスポンス
         return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
       }
+      // 実行完了レスポンス
       return response()->json(['response_code' => Response::HTTP_CREATED, 'plan_id' => $plan_id]);
     }
 
 
+    /**
+    * 投稿済みプラン削除用function
+    *
+    * @param string $spot_id                                  プランID
+    * @return Illuminate\Http\RedirectResponse　　　　      　　MyPage画面ビュー
+    */
     public function delete($plan_id)
     {
+
       DB::beginTransaction();
+
       try {
+        // プラン・投稿ユーザー・ログインユーザー取得
         $plan = Plan::find($plan_id);
-        $spots = $plan->spots;
-        $plan_tags = $plan->tags;
-        $plan_favs = $plan->favs;
         $post_uid = $plan->user['id'];
         $current_uid = Auth::id();
-
-        foreach ($spots as $spot) {
-          $images = $spot->images;
-          $comments = $spot->comments;
-          $spot_favs = $spot->favs;
-          $spot_tags = $spot->tags;
-        }
 
         // ユーザー確認
         if($this->checkLoginStatus($current_uid, $post_uid) == false){
           return redirect()->action('Main\MypageController@index', ['user_id' => $current_uid]);
         }
 
+        // プラン削除（関連情報は外部キー制約により削除）
         Plan::find($plan->id)->delete();
 
-        foreach($plan_tags as $tag) {
-          PlanTag::where('plan_id', $tag->plan_id)->delete();
-        }
-
-        foreach($plan_favs as $fav) {
-          FavPlan::find($fav->id)->delete();
-        }
-
-        foreach($spots as $spot) {
-          Spot::find($spot->id)->delete();
-        }
-
-        foreach($images as $image) {
-          Image::find($image->id)->delete();
-        }
-
-        foreach($comments as $comment) {
-          SpotComment::find($comment->id)->delete();
-        }
-
-        foreach($spot_favs as $fav) {
-          FavSpot::find($fav->id)->delete();
-        }
-
-        foreach($spot_tags as $tag) {
-          SpotTag::where('spot_id', $tag->spot_id)->delete();
-        }
-
+        // データをcommit
         DB::commit();
-        $uid = Auth::id();
-        return redirect()->action('Main\MypageController@index', ['user_id' => $uid]);
 
       } catch(\Exception $e){
+        // エラーの場合、ロールバック
         DB::rollback();
-        dd($e);
+        //エラーレスポンス
+        return response()->json('失敗しました', Response::HTTP_NOT_FOUND);
       }
+      // 実行完了レスポンス
+      return redirect()->action('Main\MypageController@index', ['user_id' => $current_uid]);
     }
 
-    public function del($class, $items)
-    {
-      foreach ($items as $item) {
-        $target = $class::find($item->id);
-      }
-    }
+
 
 }

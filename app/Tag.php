@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Tag Model
+  |--------------------------------------------------------------------------
+  |
+  | タグ情報保存用モデル
+  |
+  */
+
     protected $guarded = array('tag_id');
 
     public static $rules = array(

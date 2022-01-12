@@ -15,9 +15,15 @@ class CreateFavoritespotsTable extends Migration
     {
         Schema::create('favoritespots', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('spot_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('spot_id');
             $table->timestamps();
+
+            $table->foreign('spot_id')
+                  ->references('id')
+                  ->on('spots')
+                  ->onDelete('cascade');
+
         });
     }
 

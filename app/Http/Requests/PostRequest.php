@@ -6,6 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PostRequest extends FormRequest
 {
+  /*
+  |--------------------------------------------------------------------------
+  | PostRequest FormRequest
+  |--------------------------------------------------------------------------
+  |
+  | プランデータ新規投稿のPOSTリクエストに対し、
+  | JSON形式のHttpリクエストデータのバリデーション、JSONディコード処理実行FormRequest
+  |
+  */
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -39,6 +49,17 @@ class PostRequest extends FormRequest
         ];
     }
 
+
+    /**
+     * JSON形式リクエストをJSONからディコード処理し、以下形式に変換
+     * $data = [
+     *     'request' => JSON形式 Data,
+     *     'planOutline' => JSONディコード後 Data,
+     *     'dayInfo' => JSONディコード後 Data,
+     *     '××_××_××' => 画像データ]
+     *
+     * @return void
+     */
     protected function prepareForValidation()
     {
       $newData = $this->all();

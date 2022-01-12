@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class SpotComment extends Model
 {
+  /*
+  |--------------------------------------------------------------------------
+  | SpotComment Model
+  |--------------------------------------------------------------------------
+  |
+  | スポットコメント情報保存用モデル
+  |
+  */
+
   protected $table = 'spot_comment';
   protected $guarded = array('id');
 
@@ -14,7 +23,6 @@ class SpotComment extends Model
   {
     return $this->belongsTo('App\Spot', 'spot_id');
   }
-
 
   public function user()
   {

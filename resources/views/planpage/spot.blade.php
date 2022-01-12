@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'プランページ')
+@section('title', 'SpotPage')
 
 @section('css')
     <link href="{{ asset('css/spotview.css') }}" rel="stylesheet">

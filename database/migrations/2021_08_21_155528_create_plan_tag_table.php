@@ -14,9 +14,14 @@ class CreatePlanTagTable extends Migration
     public function up()
     {
         Schema::create('plan_tag', function (Blueprint $table) {
-            $table->integer('plan_id');
+            $table->unsignedBigInteger('plan_id');
             $table->integer('tag_id');
             $table->timestamps();
+
+            $table->foreign('plan_id')
+                  ->references('id')
+                  ->on('plans')
+                  ->onDelete('cascade');
         });
     }
 

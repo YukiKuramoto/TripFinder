@@ -18,9 +18,9 @@ Route::get('/home', 'Main\HomeController@index')->name('home');
 
 // プラン投稿関連ルーティング
 Route::group(['prefix' => 'post'], function(){
-  Route::get('/', 'Main\PostController@show')->middleware('auth');
-  Route::get('/planedit/{plan_id}', 'Main\PostController@edit')->middleware('auth');
-  Route::get('/spotedit/{spot_id}', 'Main\PostController@spotedit')->middleware('auth');
+  Route::get('/', 'Main\PostController@index')->middleware('auth');
+  Route::get('/planedit/{plan_id}', 'Main\PostController@planEditIndex')->middleware('auth');
+  Route::get('/spotedit/{spot_id}', 'Main\PostController@spotEditIndex')->middleware('auth');
   Route::post('/create', 'Main\PostController@create')->middleware('auth');
   Route::post('/delete/{plan_id}', 'Main\PostController@delete')->middleware('auth');
   Route::post('/planedit/{plan_id}', 'Main\PostController@planUpdate')->middleware('auth');
@@ -40,14 +40,15 @@ Route::group(['prefix' => 'index'], function(){
 // マイページ関連ルーティング
 Route::group(['prefix' => 'mypage'], function(){
   Route::get('/{user_id}', 'Main\MypageController@index');
-  Route::post('/nextplan', 'Main\MypageController@index_nextplan');
-  Route::post('/nextspot', 'Main\MypageController@index_nextspot');
+  Route::post('myplan/nextplan', 'Main\MypageController@index_nextMyPlan');
+  Route::post('favplan/nextplan', 'Main\MypageController@index_nextFavPlan');
+  Route::post('favspot/nextspot', 'Main\MypageController@index_nextFavSpot');
 });
 
 // 検索ページ関連ルーティング
 Route::group(['prefix' => 'search'], function(){
   Route::get('/', 'Main\SearchController@index');
-  Route::post('/areasearch', 'Main\SearchController@homeSearch');
+  Route::post('/', 'Main\SearchController@homeSearch');
   Route::post('/nextplan', 'Main\SearchController@planSearch');
   Route::post('/nextspot', 'Main\SearchController@spotSearch');
   Route::post('/nextuser', 'Main\SearchController@userSearch');
@@ -72,5 +73,7 @@ Route::group(['prefix' => 'users'], function(){
   Route::get('/index', 'Main\UsersViewController@index')->middleware('auth');
   Route::get('/follow/{user_id}', 'Main\UsersViewController@follow')->middleware('auth');
   Route::get('/unfollow/{user_id}', 'Main\UsersViewController@unfollow')->middleware('auth');
-  Route::post('/nextuser', 'Main\UsersViewController@index_nextuser')->middleware('auth');
+  Route::post('/all/nextuser', 'Main\UsersViewController@index_nextAllUser')->middleware('auth');
+  Route::post('/favorite/nextuser', 'Main\UsersViewController@index_nextFavoriteUser')->middleware('auth');
+  Route::post('/follower/nextuser', 'Main\UsersViewController@index_nextFollwerUser')->middleware('auth');
 });

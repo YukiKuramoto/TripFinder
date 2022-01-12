@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'profile')
+@section('title', 'MyPage')
 
 @section('css')
 <link href="{{ asset('css/mypage.css') }}" rel="stylesheet">
@@ -62,29 +62,26 @@
         <section class="tabs-content">
           <section id="tabs-1">
             <planitem-component
-              :postuser="{{ json_encode($postuser) }}"
               :response="{{ json_encode($plans[0]) }}"
               :length="{{ count($plans) }}"
-              pagetype="mypage"
-              parameter="myplan"
+              pagetype="mypage/myplan"
+              :search_key="{{ json_encode($postuser) }}"
             ><planitem-component/>
           </section>
           <section id="tabs-2">
             <planitem-component
-              :postuser="{{ json_encode($postuser) }}"
               :response="{{ json_encode($plans_fav[0]) }}"
               :length="{{ count($plans_fav) }}"
-              pagetype="mypage"
-              parameter="favplan"
+              pagetype="mypage/favplan"
+              :search_key="{{ json_encode($postuser) }}"
             ><planitem-component/>
           </section>
           <section id="tabs-3">
             <spotitem-component
-              :postuser="{{ json_encode($postuser) }}"
               :response="{{ json_encode($spots_fav[0]) }}"
               :length="{{ count($spots_fav) }}"
-              pagetype="mypage"
-              parameter="favspot"
+              pagetype="mypage/favspot"
+              :search_key="{{ json_encode($postuser) }}"
             ><spotitem-component/>
           </section>
         </section>

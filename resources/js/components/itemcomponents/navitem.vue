@@ -24,22 +24,6 @@ export default{
   props:[
     'user_id',
   ],
-  data() {
-    return {
-
-    };
-  },
-  computed: {
-
-  },
-  created: function(){
-
-  },
-  beforeUpdate: function(){
-
-  },
-  methods: {
-  },
 }
 </script>
 

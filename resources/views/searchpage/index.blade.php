@@ -1,6 +1,6 @@
 
 @extends('layouts.form')
-@section('title', 'profile')
+@section('title', 'Search')
 
 @section('child-css')
 <link href="{{ asset('css/searchpage.css') }}" rel="stylesheet">
@@ -12,21 +12,27 @@
 @endsection
 
 @section('form-content')
-@if(!isset($result))
-<searchbody-component
-></searchbody-component>
-@elseif($result == 'no_result')
-<searchbody-component
-  :prop_result="{{ json_encode($result) }}"
-  :prop_search_key="{{ json_encode($search_key) }}"
-></searchbody-component>
+
+@if(!is_null(Auth::user()))
+  @if(isset($search_key))
+  <searchbody-component
+    :prop_search_key="{{ json_encode($search_key) }}"
+    :prop_login_uid="{{ Auth::user()->id }}"
+  ></searchbody-component>
+  @else
+  <searchbody-component
+    :prop_login_uid="{{ Auth::user()->id }}"
+  ></searchbody-component>
+  @endif
 @else
-<searchbody-component
-  :prop_response="{{ json_encode($response) }}"
-  :prop_length="{{ count($response) }}"
-  :prop_search_key="{{ json_encode($search_key) }}"
-  :prop_parameter="{{ json_encode($parameter) }}"
-  :prop_result="{{ json_encode($result) }}"
-></searchbody-component>
+  @if(isset($search_key))
+  <searchbody-component
+    :prop_search_key="{{ json_encode($search_key) }}"
+  ></searchbody-component>
+  @else
+  <searchbody-component
+  ></searchbody-component>
+  @endif
 @endif
+
 @endsection

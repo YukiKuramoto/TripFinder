@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'プラン投稿')
+@section('title', 'Post')
 
 @section('css')
     <link href="{{ asset('css/jquery.tagsinput.css') }}" rel="stylesheet">

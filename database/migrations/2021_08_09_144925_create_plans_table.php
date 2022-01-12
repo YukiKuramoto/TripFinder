@@ -15,12 +15,18 @@ class CreatePlansTable extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('plan_title');
             $table->string('main_transportation');
             $table->string('plan_duration');
             $table->string('plan_information');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
+
         });
     }
 

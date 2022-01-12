@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\DataBaseService;
+use App\Services\DBSearchService;
 use App\Http\Controllers\Controller;
 use App\Plan;
 use App\User;
@@ -19,7 +19,7 @@ class SearchController extends Controller
   |--------------------------------------------------------------------------
   |
   | リクエスト内の検索ワードに基づき検索処理を行うコントローラー
-  | 検索処理実行はDataBaseService内に定義したFunctionによって実行
+  | 検索処理実行はDBSearchService内に定義したFunctionによって実行
   | index       : 検索画面用ビュー表示
   | homeSearch  : ホーム画面から検索時のプラン処理
   | planSearch  : 検索画面から検索時のプラン検索処理
@@ -29,14 +29,14 @@ class SearchController extends Controller
   */
 
     // ホーム画面表示プラン・スポット・ユーザー数
-    const planViewNum = 6;
-    const spotViewNum = 6;
+    const planViewNum = 1;
+    const spotViewNum = 1;
     const userViewNum = 3;
-    private $DataBaseService;
+    private $DBSearchService;
 
-    public function __construct(DataBaseService $DB_service)
+    public function __construct(DBSearchService $DB_service)
     {
-        $this->DataBaseService = $DB_service;
+        $this->DBSearchService = $DB_service;
     }
 
 
@@ -47,7 +47,9 @@ class SearchController extends Controller
     */
     public function index()
     {
-      return view('searchpage.index');
+      // Vue.jsで検索実行されない用空の配列を渡す
+      $search_key = [];
+      return view('searchpage.index', ['search_key' => $search_key]);
     }
 
 
@@ -59,8 +61,10 @@ class SearchController extends Controller
     */
     public function homeSearch(Request $request)
     {
-      $result = $this->planSearch($request);
-      return view('searchpage.index', $result);
+      // ホーム画面から送信された検索ワードをセット
+      $search_key = $request->all()['search_key'];
+      return view('searchpage.index', ['search_key' => $search_key]);
+
     }
 
 
@@ -76,9 +80,10 @@ class SearchController extends Controller
       $search_key = [];
 
       // 検索キーワード取得処理
-      $search_key = $this->DataBaseService->getSearchKey($request_form, 'plan');
+      $search_key = $this->DBSearchService->getSearchKey($request_form['search_key'], 'plan');
       // 取得したキーワードを元にDB検索実行
-      $response = $this->DataBaseService->SearchFromDB_Plan($search_key);
+      $response = $this->DBSearchService->SearchFromDB_Plan($search_key);
+      // dd($response);
       // 検索結果から重複データを削除実行
       $response = $this->removeDuplication($response);
       // 検索結果を保存最新順にソート
@@ -90,7 +95,7 @@ class SearchController extends Controller
       // ページネーション表示用に配列編集
       $response = $this->RemakeArray($response, self::planViewNum);
       // リターン用レスポンスを作成
-      $response = $this->DataBaseService->completeResponse($request_form, $response, $search_key, 'plan');
+      $response = $this->DBSearchService->completeResponse($request_form, $response, $search_key, 'plan');
 
       return $response;
 
@@ -109,9 +114,9 @@ class SearchController extends Controller
       $search_key = [];
 
       // 検索キーワード取得処理
-      $search_key = $this->DataBaseService->getSearchKey($request_form, 'spot');
+      $search_key = $this->DBSearchService->getSearchKey($request_form['search_key'], 'spot');
       // 取得したキーワードを元にDB検索実行
-      $response = $this->DataBaseService->SearchFromDB_Spot($search_key);
+      $response = $this->DBSearchService->SearchFromDB_Spot($search_key);
       // 検索結果から重複データを削除実行
       $response = $this->removeDuplication($response);
       // 検索結果を保存最新順にソート
@@ -122,7 +127,7 @@ class SearchController extends Controller
       // ページネーション表示用に配列編集
       $response = $this->RemakeArray($response, self::spotViewNum);
       // リターン用レスポンスを作成
-      $response = $this->DataBaseService->completeResponse($request, $response, $search_key, 'spot');
+      $response = $this->DBSearchService->completeResponse($request, $response, $search_key, 'spot');
 
       return $response;
 
@@ -142,16 +147,16 @@ class SearchController extends Controller
       $search_key = [];
 
       // 検索キーワード取得処理
-      $search_key = $this->DataBaseService->getSearchKey($request_form, 'user');
+      $search_key = $this->DBSearchService->getSearchKey($request_form['search_key'], 'user');
       // 検索実行処理
-      $response = $this->DataBaseService->SearchFromDB_User($search_key);
+      $response = $this->DBSearchService->SearchFromDB_User($search_key);
 
       // Vue.js表示用に関連情報を取得
       $response = $this->getFollowInfo($response, Auth::id());
       // ページネーション表示用に配列編集
       $response = $this->RemakeArray($response, self::userViewNum);
       // リターン用レスポンスを作成
-      $response = $this->DataBaseService->completeResponse($request, $response, $search_key, 'user');
+      $response = $this->DBSearchService->completeResponse($request, $response, $search_key, 'user');
 
       return $response;
     }

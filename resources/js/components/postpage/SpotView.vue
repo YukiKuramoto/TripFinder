@@ -123,8 +123,6 @@
     },
     created: function(){
       this.setImage(this.spot);
-      // console.log(this.spot.spot_title + ':' + this.showstyle)
-      console.log(this.spot);
     },
     mounted: function(){
       this.initMapWithAddress(this.spot.spot_count, this.spot.spot_address);

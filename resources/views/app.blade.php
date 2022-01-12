@@ -8,6 +8,7 @@
         <title>@yield('title')</title>
         <script src="{{ asset('js/app.js') }}" defer></script>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link rel="shortcut icon" type="image/x-icon"  href="{{ asset('/favicon.ico') }}">
         <script src="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.31/dist/index.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.31/dist/styles.css">
         @yield('css')

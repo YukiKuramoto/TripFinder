@@ -1,6 +1,6 @@
 
 @extends('layouts.form')
-@section('title', 'comment')
+@section('title', 'Comment')
 
 @section('child-css')
 <link href="{{ asset('css/comment.css') }}" rel="stylesheet">
@@ -32,7 +32,7 @@
         <commentitem-component
           :plan="{{ $plan }}"
           :comments="{{ $spot->comments }}"
-          :login_uid="{{ Auth::id() }}">
+          login_uid="{{ Auth::id() != [] ? Auth::id() : 'undefined_user' }}">
         </commentitem-component>
       </div>
     </div>

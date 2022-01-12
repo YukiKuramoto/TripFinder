@@ -52,6 +52,7 @@ class CommentController extends Controller
     public function create(Request $request)
     {
       $comment = new SpotComment;
+      $comment_form = $request->all();
       $spot = Spot::find($comment_form['spot_id']);
       $plan = Plan::find($comment_form['plan_id']);
 

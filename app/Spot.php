@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Spot extends Model
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Spot Model
+  |--------------------------------------------------------------------------
+  |
+  | Spot情報保存用モデル
+  |
+  */
+
     protected $guarded = array('spot_id');
 
     public function user()

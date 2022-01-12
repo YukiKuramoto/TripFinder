@@ -69,26 +69,41 @@ class MypageController extends Controller
     * @param  Illuminate\Http\Request $request      Httpリクエスト
     * @return array                                 ページネート後プラン情報、ユーザー情報、ページネート数
     */
-    public function index_nextplan(Request $request)
+    public function index_nextMyPlan(Request $request)
     {
-      // requestからパラメータ、投稿ユーザーを取得
-      $type = $request->all()['parameter'];
-      $postuser = $request->all()['postuser'];
+      // requestから投稿ユーザーを取得
+      $postuser = $request->all()['search_key'];
       $user = User::find($postuser['id']);
 
-      // パラメータによって取得対象がユーザーの投稿プラン一覧かお気に入りプラン一覧かを判別
-      switch ($type) {
-        case 'myplan':
-          // 投稿一覧情報取得し、Vue.js表示用に関連情報を取得
-          $plans = $this->getPlans($user->plans);
-          break;
+      // 投稿一覧情報取得し、Vue.js表示用に関連情報を取得
+      $plans = $this->getPlans($user->plans);
+      // ページネーション用に配列編集
+      $plans = $this->RemakeArray($plans, self::planViewNum);
 
-        case 'favplan':
-          // お気に入り情報取得し、Vue.js表示用に関連情報を取得
-          $plans = $this->getPlans($user->favPlans);
-          break;
-      }
+      // ページネート後プラン情報を含む連想配列リターン
+      return ([
+        'postuser' => $user,
+        'response' => $plans[$request->all()['page'] - 1],
+        'response_length' => count($plans),
+      ]);
+    }
 
+
+
+    /**
+    * プラン用ページネーションボタン押下時次のプラン取得・リターン用function
+    *
+    * @param  Illuminate\Http\Request $request      Httpリクエスト
+    * @return array                                 ページネート後プラン情報、ユーザー情報、ページネート数
+    */
+    public function index_nextFavPlan(Request $request)
+    {
+      // requestから投稿ユーザーを取得
+      $postuser = $request->all()['search_key'];
+      $user = User::find($postuser['id']);
+
+      // お気に入り情報取得し、Vue.js表示用に関連情報を取得
+      $plans = $this->getPlans($user->favPlans);
       // ページネーション用に配列編集
       $plans = $this->RemakeArray($plans, self::planViewNum);
 
@@ -107,9 +122,9 @@ class MypageController extends Controller
     * @param  Illuminate\Http\Request $request      Httpリクエスト
     * @return array                                 ページネート後プラン情報、ユーザー情報、ページネート数
     */
-    public function index_nextspot(Request $request)
+    public function index_nextFavSpot(Request $request)
     {
-      $postuser = $request->all()['postuser'];
+      $postuser = $request->all()['search_key'];
       $user = User::find($postuser['id']);
 
       // お気に入り情報取得し、Vue.js表示用に関連情報を取得

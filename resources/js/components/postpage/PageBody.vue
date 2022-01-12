@@ -92,6 +92,7 @@
 </template>
 
 <script>
+
   export default{
     props:[
       'plandata',
@@ -174,6 +175,7 @@
       });
     },
     methods: {
+
       /**
        * 投稿閲覧画面用に各スポット情報カルーセルのCss初期値をセットする関数
        * ページ読み込み時はプランアウトラインがメインで表示されるためスポットDisplayはnone
@@ -226,6 +228,7 @@
           });
         }
       },
+
       /**
        * 「addDay」ボタン押下時の新しい空の「Day」と「Spot」追加処理
        * @return {void}   - 戻り値なし
@@ -346,7 +349,6 @@
 
       spotDataUpdate: function(childData, spot_count_component){
         if(this.type=='post'){
-          console.log(childData);
           for(let i=0;i<this.dayInfo.length;i++){
             for(let j=0; j<this.dayInfo[i].spotInfo.length; j++){
               if(this.dayInfo[i].spotInfo[j].spot_count == spot_count_component){
@@ -542,6 +544,14 @@
       font-size: 16px;
       padding: 50px 100px 25px 100px;
     }
+  }
+
+  .list_spotedit {
+    padding: 50px 15em 30px 15em;
+  }
+
+  .list_planedit {
+    padding: 50px 15em 30px 15em;
   }
 
   .list_view {

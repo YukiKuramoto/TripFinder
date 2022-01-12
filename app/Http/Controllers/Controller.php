@@ -104,6 +104,18 @@ class Controller extends BaseController
 
     }
 
+
+    public function getSpotsDetail($spot)
+    {
+      // スポット詳細情報取得
+      $spot->tags;
+      $spot->images;
+      $spot->favs;
+      $spot->user;
+      $spot->links;
+    }
+
+
     public function getFollowInfo($users, $current_user_id)
     {
       foreach($users as $user){
@@ -121,6 +133,15 @@ class Controller extends BaseController
     }
 
 
+    public function decideFavStatus($favObject)
+    {
+      if(count($favObject) == 0){
+        return false;
+      }else{
+        return true;
+      };
+    }
+
     /**
     * コメント一覧表示Vue.js用に関連情報取得function
     * 取得対象（ユーザー名、ユーザープロフィール画像パス）
@@ -136,4 +157,15 @@ class Controller extends BaseController
         $item->user_image = $user->image_path;
       }
     }
+
+    public function mergeTags($targetObject)
+    {
+      $tag_string = '';
+      foreach($targetObject->tags as $tag){
+        $tag_string = $tag_string . $tag->name . ",";
+      }
+
+      return $tag_string;
+    }
+
 }

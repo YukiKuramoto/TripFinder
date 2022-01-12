@@ -15,9 +15,14 @@ class CreateFavoriteplansTable extends Migration
     {
         Schema::create('favoriteplans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('plan_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('plan_id');
             $table->timestamps();
+
+            $table->foreign('plan_id')
+                  ->references('id')
+                  ->on('plans')
+                  ->onDelete('cascade');
         });
     }
 

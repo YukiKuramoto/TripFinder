@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plan extends Model
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Plan Model
+  |--------------------------------------------------------------------------
+  |
+  | プラン情報保存用モデル
+  |
+  */
+
     protected $guarded = array('plan_id');
 
     public function spots()

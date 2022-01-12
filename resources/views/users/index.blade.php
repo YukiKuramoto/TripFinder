@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'users')
+@section('title', 'Users')
 
 @section('css')
 <link href="{{ asset('css/usersview.css') }}" rel="stylesheet">
@@ -24,7 +24,7 @@
               :response="{{ json_encode($users[0]) }}"
               :login_user="{{ $login_uid }}"
               :length="{{ json_encode(count($users)) }}"
-              pagetype="users"
+              pagetype="users/all"
               parameter="all"
             ></useritem-component>
           </section>
@@ -33,7 +33,7 @@
               :response="{{ json_encode($favorite_users[0]) }}"
               :login_user="{{ $login_uid }}"
               :length="{{ count($favorite_users) }}"
-              pagetype="users"
+              pagetype="users/favorite"
               parameter="favorite"
             ></useritem-component>
           </section>
@@ -42,7 +42,7 @@
               :response="{{ json_encode($follower_users[0]) }}"
               :login_user="{{ $login_uid }}"
               :length="{{ count($follower_users) }}"
-              pagetype="users"
+              pagetype="users/follower"
               parameter="follower"
             ></useritem-component>
           </section>

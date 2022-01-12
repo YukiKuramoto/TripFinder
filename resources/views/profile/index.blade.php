@@ -1,6 +1,6 @@
 
 @extends('layouts.form')
-@section('title', 'profile')
+@section('title', 'Profile')
 
 @section('child-css')
 <link href="{{ asset('css/profile.css') }}" rel="stylesheet">

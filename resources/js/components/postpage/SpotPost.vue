@@ -70,8 +70,7 @@
                 <input type="file"
                 class="file-select"
                 :id="'file-select' + spot.spot_day + '_' + spotIndex"
-                @input="SelectImage(spot.spot_count, $event.currentTarget)"
-                multiple="multiple">
+                @input="SelectImage(spot.spot_count, $event.currentTarget)">
                 {{ image_count }}枚選択
               </label>
             </div>
@@ -128,7 +127,6 @@
       }
     },
     created: function(){
-      console.log(this.type);
       if(this.type=='post'){
         this.spot.spot_duration = "0.5時間"
       }else if(this.type == 'spotedit'){
@@ -139,26 +137,20 @@
       $('.hash-tag').tagsInput({width:'100%'});
     },
     updated: function(){
-      console.log("updated");
       this.$emit('spotUpdate', this.spot, this.spot.spot_count);
     },
     methods: {
       ClearImage: function(){
-        console.log("clear");
-        console.log(this.spot);
         this.spot.spot_image = [];
         this.image_count = this.spot.spot_image.length;
         $('#preview-image' + this.spot.spot_count).attr('src', "");
       },
       SelectImage: function(Key, Target){
 
-        console.log(this.spot);
-        // this.spot.spot_image = [];
         if (this.spot.spot_image.length === 3){
           alert('登録ファイルの上限数は3つまでです');
           return;
         }
-        // $('#preview-image' + this.spot.spot_count).attr('src', '');
 
         for(let file of Target.files){
 
@@ -215,6 +207,7 @@
                   type: file.type,
                 });
                 console.log(imageFile.size);
+
                 // 圧縮後ファイルをVueComponentsにセット
                 vueComponents.spot.spot_image.push(imageFile);
                 vueComponents.image_count = vueComponents.spot.spot_image.length;
@@ -240,7 +233,6 @@
           }
         }
 
-        console.log(count);
       },
       showLinkInput: function(e) {
         e.preventDefault();
@@ -258,6 +250,14 @@
 </script>
 
 <style media="screen" lang="scss" scoped>
+
+input, select, textarea{
+  padding-left: 10px;
+}
+
+select {
+  width: 100px;
+}
 
 .item {
   width: 100%;

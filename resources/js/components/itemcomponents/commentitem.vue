@@ -32,24 +32,6 @@
       'comments',
       'login_uid',
     ],
-    data() {
-      return {
-        mainImage: '',
-        subImage: [],
-      };
-    },
-    computed: {
-
-    },
-    created: function(){
-      console.log(this.plan.id)
-    },
-    mounted: function(){
-
-    },
-    methods: {
-
-    },
   }
 </script>
 

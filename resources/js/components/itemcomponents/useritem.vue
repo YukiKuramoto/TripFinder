@@ -27,7 +27,7 @@
             <p v-if="user.comment !== null">{{ user.comment.substr(0,30) }}</p>
           </div>
         </a>
-        <div v-if="login_user != 'undefined_user'">
+        <div v-if="login_user != ''">
           <form v-if="user.id == login_user" class="follow-button-area" :action="'/users/unfollow/' + user.id">
             <button type="submit" class="btn btn-secondary follow-btn" disabled>フォローする</button>
           </form>
@@ -55,7 +55,6 @@ export default {
       'length',
       'search_key',
       'pagetype',
-      'parameter',
     ],
     data() {
         return {
@@ -66,7 +65,6 @@ export default {
         }
     },
     created: function(){
-      console.log(this.response);
       this.page_current = 1;
       this.page_length = this.length;
       this.page_users = this.response;
@@ -74,16 +72,13 @@ export default {
     methods: {
       getNextpage: function(){
 
-        console.log(this.page_current);
         let params = {};
         let that = this;
         params.page = this.page_current;
-        params.parameter = this.parameter;
-        params.search_word = this.searchword;
+        params.search_key = this.search_key;
 
         axios.post('/' + this.pagetype +'/nextuser', params)
         .then(function(response){
-          console.log(response.data);
           that.page_length = response.data.response_length;
           that.page_users = response.data.response;
         }).catch(function(error){

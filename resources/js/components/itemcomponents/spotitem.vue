@@ -38,11 +38,10 @@
 <script>
 export default {
     props: [
-        'postuser',
+        // 'postuser',
         'response',
         'length',
         'pagetype',
-        'parameter',
         'search_key',
     ],
     data() {
@@ -53,43 +52,26 @@ export default {
         }
     },
     created: function(){
-      console.log(this.parameter);
       this.page_current = 1;
       this.page_length = this.length;
       this.page_spots = this.response;
     },
     methods: {
       getNextpage: function(){
-        console.log(this.parameter);
         let request = {};
         let that = this;
-        this.createRequest(request);
+
+        request.page = this.page_current;
+        request.search_key = this.search_key;
 
         axios.post('/' + this.pagetype + '/nextspot', request)
         .then(function(response){
-          console.log(response.data.spots);
           that.page_length = response.data.response_length;
           that.page_spots = response.data.response;
         }).catch(function(error){
           console.log(error);
         })
       },
-      createRequest: function(request){
-
-        request.page = this.page_current;
-        request.parameter = this.parameter;
-
-        switch (this.pagetype) {
-          case 'mypage':
-            request.postuser = this.postuser;
-            break;
-          case 'search':
-            request.search_word = this.search_key.search_word;
-            request.stay = this.search_key.stay;
-            request.address = this.search_key.address;
-            break;
-        }
-      }
     }
 }
 </script>
@@ -114,7 +96,7 @@ export default {
 }
 
 .spot-item-outer {
-  display: grid;
+  /* display: grid; */
   place-items: center;
   padding-bottom: 50px;
 }

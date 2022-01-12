@@ -80,6 +80,14 @@
 
 <style media="screen" lang="scss" scoped>
 
+input, select, textarea{
+  padding-left: 10px;
+}
+
+select {
+  width: 80px;
+}
+
 .item {
   width: 100%;
   height: 100%;
@@ -106,7 +114,6 @@
 
   }
 
-  // 共通？？
   textarea {
     width: 100%;
   }

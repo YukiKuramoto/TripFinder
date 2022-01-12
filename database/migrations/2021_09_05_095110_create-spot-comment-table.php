@@ -15,11 +15,16 @@ class CreateSpotCommentTable extends Migration
     {
       Schema::create('spot_comment', function (Blueprint $table) {
         $table->bigIncrements('id');
-        $table->integer('spot_id');
-        $table->integer('user_id');
+        $table->unsignedBigInteger('spot_id');
+        $table->unsignedBigInteger('user_id');
         $table->string('comment_title');
         $table->string('comment_content');
         $table->timestamps();
+
+        $table->foreign('spot_id')
+              ->references('id')
+              ->on('spots')
+              ->onDelete('cascade');
       });
     }
 
