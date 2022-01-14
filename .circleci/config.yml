@@ -20,7 +20,7 @@ jobs:
             # CircleCI に登録した秘密鍵を呼び出す
             - add_ssh_keys:
                 fingerprints:
-                  - goCOcA++RsAU5mw149QLTQ5mF5o4cTtV0qQfFaSK6PI
+                  - 19:7e:74:b1:b6:f7:0a:59:f8:11:74:bc:13:3a:95:26
             # CircleCI に登録した環境変数を使って SSH
             - run: ssh ${USER_NAME}@${HOST_NAME} 'cd /var/www/html/TripFinder && git pull'
 
