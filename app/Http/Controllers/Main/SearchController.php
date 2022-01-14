@@ -29,8 +29,8 @@ class SearchController extends Controller
   */
 
     // ホーム画面表示プラン・スポット・ユーザー数
-    const planViewNum = 1;
-    const spotViewNum = 1;
+    const planViewNum = 6;
+    const spotViewNum = 6;
     const userViewNum = 3;
     private $DBSearchService;
 
