@@ -22,7 +22,7 @@ jobs:
                 fingerprints:
                   - 0b:41:9c:34:ff:ca:1a:fe:7e:f8:4c:71:d1:e7:5e:39
             # CircleCI に登録した環境変数を使って SSH
-            - run: ssh ec2-user@18.182.212.64
+            - run: ssh ${USER_NAME}@${HOST_NAME} 'cd /var/www/html/TripFinder && git pull'
 
 workflows:
     version: 2
