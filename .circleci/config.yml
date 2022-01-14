@@ -2,6 +2,6 @@ version: 2
 jobs:
   build:
     docker:
-      - image cimg/node:lts
+      - image: cimg/node:lts
     steps:
-      -run: 'Hi World!!!'
+      - run: echo "hello world"
