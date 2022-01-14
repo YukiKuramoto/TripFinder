@@ -21,7 +21,7 @@ jobs:
             - add_ssh_keys:
                 fingerprints:
                   - 0b:41:9c:34:ff:ca:1a:fe:7e:f8:4c:71:d1:e7:5e:39
-            # CircleCI に登録した環境変数を使って SSH
+            # CircleCI に登録した環境変数を使って SSH接続
             - run: ssh ${USER_NAME}@${HOST_NAME} 'cd /var/www/html/TripFinder && git pull'
 
 workflows:
@@ -35,7 +35,7 @@ workflows:
                 requires:
                     # 依存性あるから deploy ジョブより先に build ジョブを実行してね、という命令
                     - build
-                # master ブランチに push された場合のみ deploy ジョブを実行するfilterd
+                # master ブランチに push された場合のみ deploy ジョブを実行するfilter
                 filters:
                     branches:
                         only: master
