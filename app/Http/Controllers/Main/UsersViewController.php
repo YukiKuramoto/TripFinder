@@ -27,7 +27,7 @@ class UsersViewController extends Controller
   */
 
     // ユーザー一覧画面ユーザー表示数
-    const userViewNum = 1;
+    const userViewNum = 6;
 
 
     /**

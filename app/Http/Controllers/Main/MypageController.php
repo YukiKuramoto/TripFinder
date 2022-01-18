@@ -27,8 +27,8 @@ class MypageController extends Controller
   */
 
     // ホーム画面表示プラン・スポット数
-    const planViewNum = 1;
-    const spotViewNum = 1;
+    const planViewNum = 3;
+    const spotViewNum = 4;
 
 
     /**
