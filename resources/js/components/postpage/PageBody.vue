@@ -409,10 +409,13 @@
         // axiosにて投稿データFormDataを送信
         axios.post('/post/create', formData, config)
         .then(function (response) {
-          console.log(response.request.status);
-          // window.location.href = '/index/' + response.data.plan_id;
+          // ステータスコード200が返ってきたら成功としてページ遷移
+          if(response.request.status == 200){
+            window.location.href = '/index/' + response.data.plan_id;
+          };
         })
         .catch(function (error) {
+          // ステータスコードが422なら失敗としてエラーメッセージ表示し、ボタン活性化
           if(error.response.status == 422){
             that.errorExist = true;
             $('#post-button').val('retry post');
@@ -420,12 +423,18 @@
           }
         });
       },
-
+      /**
+       * 既存投稿編集時のaxios通信
+       */
       EditData: function(){
 
+        // リクエストパラメータ
         let params = {};
+        // then句の中でVueインスタンスにアクセスできるよう代入
         let that = this;
+        // 編集対象特定用にidをセット
         let id;
+        // ボタンの非活性化、送信中メッセージ表示
         var config = {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -433,24 +442,36 @@
         };
 
         switch (this.type) {
+
           case 'spotedit':
+            // スポット編集用パラメータ作成関数呼び出し
             params = this.CreateSpotParams();
+            // 編集対象スポットidをセット
             id = this.dayInfo[0].spotInfo[0].id;
             break;
+
           case 'planedit':
+            // プラン編集用パラメータ作成関数呼び出し
             params = this.CreatePlanParams();
+            // 編集対象プランidをセット
             id = this.planOutline.id;
             break;
         }
 
+        // ボタンの非活性化、送信中メッセージ表示
         $('#post-button').val('now posting...');
         $("#post-button").attr('disabled', true);
 
+        // axiosにて投稿データFormDataを送信
         axios.post('/post/' + this.type + '/' + id, params, config)
         .then(function (response) {
-          window.location.href = '/index/' + response.data.plan_id;
+          // ステータスコード200が返ってきたら成功としてページ遷移
+          if(response.request.status == 200){
+            window.location.href = '/index/' + response.data.plan_id;
+          };
         })
         .catch(function (error) {
+          // ステータスコードが422なら失敗としてエラーメッセージ表示し、ボタン活性化
           if(error.response.status == 422){
             that.errorExist = true;
             $('#post-button').val('retry post');
@@ -458,7 +479,9 @@
           }
         });
       },
-
+      /**
+       * プランパラメータ作成
+       */
       CreatePlanParams: function(){
         let params = {};
         let formData = new FormData();
@@ -469,7 +492,9 @@
 
         return formData;
       },
-
+      /**
+       * スポットパラメータ作成
+       */
       CreateSpotParams: function(){
 
         let params = {};
