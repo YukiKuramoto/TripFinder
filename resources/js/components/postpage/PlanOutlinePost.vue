@@ -90,6 +90,7 @@ select {
 }
 
 .item {
+  min-width: 770px;
   width: 100%;
   height: 100%;
   padding: 0 5%;
@@ -111,7 +112,7 @@ select {
   }
 
   .plan-textarea-title {
-    margin-top: 50px;
+    margin-top: 30px;
 
   }
 

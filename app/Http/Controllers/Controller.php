@@ -118,11 +118,13 @@ class Controller extends BaseController
 
     public function getFollowInfo($users, $current_user_id)
     {
+      // dd($users);
       foreach($users as $user){
+        // dd($user->plans);
         $user->plans;
-        $user->followers;
-        foreach ($user->followers as $follow) {
-          if($follow->follower_user_id == $current_user_id){
+        $followers = $user->followers;
+        foreach ($followers as $follower) {
+          if($follower['id'] == $current_user_id){
             $user->follow_flg = true;
           }else{
             $user->follow_flg = false;

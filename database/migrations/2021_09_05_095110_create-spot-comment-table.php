@@ -35,6 +35,10 @@ class CreateSpotCommentTable extends Migration
      */
     public function down()
     {
-      Schema::dropIfExists('spot-comment');
+      Schema::table('spot_comment', function (Blueprint $table) {
+          $table->dropForeign('spot_comment_spot_id_foreign');
+      });
+
+      Schema::dropIfExists('spot_comment');
     }
 }

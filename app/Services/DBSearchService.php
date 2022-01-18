@@ -254,6 +254,7 @@ class DBSearchService
     */
     public function completeResponse($request_form, $response, $search_key, $type)
     {
+      $next_index = $request_form['next_index'];
 
       // 検索結果なしの場合、リターン
       if(count($response) == 0 || $response[0] == []) {
@@ -264,8 +265,8 @@ class DBSearchService
       // 非同期処理時のリターン
       }else{
         return ([
-          'response' => $response[$request_form['page'] - 1],
-          'response_length' => count($response),
+          'response' => $response[$next_index],
+          'total_page' => count($response),
           'search_key' => $search_key,
           'result' => $type,
         ]);

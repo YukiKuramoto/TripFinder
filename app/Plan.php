@@ -39,7 +39,7 @@ class Plan extends Model
 
     public function images()
     {
-      return $this->hasManyThrough ('App\Image', 'App\Spot');
+      return $this->hasManyThrough('App\Image', 'App\Spot');
     }
 
 }

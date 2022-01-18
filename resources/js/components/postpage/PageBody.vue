@@ -2,9 +2,15 @@
   <div id="post-body">
     <div id="post-menu" v-show="type == 'post' || type == 'view'">
       <div>
+        <div id="submit-button-area">
+          <input v-if="type == 'post'" type="hidden" name="_token" :value="csrf">
+          <input v-if="type == 'post'" type="button" class="btn btn-success post-submit-button" id="post-button" @click="SendData" value="post your plan">
+          <input v-else-if="type == 'planedit' || type == 'spotedit'" type="hidden" name="_token" :value="csrf">
+          <input v-else-if="type == 'planedit' || type == 'spotedit'" type="button" class="btn btn-success post-submit-button" id="post-button" @click="EditData" value="編集する">
+        </div>
         <div v-show="type == 'post'" id="button-area">
-          <button type="submit" id="dayadd-button" class="btn btn-secondary btn-submit" v-on:click="addDay">Add Day</button>
-          <button type="submit" id="daydelete-button" class="btn btn-secondary btn-submit" v-on:click="deleteDay">Delete Day</button>
+          <button id="dayadd-button" class="btn btn-secondary btn-submit" v-on:click.prevent="addDay">Add Day</button>
+          <button id="daydelete-button" class="btn btn-secondary btn-submit" v-on:click.prevent="deleteDay">Delete Day</button>
         </div>
         <section>
           <h2 class="accordion-title"><a href="#" v-on:click.prevent="showSpot">PlanOutline</a></h2>
@@ -77,14 +83,6 @@
               </div>
             </template>
           </div>
-          <div v-if="type == 'post'" class="submit-button-area">
-            <input type="hidden" name="_token" :value="csrf">
-            <input type="button" class="btn btn-success post-submit-button" id="post-button" @click="SendData" value="投稿する">
-          </div>
-          <div v-else-if="type == 'planedit' || type == 'spotedit'" class="submit-button-area">
-            <input type="hidden" name="_token" :value="csrf">
-            <input type="button" class="btn btn-success post-submit-button" id="post-button" @click="EditData" value="編集する">
-          </div>
         </div>
       </div>
     </form>
@@ -92,6 +90,12 @@
 </template>
 
 <script>
+
+  window.onkeydown = function(e) {
+    if (e.keyCode == 9)
+      return false; // Disable Tab!
+  }
+
 
   export default{
     props:[
@@ -125,10 +129,7 @@
       };
     },
     computed: {
-      /**
-       * this.currentNumを用いて右方向にどれだけスライドさせるかを算出する算出プロパティ
-       * @return {object}   result.transform - 右方向に何％スライドするか
-       */
+      // this.currentNumを用いて右方向にどれだけスライドさせるかを算出する算出プロパティ
       _listStyle() {
         return {
           transform: `translatex(${-100 * this.currentNum}%)`,
@@ -136,12 +137,11 @@
       },
     },
     /**
-     * vueインスタンス生成時（ページ構成時）初期値セット用関数
+     * ページ構成時初期値セット用関数
      * コンポーネント呼び出しtypeによって初期値セットを切り分け
      * view     : （投稿閲覧用）サーバーからリターンされた投稿情報と初期cssとして{display: none}をセット
      * planedit : （プラン編集用）サーバーからリターンされたプラン情報をセット
      * spotedit : （スポット編集用）サーバーからリターンされたスポット情報をセットし、空の画像用配列セット
-     * @return {void}   - 戻り値なし
      */
     created: function(){
 
@@ -164,23 +164,20 @@
         default:
       }
     },
-    /**
-     * vueインスタンスアップデート前実行関数
-     * Day、Spot追加時にタグ投稿用のインプット要素幅設定
-     * @return {void}   - 戻り値なし
-     */
-    beforeUpdate: function(){
-      $('.hash-tag').tagsInput({
-        width:'100%'
-      });
-    },
+    // /**
+    //  * vueインスタンスアップデート前実行関数
+    //  * Day、Spot追加時にタグ投稿用のインプット要素幅設定
+    //  */
+    // beforeUpdate: function(){
+    //   $('.hash-tag').tagsInput({
+    //     width:'100%'
+    //   });
+    // },
     methods: {
 
       /**
        * 投稿閲覧画面用に各スポット情報カルーセルのCss初期値をセットする関数
        * ページ読み込み時はプランアウトラインがメインで表示されるためスポットDisplayはnone
-       * @param  {object} dayInfo   - スポット情報オブジェクトを格納した配列
-       * @return {void}             - 戻り値なし
        */
       setStyle: function(dayInfo){
         this.dayInfo.forEach(day => {
@@ -194,8 +191,6 @@
        * ユーザークリック対象に応じ、カルーセルをスライドさせ、CSSを適用する関数
        * クリックされたスポットのスポットキーが -1 の場合プランアウトライン表示用CSS
        * クリックされたスポットのスポットキーが 1 以上の場合スポット表示用CSS
-       * @param  {type} spotKey   - クリックされたスポットの識別キー
-       * @return {void}           - 戻り値なし
        */
       carouselMove: function(spotKey){
         //currentNumを更新することで算出プロパティ実行させ、スライドさせる
@@ -231,7 +226,6 @@
 
       /**
        * 「addDay」ボタン押下時の新しい空の「Day」と「Spot」追加処理
-       * @return {void}   - 戻り値なし
        */
       addDay: function() {
         let newdayIndex = this.dayInfo.length;
@@ -258,7 +252,6 @@
       },
       /**
        * 「Delete Day」ボタン押下時のDay,Spot削除処理
-       * @return {void}   - 戻り値なし
        */
       deleteDay: function() {
         let targetIndex = this.dayInfo.length - 1;
@@ -277,8 +270,6 @@
 
       /**
        * プラスボタンクリック時のスポット追加処理
-       * @param  {number} dayIndex   - スポット追加対象のDayInfoインデックス
-       * @return {void}              - 戻り値なし
        */
       addSpot: function(dayIndex) {
 
@@ -301,26 +292,29 @@
       },
 
       /**
-       * [description]
-       * @param  {[type]} dayIndex               [description]
-       * @return {[type]}          [description]
+       * ×ボタン押されたスポットの削除処理
        */
       deleteSpot: function(dayIndex){
+        // 削除対象のスポット対象インデックスを取得
         let targetIndex = this.dayInfo[dayIndex].spotInfo.length - 1;
-
+        // 最初のスポットは削除不可のためリターン
         if(targetIndex == 0){
           return;
         }else{
           this.dayInfo[dayIndex].spotInfo.splice(targetIndex, 1);
         }
-
+        // 削除後のキーの採番処理
         this.assignKey();
       },
-
+      /**
+       * インデックス追加、削除後の採番処理関数
+       */
       assignKey: function(){
+
         const dayArray = this.dayInfo;
         let keyCount = 0;
 
+        // 繰り返し処理で要素一個ずつ採番
         for(let i=0; i<dayArray.length; i++){
           for(let j=0; j<dayArray[i].spotInfo.length; j++){
             dayArray[i].spotInfo[j].spot_count = keyCount;
@@ -330,7 +324,9 @@
           }
         }
       },
-
+      /**
+       * メニューバーのアコーディオンメニュー表示処理
+       */
       showSpot: function(e) {
         e.preventDefault();
         const content = $(e.target)
@@ -342,11 +338,17 @@
           content.slideDown();
         }
       },
-
+      /**
+       * 子コンポーネントからの$emitを受けプランアウトラインデータ更新
+       */
       outlineDataUpdate: function(childData){
         this.planOutline = childData;
       },
-
+      /**
+       * 子コンポーネントからの$emitを受けスポットデータ更新
+       * childData: 更新データ
+       * spot_count_component: 更新対象は何個目のスポット情報かを表すカウント
+       */
       spotDataUpdate: function(childData, spot_count_component){
         if(this.type=='post'){
           for(let i=0;i<this.dayInfo.length;i++){
@@ -360,18 +362,26 @@
           this.dayInfo[0].spotInfo[0] = childData;
         }
       },
-
+      /**
+       * 新規投稿時のAxios通信処理
+       */
       SendData: function(){
 
+        // リクエストパラメータ
         let params = {};
+        // then句の中でVueインスタンスにアクセスできるよう代入
         let that = this;
+        // リクエスト内容送信用フォームデータ
         var formData = new FormData();
+        // 送信用config
         var config = {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         };
 
+        // Formdataに画像オブジェクトappend時多次元配列かできず、各画像がどの日どのスポットか解らなくなるため
+        // プロパティの名称で判別できるよう、インデックス番号をプロパティ名称にセット
         this.dayInfo.forEach(day => {
           let dayIndex = this.dayInfo.indexOf(day);
           day.spotInfo.forEach(spot => {
@@ -383,32 +393,48 @@
           })
         })
 
+        // プランアウトライン情報をパラメータにセット
         params.planOutline = this.planOutline;
+        // スポット情報をパラメータにセット
         params.dayInfo = this.dayInfo;
+        // パラメータオブジェクトをJSON形式に変換
         params = JSON.stringify(params);
+        // リクエストプロパティとしてパラメータをセット
         formData.append('request', params);
 
-        $('#post-button').val('送信中...');
+        // ボタンの非活性化、送信中メッセージ表示
+        $('#post-button').val('now posting...');
         $("#post-button").attr('disabled', true);
 
+        // axiosにて投稿データFormDataを送信
         axios.post('/post/create', formData, config)
         .then(function (response) {
-          window.location.href = '/index/' + response.data.plan_id;
+          // ステータスコード200が返ってきたら成功としてページ遷移
+          if(response.request.status == 200){
+            window.location.href = '/index/' + response.data.plan_id;
+          };
         })
         .catch(function (error) {
+          // ステータスコードが422なら失敗としてエラーメッセージ表示し、ボタン活性化
           if(error.response.status == 422){
             that.errorExist = true;
-            $('#post-button').val('再投稿');
+            $('#post-button').val('retry post');
             $("#post-button").attr('disabled', false);
           }
         });
       },
-
+      /**
+       * 既存投稿編集時のaxios通信
+       */
       EditData: function(){
 
+        // リクエストパラメータ
         let params = {};
+        // then句の中でVueインスタンスにアクセスできるよう代入
         let that = this;
+        // 編集対象特定用にidをセット
         let id;
+        // ボタンの非活性化、送信中メッセージ表示
         var config = {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -416,32 +442,46 @@
         };
 
         switch (this.type) {
+
           case 'spotedit':
+            // スポット編集用パラメータ作成関数呼び出し
             params = this.CreateSpotParams();
+            // 編集対象スポットidをセット
             id = this.dayInfo[0].spotInfo[0].id;
             break;
+
           case 'planedit':
+            // プラン編集用パラメータ作成関数呼び出し
             params = this.CreatePlanParams();
+            // 編集対象プランidをセット
             id = this.planOutline.id;
             break;
         }
 
-        $('#post-button').val('送信中...');
+        // ボタンの非活性化、送信中メッセージ表示
+        $('#post-button').val('now posting...');
         $("#post-button").attr('disabled', true);
 
+        // axiosにて投稿データFormDataを送信
         axios.post('/post/' + this.type + '/' + id, params, config)
         .then(function (response) {
-          window.location.href = '/index/' + response.data.plan_id;
+          // ステータスコード200が返ってきたら成功としてページ遷移
+          if(response.request.status == 200){
+            window.location.href = '/index/' + response.data.plan_id;
+          };
         })
         .catch(function (error) {
+          // ステータスコードが422なら失敗としてエラーメッセージ表示し、ボタン活性化
           if(error.response.status == 422){
             that.errorExist = true;
-            $('#post-button').val('再投稿');
+            $('#post-button').val('retry post');
             $("#post-button").attr('disabled', false);
           }
         });
       },
-
+      /**
+       * プランパラメータ作成
+       */
       CreatePlanParams: function(){
         let params = {};
         let formData = new FormData();
@@ -452,7 +492,9 @@
 
         return formData;
       },
-
+      /**
+       * スポットパラメータ作成
+       */
       CreateSpotParams: function(){
 
         let params = {};
@@ -489,19 +531,30 @@
     background-color: #fff;
     box-shadow: 0 0 8px 0 rgb(0 0 0 / 15%);
     position: fixed;
+    overflow-y: auto;
     z-index: 80;
+
+    #submit-button-area {
+      background-color: #f0f0f0;
+      text-align: center;
+
+      input {
+        margin-top: 15px;
+        width: 200px;
+      }
+    }
 
     #button-area {
         padding: 0 15px;
         background-color: #f0f0f0;
-        border: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
         display: flex;
         justify-content: space-around;
 
         button {
-          padding: 8px 2px;
+          padding: 7px 2px;
           margin: 20px 0;
-          width: 80px;
+          width: 90px;
           font-size: 13px;
         }
     }
@@ -542,7 +595,7 @@
       width: 100%;
       height: 100%;
       font-size: 16px;
-      padding: 50px 100px 25px 100px;
+      padding: 40px 5em 25px 5em;
     }
   }
 

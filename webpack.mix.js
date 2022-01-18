@@ -30,4 +30,5 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/spotview.scss', 'public/css')
     .sass('resources/sass/functions/jquery.tagsinput.scss', 'public/css')
     .sass('resources/sass/functions/accordion.scss', 'public/css')
-    .sass('resources/sass/functions/tabs.scss', 'public/css');
+    .sass('resources/sass/functions/tabs.scss', 'public/css')
+    .sass('resources/sass/mobile/app_mobile.scss', 'public/css');

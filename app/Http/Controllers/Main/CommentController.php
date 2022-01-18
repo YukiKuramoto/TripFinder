@@ -36,7 +36,8 @@ class CommentController extends Controller
     {
       // スポット情報からコメント投稿対象スポット、プランを特定
       $user = Auth::id();
-      $spot = Spot::find($request->spotId);
+      // dd($request->all());
+      $spot = Spot::find($request->all()['spot_id']);
       $plan = $spot->plans;
 
       return view('comment.index', ['user' => $user, 'spot' => $spot, 'plan' => $plan]);
@@ -53,6 +54,7 @@ class CommentController extends Controller
     {
       $comment = new SpotComment;
       $comment_form = $request->all();
+      // dd($comment_form);
       $spot = Spot::find($comment_form['spot_id']);
       $plan = Plan::find($comment_form['plan_id']);
 
@@ -104,7 +106,6 @@ class CommentController extends Controller
       if($this->checkLoginStatus($current_uid, $post_uid) == false){
         return redirect()->action('MypageController@index', ['user_id' => $current_uid]);
       }
-
       // DB削除処理
       $comment->delete();
 

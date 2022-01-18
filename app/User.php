@@ -49,14 +49,22 @@ class User extends Authenticatable
           ->orderBy('created_at', 'desc');
     }
 
+    // 対象ユーザーをフォローしているユーザーを取得
     public function followers()
     {
-        return $this->hasMany('App\Follow', 'followed_user_id');
+        // 第一引数：使用するモデル名称
+        // 第二引数：使用するテーブル名称
+        // 第三引数：リレーション定義しているモデルの外部キー（キーとなるカラム名）
+        // 第四引数：結合するモデルの外部キー（参照するカラム名）
+        // フォローされている人のIDを使ってフォローしている人を取得する
+        return $this->belongsToMany('App\User', 'follows', 'followed_user_id', 'follower_user_id');
     }
 
+    // 対象ユーザーがフォローしているユーザーを取得する
     public function follows()
     {
-        return $this->hasMany('App\Follow', 'follower_user_id');
+        // フォローしている人のIDを使ってフォローされている人を取得する
+        return $this->belongsToMany('App\User', 'follows', 'follower_user_id', 'followed_user_id');
     }
 
     public function favPlans()

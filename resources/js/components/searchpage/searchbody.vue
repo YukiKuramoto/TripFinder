@@ -108,14 +108,14 @@
       <planitem-component
         v-else-if="result=='plan'"
         :response="response"
-        :length="length"
+        :prop_total_page="total_page"
         :search_key="search_key"
         pagetype="search"
       ></planitem-component>
       <spotitem-component
         v-else-if="result=='spot'"
         :response="response"
-        :length="length"
+        :prop_total_page="total_page"
         :search_key="search_key"
         pagetype="search"
       ></spotitem-component>
@@ -123,7 +123,7 @@
         v-else-if="result=='user'"
         :login_user="prop_login_uid"
         :response="response"
-        :length="length"
+        :prop_total_page="total_page"
         :search_key="search_key"
         pagetype="search"
       ></useritem-component>
@@ -136,15 +136,14 @@
     props:[
       // 検索実行用キーワード
       'prop_search_key',
+      // ユーザーコンポーネント受け渡し用id
       'prop_login_uid',
     ],
     data() {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        // 検索結果タイプセット用プロパティ
         result: '',
-        response: [],
-        login_user: '',
-        length: '',
         // 検索画面表示時デフォルトでplanラジオボタンにするために設定
         search_type: 'plan',
         // 検索ボックス内データ保持用プロパティ
@@ -162,40 +161,59 @@
             address: '',
           }
         },
-        // 子コンポーネント引き渡し用プロパティ
+        // 以下は子コンポーネント引き渡し用プロパティ
+        response: [],
+        login_user: '',
+        total_page: '',
         search_key: {},
       };
     },
-    computed: {
-    },
     created: function(){
-      // ホーム画面から検索が行われた場合、検索実行
+      // ホーム画面から検索が行われた場合（検索キーが渡されている場合）、検索実行
       if(this.prop_search_key.length != 0){
+        // ホームから送信された検索ワードを初期値としてセット
         this.search_key_form.keyword = this.prop_search_key
+        // Axiosで検索実行
         this.search_axios('plan', this.search_key_form.keyword);
       }
-    },
-    beforeUpdate: function(){
     },
     methods: {
 
       search_axios: function(search_type, search_key){
-        console.log(search_key);
-        let request = {};
+
+        // then句でVueインスタンスにアクセスできるようthatに仮代入
         let that = this;
 
-        // 子コンポーネントにてページネーションボタン押下時、検索キー送信できるようキーをセット
+        // 子コンポーネントにてページネーションボタン押下時、検索キー送信できるようキーをVueインスタンスにセット
+        // 子コンポーネントにプロップで内容受け渡し
         this.search_key = search_key;
 
-        request.page = 1;
-        that.result = '';
-        request.search_key = search_key;
+        // Axios送信リクエスト用の空オブジェクト作成
+        let request = {
+          params: {
+            data: {
+              // サーバー側に送信する次のページ数をセット
+              next_index: 0,
+              // request.search_key = search_key;
+              search_key: search_key,
+            }
+          }
+        };
 
-        axios.post('/search/next' + search_type, request)
+        // 検索結果をリセット
+        that.result = '';
+
+        // リクエストをサーバー側に送信
+        axios.get('/search/next' + search_type, request)
         .then(function(response){
+
+          // 検索結果タイプをresultにセット（検索結果なし / plan / spot / user)
           that.result = response.data.result;
-          that.length = response.data.response_length;
+          // 検索結果合計ページネーションページ数セット、子コンポーネントに受け渡し
+          that.total_page = response.data.total_page;
+          // 検索結果をVueインスタンスにセット、子コンポーネントに受け渡し
           that.response = response.data.response;
+
         }).catch(function(error){
           console.log(error);
         })

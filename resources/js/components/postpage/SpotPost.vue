@@ -71,7 +71,7 @@
                 class="file-select"
                 :id="'file-select' + spot.spot_day + '_' + spotIndex"
                 @input="SelectImage(spot.spot_count, $event.currentTarget)">
-                {{ image_count }}枚選択
+                {{ image_count }}枚
               </label>
             </div>
             <div class="spot-image-view">
@@ -114,6 +114,8 @@
 </template>
 
 <script>
+import heic2any from "heic2any";
+
   export default{
     props:[
       'spot',
@@ -134,7 +136,7 @@
       }
     },
     beforeUpdate: function(){
-      $('.hash-tag').tagsInput({width:'100%'});
+      // $('.hash-tag').tagsInput({width:'100%'});
     },
     updated: function(){
       this.$emit('spotUpdate', this.spot, this.spot.spot_count);
@@ -154,70 +156,97 @@
 
         for(let file of Target.files){
 
-          if (!file.type.match(/^image\/(png|jpeg|gif)$/)){
-            alert('認められていないファイル形式です')
-            return;
-          }
+          if(file.type.match(/^image\/(heic)$/)){
 
-          let vueComponents = this;
-          var reader = new FileReader();
-          reader.readAsDataURL(file);
+            const blob = file;
 
-          reader.onload = (evt) => {
+            heic2any({
+              blob,
+              toType: "image/jpeg",
+              quality: 0.5
+            }).then(resultBlob => {
 
-            var image = new Image();
-            image.onload = () => {
+              const reader = new FileReader();
 
-              // 最大幅
-              const maxWidth = 900;
-              // 最大高さ
-              const maxHeight = 700;
-              // 変換後幅
-              var convertedWidth;
-              // 変換後高さ
-              var convertedHeight;
-              // canvas要素取得
-              var canvas = $('#canvas' + Key);
-              // 描画用オブジェクト
-              var ctx = canvas[0].getContext('2d');
+              reader.readAsDataURL(resultBlob);
+              let vueComponents = this;
 
-              // 縦長画像でサイズオーバー
-              if(image.height > image.width && image.height > maxHeight){
-                convertedWidth = Math.round(image.width * maxHeight / image.height);
-                convertedHeight = maxHeight;
-                // 横長画像でサイズオーバー
-              }else if(image.width > image.height && image.width > maxWidth){
-                convertedWidth = maxWidth;
-                convertedHeight = Math.round(image.height * maxWidth / image.width);
-                // サイズオーバーなし
-              }else{
-                convertedWidth = image.width;
-                convertedHeight = image.height;
+              reader.onload = (evt) => {
+
+                this.remakeImage(evt, vueComponents, file);
+
               }
+            });
+          }else {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
 
-              // 描画用に高さと幅をセット
-              $('#canvas' + Key).attr('height', convertedHeight);
-              $('#canvas' + Key).attr('width', convertedWidth);
-              // 描画実行
-              ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, convertedWidth, convertedHeight); //canvasに画像を転写
+            let vueComponents = this;
+            reader.onload = (evt) => {
 
-              // 描画対象をファイル変換
-              ctx.canvas.toBlob((blob) => {
-                const imageFile = new File([blob], file.name, {
-                  type: file.type,
-                });
-                console.log(imageFile.size);
+              this.remakeImage(evt, vueComponents, file);
 
-                // 圧縮後ファイルをVueComponentsにセット
-                vueComponents.spot.spot_image.push(imageFile);
-                vueComponents.image_count = vueComponents.spot.spot_image.length;
-              }, file.type, 1);
             }
-            // 画像プレビュー用にsrcに読み込み後画像をセット
-            $('#preview-image' + vueComponents.spot.spot_count).attr('src', evt.target.result);
-            image.src = evt.target.result;
           }
         }
+      },
+      remakeImage: function(evt, vueComponents, file){
+
+          let Key = vueComponents.spot.spot_count;
+
+          console.log('OK');
+          var image = new Image();
+          image.onload = () => {
+
+            // 最大幅
+            const maxWidth = 700;
+            // 最大高さ
+            const maxHeight = 500;
+            // 変換後幅
+            var convertedWidth;
+            // 変換後高さ
+            var convertedHeight;
+            // canvas要素取得
+            var canvas = $('#canvas' + Key);
+            // 描画用オブジェクト
+            var ctx = canvas[0].getContext('2d');
+
+            // 縦長画像でサイズオーバー
+            if(image.height > image.width && image.height > maxHeight){
+              convertedWidth = Math.round(image.width * maxHeight / image.height);
+              convertedHeight = maxHeight;
+              // 横長画像でサイズオーバー
+            }else if(image.width > image.height && image.width > maxWidth){
+              convertedWidth = maxWidth;
+              convertedHeight = Math.round(image.height * maxWidth / image.width);
+              // サイズオーバーなし
+            }else{
+              convertedWidth = image.width;
+              convertedHeight = image.height;
+            }
+
+            // 描画用に高さと幅をセット
+            $('#canvas' + Key).attr('height', convertedHeight);
+            $('#canvas' + Key).attr('width', convertedWidth);
+            // 描画実行
+            ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, convertedWidth, convertedHeight); //canvasに画像を転写
+
+            // 描画対象をファイル変換
+            ctx.canvas.toBlob((blob) => {
+              const imageFile = new File([blob], file.name, {
+                type: file.type,
+              });
+              console.log(imageFile.size);
+
+              // 圧縮後ファイルをVueComponentsにセット
+              vueComponents.spot.spot_image.push(imageFile);
+              vueComponents.image_count = vueComponents.spot.spot_image.length;
+            }, file.type, 1);
+          }
+          // 画像プレビュー用にsrcに読み込み後画像をセット
+          $('#preview-image' + vueComponents.spot.spot_count).attr('src', evt.target.result);
+          image.src = evt.target.result;
+        // }
       },
       registarSpotTag: function(){
         this.spot.spot_tag = document.getElementById(`id${this.spot.spot_count}`).value;
@@ -260,6 +289,7 @@ select {
 }
 
 .item {
+  min-width: 770px;
   width: 100%;
   height: 100%;
   padding: 0 5%;
@@ -283,8 +313,7 @@ select {
   .spot-detail-wrapper {
     display: flex;
     justify-content: space-between;
-    margin-top: 40px;
-    height: 300px;
+    margin-top: 30px;
 
     .spot-detail-area {
       width: 65%;
@@ -298,7 +327,7 @@ select {
       }
 
       .spot-tag-area {
-        margin-top: 50px;
+        margin-top: 30px;
 
         textarea {
           width: 100%;
@@ -315,9 +344,10 @@ select {
 
     .spot-image-area {
       width: 30%;
+      height: 200px;
 
       .spot-image-view {
-        height: calc(100% - 35px);
+        height: 100%;
 
         img {
           border-radius: 20px;
@@ -331,10 +361,14 @@ select {
 
   }
 
-  .spot-information-textarea {
-    height: 100px;
-    margin-bottom: 30px;
-    width: 100%;
+  .spot-information-area {
+    margin-top: 30px;
+
+    .spot-information-textarea {
+      height: 100px;
+      margin-bottom: 30px;
+      width: 100%;
+    }
   }
 
   .user-input {

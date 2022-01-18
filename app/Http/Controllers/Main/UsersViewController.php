@@ -27,7 +27,7 @@ class UsersViewController extends Controller
   */
 
     // ユーザー一覧画面ユーザー表示数
-    const userViewNum = 6;
+    const userViewNum = 1;
 
 
     /**
@@ -38,36 +38,29 @@ class UsersViewController extends Controller
     public function index()
     {
       // ログインユーザー取得
-      $current_user_id = Auth::id();
-      $current_user = User::find($current_user_id);
-      $login_uid = Auth::id() != [] ? Auth::id() : 'undefined_user';
-      $favorite_users = [];
-      $follower_users = [];
+      $current_user = Auth::user();
+      $current_uid = $current_user->id;
 
       // 全ユーザ取得
       $users = User::all();
-      $users = $this->getFollowInfo($users, $current_user_id);
-      $users_pagenated = $this->RemakeArray($users, self::userViewNum);
+      $users = $this->getFollowInfo($users, $current_uid);
+      $users = $this->RemakeArray($users, self::userViewNum);
 
       // Favoriteユーザー取得
-      foreach($current_user->follows as $favorite_user){
-        array_push($favorite_users, User::find($favorite_user->followed_user_id));
-      }
-      $favorite_users = $this->getFollowInfo($favorite_users, $current_user_id);
-      $favorite_users_pagenated = $this->RemakeArray($favorite_users, self::userViewNum);
+      $favorite_users = $current_user->follows;
+      $favorite_users = $this->getFollowInfo($favorite_users, $current_uid);
+      $favorite_users = $this->RemakeArray($favorite_users, self::userViewNum);
 
       //Followerユーザー取得
-      foreach($current_user->followers as $follower_user){
-        array_push($follower_users, User::find($follower_user->follower_user_id));
-      }
-      $follower_users = $this->getFollowInfo($follower_users, $current_user_id);
-      $follower_users_pagenated = $this->RemakeArray($follower_users,self::userViewNum);
+      $follower_users = $current_user->followers;
+      $follower_users = $this->getFollowInfo($follower_users, $current_uid);
+      $follower_users = $this->RemakeArray($follower_users,self::userViewNum);
 
       return view('users.index', [
-        'users' => $users_pagenated,
-        'login_uid' => $login_uid,
-        'favorite_users' => $favorite_users_pagenated,
-        'follower_users' => $follower_users_pagenated
+        'users' => $users,
+        'login_uid' => $current_uid,
+        'favorite_users' => $favorite_users,
+        'follower_users' => $follower_users
       ]);
     }
 
@@ -78,17 +71,18 @@ class UsersViewController extends Controller
     * @param string $target_user_id                        対象ユーザーID
     * @return Illuminate\Http\RedirectResponse　　　　      ユーザー一覧画面ビュー
     */
-    public function follow($target_user_id)
+    public function follow($target_uid)
     {
-      $user_id = Auth::id();
+      $current_uid = Auth::id();
       $follow = new Follow;
 
       // フォローされたユーザーIDを追加
-      $follow->followed_user_id = $target_user_id;
+      $follow->followed_user_id = $target_uid;
       // フォローしたユーザーIDを追加
-      $follow->follower_user_id = $user_id;
+      $follow->follower_user_id = $current_uid;
       // 中間テーブルに登録
       $follow->save();
+
       return redirect('/users/index');
     }
 
@@ -99,11 +93,12 @@ class UsersViewController extends Controller
     * @param string $target_user_id                        対象ユーザーID
     * @return Illuminate\Http\RedirectResponse　　　　      ユーザー一覧画面ビュー
     */
-    public function unfollow($target_user_id)
+    public function unfollow($target_uid)
     {
-      $user_id = Auth::id();
+      $current_uid = Auth::id();
+
       // フォロー中間テーブルから削除
-      $follow_info = Follow::where('followed_user_id', $target_user_id)->where('follower_user_id', $user_id)->delete();
+      Follow::where('followed_user_id', $target_uid)->where('follower_user_id', $current_uid)->delete();
       return redirect('/users/index');
     }
 
@@ -117,22 +112,21 @@ class UsersViewController extends Controller
     public function index_nextAllUser(Request $request)
     {
       // ログインユーザー取得
-      $current_user_id = Auth::id();
-      $current_user = User::find($current_user_id);
+      $current_user = Auth::user();
+      $current_uid = $current_user->id;
+      $request_form = json_decode($request->all()['data'],true);
+      $next_index = $request_form['next_index'];
 
       //　全ユーザー取得
-      $target_users = User::all();
-      $page_index = $request->all()['page'];
-
+      $users = User::all();
       // フォロー状況取得
-      $target_users = $this->getFollowInfo($target_users, $current_user_id);
+      $users = $this->getFollowInfo($users, $current_uid);
       // ページネーション用の形式に変換
-      $users_pagenated = $this->RemakeArray($target_users, self::userViewNum);
+      $users = $this->RemakeArray($users, self::userViewNum);
 
       return ([
-        'response' => $users_pagenated[$page_index - 1],
-        'response_length' => count($users_pagenated),
-        'users_current' => $page_index,
+        'response' => $users[$next_index],
+        'total_page' => count($users),
       ]);
     }
 
@@ -146,25 +140,21 @@ class UsersViewController extends Controller
     public function index_nextFavoriteUser(Request $request)
     {
       // ログインユーザー取得
-      $current_user_id = Auth::id();
-      $current_user = User::find($current_user_id);
-      $page_index = $request->all()['page'];
+      $current_user = Auth::user();
+      $current_uid = $current_user->id;
+      $request_form = json_decode($request->all()['data'],true);
+      $next_index = $request_form['next_index'];
 
       // フォローしているユーザー取得
-      $target_users = [];
-      foreach($current_user->follows as $favorite_user){
-        array_push($target_users, User::find($favorite_user->followed_user_id));
-      }
-
+      $users = $current_user->follows;
       // フォロー状況取得
-      $target_users = $this->getFollowInfo($target_users, $current_user_id);
+      $users = $this->getFollowInfo($users, $current_uid);
       // ページネーション用の形式に変換
-      $users_pagenated = $this->RemakeArray($target_users, self::userViewNum);
+      $users = $this->RemakeArray($users, self::userViewNum);
 
       return ([
-        'response' => $users_pagenated[$page_index - 1],
-        'response_length' => count($users_pagenated),
-        'users_current' => $page_index,
+        'response' => $users[$next_index],
+        'total_page' => count($users),
       ]);
     }
 
@@ -178,25 +168,21 @@ class UsersViewController extends Controller
     public function index_nextFollwerUser(Request $request)
     {
       // ログインユーザー取得
-      $current_user_id = Auth::id();
-      $current_user = User::find($current_user_id);
-      $page_index = $request->all()['page'];
+      $current_user = Auth::user();
+      $current_uid = $current_user->id;
+      $request_form = json_decode($request->all()['data'],true);
+      $next_index = $request_form['next_index'];
 
-      // フォロワー情報取得
-      $target_users = [];
-      foreach($current_user->followers as $follower_user){
-        array_push($target_users, User::find($follower_user->follower_user_id));
-      }
-
+      // // フォロワー情報取得
+      $users = $current_user->followers;
       // フォロー状況取得
-      $target_users = $this->getFollowInfo($target_users, $current_user_id);
+      $users = $this->getFollowInfo($users, $current_uid);
       // ページネーション用の形式に変換
-      $users_pagenated = $this->RemakeArray($target_users, self::userViewNum);
+      $users = $this->RemakeArray($users, self::userViewNum);
 
       return ([
-        'response' => $users_pagenated[$page_index - 1],
-        'response_length' => count($users_pagenated),
-        'users_current' => $page_index,
+        'response' => $users[$next_index],
+        'total_page' => count($users),
       ]);
     }
 

@@ -3,8 +3,8 @@
     <v-app v-if="pagetype != 'home'" id="inspire">
       <div class="text-center">
         <v-pagination
-        v-model="page_current"
-        :length="page_length"
+        v-model="current_page"
+        :length="total_page"
         :total-visible="7"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
@@ -14,7 +14,7 @@
       </div>
     </v-app>
     <div :class="'plan-item-wrapper plan-item-wrapper-' + pagetype">
-      <a v-for="plan in page_plans" :href="'/index/' + plan.id" :class="'plan-item plan-item-' + pagetype">
+      <a v-for="plan in plans" :href="'/index/' + plan.id" :class="'plan-item plan-item-' + pagetype">
         <div class="plan-image-wrapper">
           <img class="plan-image" :src="plan.spots[0].images[0].image_path">
         </div>
@@ -38,34 +38,50 @@
 export default {
     props: [
         'response',
-        'length',
         'pagetype',
         'search_key',
+        'prop_total_page',
     ],
     data() {
         return {
-          page_current: '',
-          page_length: '',
-          page_plans: '',
+          current_page: '',
+          total_page: '',
+          plans: '',
         }
     },
     created: function(){
-      this.page_current = 1;
-      this.page_length = this.length;
-      this.page_plans = this.response;
+      // ページネーション初期値セット
+      this.current_page = 1;
+      // ページネーション合計ページ数セット
+      this.total_page = this.prop_total_page;
+      // サーバーからのレスポンスをセット
+      this.plans = this.response;
     },
     methods: {
       getNextpage: function(){
-        let request = {};
-        let that = this;
-        
-        request.page = this.page_current;
-        request.search_key = this.search_key;
 
-        axios.post('/' + this.pagetype + '/nextplan', request)
+        // then句でVueインスタンスにアクセスできるようthatに仮代入
+        let that = this;
+
+        // Axios送信リクエスト用の空オブジェクト作成
+        let request = {
+          params: {
+            data: {
+              // サーバー側に送信する次のページ数をセット
+              next_index: this.current_page - 1,
+              // 検索用キーをセット（Search：検索ワード、Mypage：ユーザーobject）
+              search_key: this.search_key,
+            }
+          }
+        };
+
+        // リクエストをサーバー側に送信
+        axios.get('/' + this.pagetype + '/nextplan', request)
         .then(function(response){
-          that.page_length = response.data.response_length;
-          that.page_plans = response.data.response;
+          // ページネーション合計ページ数を再セット
+          that.total_page = response.data.total_page;
+          // 取得結果を再セット
+          that.plans = response.data.response;
         }).catch(function(error){
           console.log(error);
         })

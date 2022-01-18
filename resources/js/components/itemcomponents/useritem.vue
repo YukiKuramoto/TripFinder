@@ -3,8 +3,8 @@
     <v-app id="inspire">
       <div class="text-center">
         <v-pagination
-        v-model="page_current"
-        :length="page_length"
+        v-model="current_page"
+        :length="total_page"
         :total-visible="7"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
@@ -14,7 +14,7 @@
       </div>
     </v-app>
     <div class="users-contents-wrapper">
-      <div v-for="user in page_users" class="users-item-wrapper">
+      <div v-for="user in users" class="users-item-wrapper">
         <a :href="'/mypage/' + user.id"  class="anker-area">
           <div class="user-image-area">
             <img v-if="user.image_path !== null" :src="user.image_path">
@@ -52,35 +52,50 @@ export default {
     props: [
       'login_user',
       'response',
-      'length',
-      'search_key',
       'pagetype',
+      'search_key',
+      'prop_total_page',
     ],
     data() {
         return {
-          page_current: '',
-          page_length: '',
-          page_users: '',
-          page_currentUser: '',
+          current_page: '',
+          total_page: '',
+          users: '',
         }
     },
     created: function(){
-      this.page_current = 1;
-      this.page_length = this.length;
-      this.page_users = this.response;
+      // ページネーション初期値セット
+      this.current_page = 1;
+      // ページネーション合計ページ数セット
+      this.total_page = this.prop_total_page;
+      // サーバーからのレスポンスをセット
+      this.users = this.response;
     },
     methods: {
       getNextpage: function(){
 
-        let params = {};
+        // then句でVueインスタンスにアクセスできるようthatに仮代入
         let that = this;
-        params.page = this.page_current;
-        params.search_key = this.search_key;
 
-        axios.post('/' + this.pagetype +'/nextuser', params)
+        // Axios送信リクエスト用の空オブジェクト作成
+        let request = {
+          params: {
+            data: {
+              // サーバー側に送信する次のページ数をセット
+              next_index: this.current_page - 1,
+              // 検索用キーをセット（Search：検索ワード、Users：不要のため空）
+              search_key: this.search_key,
+            }
+          }
+        };
+
+        // リクエストをサーバー側に送信
+        axios.get('/' + this.pagetype +'/nextuser', request)
         .then(function(response){
-          that.page_length = response.data.response_length;
-          that.page_users = response.data.response;
+          // ページネーション合計ページ数を再セット
+          that.total_page = response.data.total_page;
+          // 取得結果を再セット
+          that.users = response.data.response;
         }).catch(function(error){
           console.log(error);
         });

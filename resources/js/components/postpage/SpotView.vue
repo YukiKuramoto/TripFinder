@@ -32,7 +32,7 @@
             <div class="spot-detail-item">
               <a v-if="spot.fav_status" class="spot-fav-button btn btn-warning spot-unfav-btn" v-bind:href="'/index/unfavspot?planId=' + planOutline.id + '&spotId=' + spot.id">登録済み</a>
               <a v-else class="spot-fav-button btn btn-warning" v-bind:href="'/index/favspot?planId=' + planOutline.id + '&spotId=' + spot.id">行きたいスポット</a>
-              <a class="spot-fav-button btn btn-secondary" v-bind:href="'/comment/create?spotId=' + spot.id">コメント投稿</a>
+              <a class="spot-fav-button btn btn-secondary" v-bind:href="'/comment/create?spot_id=' + spot.id">コメント投稿</a>
               <a v-if="postuser.id == login_uid" class="spot-fav-button btn btn-secondary" v-bind:href="'/post/spotedit/' + spot.id">編集</a>
             </div>
           </div>
@@ -194,6 +194,7 @@
 <style scoped lang="scss">
 
 .item {
+  min-width: 900px;
   width: 100%;
   height: 100%;
   min-height: calc(100vh - 60px);

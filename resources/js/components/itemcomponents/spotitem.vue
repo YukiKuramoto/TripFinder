@@ -4,8 +4,8 @@
       <v-app v-if="pagetype != 'home' && pagetype != 'view'" id="inspire">
         <div class="text-center">
           <v-pagination
-          v-model="page_current"
-          :length="page_length"
+          v-model="current_page"
+          :length="total_page"
           :total-visible="7"
           prev-icon="mdi-menu-left"
           next-icon="mdi-menu-right"
@@ -15,7 +15,7 @@
         </div>
       </v-app>
       <div :class="'spot-item-wrapper spot-item-wrapper-' + pagetype">
-        <a v-for="spot in page_spots" :href="'/index/spot/' + spot.id" :class="'spot-item spot-item-' + pagetype">
+        <a v-for="spot in spots" :href="'/index/spot/' + spot.id" :class="'spot-item spot-item-' + pagetype">
           <div class="spot-image-outer">
             <img class="spot-image" :src="spot.images[0].image_path">
           </div>
@@ -38,36 +38,51 @@
 <script>
 export default {
     props: [
-        // 'postuser',
-        'response',
-        'length',
-        'pagetype',
-        'search_key',
+      'response',
+      'pagetype',
+      'search_key',
+      'prop_total_page',
     ],
     data() {
         return {
-          page_current: '',
-          page_length: '',
-          page_spots: '',
+          current_page: '',
+          total_page: '',
+          spots: '',
         }
     },
     created: function(){
-      this.page_current = 1;
-      this.page_length = this.length;
-      this.page_spots = this.response;
+      // ページネーション初期値セット
+      this.current_page = 1;
+      // ページネーション合計ページ数セット
+      this.total_page = this.prop_total_page;
+      // サーバーからのレスポンスをセット
+      this.spots = this.response;
     },
     methods: {
       getNextpage: function(){
-        let request = {};
+
+        // then句でVueインスタンスにアクセスできるようthatに仮代入
         let that = this;
 
-        request.page = this.page_current;
-        request.search_key = this.search_key;
+        // Axios送信リクエスト用の空オブジェクト作成
+        let request = {
+          params: {
+            data: {
+              // サーバー側に送信する次のページ数をセット
+              next_index: this.current_page - 1,
+              // 検索用キーをセット（Search：検索ワード、Mypage：ユーザーobject）
+              search_key: this.search_key,
+            }
+          }
+        };
 
-        axios.post('/' + this.pagetype + '/nextspot', request)
+        // リクエストをサーバー側に送信
+        axios.get('/' + this.pagetype + '/nextspot', request)
         .then(function(response){
-          that.page_length = response.data.response_length;
-          that.page_spots = response.data.response;
+          // ページネーション合計ページ数を再セット
+          that.total_page = response.data.total_page;
+          // 取得結果を再セット
+          that.spots = response.data.response;
         }).catch(function(error){
           console.log(error);
         })
