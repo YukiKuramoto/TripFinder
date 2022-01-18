@@ -16,8 +16,7 @@ class Follow extends Model
   |
   */
 
-    public function user()
-    {
-      return $this->belongsTo('App\User', 'id');
-    }
+  protected $fillable = ['followed_user_id','follower_user_id'];
+  protected $table = 'follows';
+
 }

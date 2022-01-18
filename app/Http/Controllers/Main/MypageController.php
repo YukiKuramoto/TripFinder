@@ -27,8 +27,8 @@ class MypageController extends Controller
   */
 
     // ホーム画面表示プラン・スポット数
-    const planViewNum = 3;
-    const spotViewNum = 4;
+    const planViewNum = 1;
+    const spotViewNum = 1;
 
 
     /**
@@ -71,8 +71,10 @@ class MypageController extends Controller
     */
     public function index_nextMyPlan(Request $request)
     {
+      $request_form = json_decode($request->all()['data'],true);
       // requestから投稿ユーザーを取得
-      $postuser = $request->all()['search_key'];
+      $postuser = $request_form['search_key'];
+      $nextindex = $request_form['next_index'];
       $user = User::find($postuser['id']);
 
       // 投稿一覧情報取得し、Vue.js表示用に関連情報を取得
@@ -83,8 +85,8 @@ class MypageController extends Controller
       // ページネート後プラン情報を含む連想配列リターン
       return ([
         'postuser' => $user,
-        'response' => $plans[$request->all()['page'] - 1],
-        'response_length' => count($plans),
+        'response' => $plans[$nextindex],
+        'total_page' => count($plans),
       ]);
     }
 
@@ -98,8 +100,10 @@ class MypageController extends Controller
     */
     public function index_nextFavPlan(Request $request)
     {
+      $request_form = json_decode($request->all()['data'],true);
       // requestから投稿ユーザーを取得
-      $postuser = $request->all()['search_key'];
+      $postuser = $request_form['search_key'];
+      $nextindex = $request_form['next_index'];
       $user = User::find($postuser['id']);
 
       // お気に入り情報取得し、Vue.js表示用に関連情報を取得
@@ -109,9 +113,9 @@ class MypageController extends Controller
 
       // ページネート後プラン情報を含む連想配列リターン
       return ([
-        'postuser' => $user,
-        'response' => $plans[$request->all()['page'] - 1],
-        'response_length' => count($plans),
+        'search_key' => $user,
+        'response' => $plans[$nextindex],
+        'total_page' => count($plans),
       ]);
     }
 
@@ -124,7 +128,9 @@ class MypageController extends Controller
     */
     public function index_nextFavSpot(Request $request)
     {
-      $postuser = $request->all()['search_key'];
+      $request_form = json_decode($request->all()['data'],true);
+      $postuser = $request_form['search_key'];
+      $nextindex = $request_form['next_index'];
       $user = User::find($postuser['id']);
 
       // お気に入り情報取得し、Vue.js表示用に関連情報を取得
@@ -135,8 +141,8 @@ class MypageController extends Controller
       // ページネート後スポット情報を含む連想配列リターン
       return ([
         'postuser' => $user,
-        'response' => $spots[$request->all()['page'] - 1],
-        'response_length' => count($spots),
+        'response' => $spots[$nextindex],
+        'total_page' => count($spots),
       ]);
     }
 }

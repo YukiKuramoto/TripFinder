@@ -29,8 +29,8 @@ class SearchController extends Controller
   */
 
     // ホーム画面表示プラン・スポット・ユーザー数
-    const planViewNum = 6;
-    const spotViewNum = 6;
+    const planViewNum = 1;
+    const spotViewNum = 1;
     const userViewNum = 3;
     private $DBSearchService;
 
@@ -47,7 +47,7 @@ class SearchController extends Controller
     */
     public function index()
     {
-      // Vue.jsで検索実行されない用空の配列を渡す
+      // Vue.jsで検索実行されないように空の配列を渡す
       $search_key = [];
       return view('searchpage.index', ['search_key' => $search_key]);
     }
@@ -76,14 +76,13 @@ class SearchController extends Controller
     */
     public function planSearch(Request $request)
     {
-      $request_form = $request->all();
+      $request_form = json_decode($request->all()['data'],true);
       $search_key = [];
 
       // 検索キーワード取得処理
       $search_key = $this->DBSearchService->getSearchKey($request_form['search_key'], 'plan');
       // 取得したキーワードを元にDB検索実行
       $response = $this->DBSearchService->SearchFromDB_Plan($search_key);
-      // dd($response);
       // 検索結果から重複データを削除実行
       $response = $this->removeDuplication($response);
       // 検索結果を保存最新順にソート
@@ -110,7 +109,7 @@ class SearchController extends Controller
     */
     public function spotSearch(Request $request)
     {
-      $request_form = $request->all();
+      $request_form = json_decode($request->all()['data'],true);
       $search_key = [];
 
       // 検索キーワード取得処理
@@ -127,7 +126,7 @@ class SearchController extends Controller
       // ページネーション表示用に配列編集
       $response = $this->RemakeArray($response, self::spotViewNum);
       // リターン用レスポンスを作成
-      $response = $this->DBSearchService->completeResponse($request, $response, $search_key, 'spot');
+      $response = $this->DBSearchService->completeResponse($request_form, $response, $search_key, 'spot');
 
       return $response;
 
@@ -142,7 +141,7 @@ class SearchController extends Controller
     */
     public function userSearch(Request $request)
     {
-      $request_form = $request->all();
+      $request_form = json_decode($request->all()['data'],true);
       $login_user = Auth::user() == null ? 'undefined_user' : Auth::user();
       $search_key = [];
 
@@ -156,7 +155,7 @@ class SearchController extends Controller
       // ページネーション表示用に配列編集
       $response = $this->RemakeArray($response, self::userViewNum);
       // リターン用レスポンスを作成
-      $response = $this->DBSearchService->completeResponse($request, $response, $search_key, 'user');
+      $response = $this->DBSearchService->completeResponse($request_form, $response, $search_key, 'user');
 
       return $response;
     }

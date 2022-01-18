@@ -39,6 +39,14 @@ class CreateFollowTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('follow');
+        Schema::table('follows', function (Blueprint $table) {
+            $table->dropForeign(['followed_user_id']);
+        });
+
+        Schema::table('follows', function (Blueprint $table) {
+            $table->dropForeign(['follower_user_id']);
+        });
+
+        Schema::dropIfExists('follows');
     }
 }

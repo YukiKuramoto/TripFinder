@@ -62,25 +62,25 @@
         <section class="tabs-content">
           <section id="tabs-1">
             <planitem-component
-              :response="{{ json_encode($plans[0]) }}"
-              :length="{{ count($plans) }}"
               pagetype="mypage/myplan"
+              :response="{{ json_encode($plans[0]) }}"
+              :prop_total_page="{{ count($plans) }}"
               :search_key="{{ json_encode($postuser) }}"
             ><planitem-component/>
           </section>
           <section id="tabs-2">
             <planitem-component
-              :response="{{ json_encode($plans_fav[0]) }}"
-              :length="{{ count($plans_fav) }}"
               pagetype="mypage/favplan"
+              :response="{{ json_encode($plans_fav[0]) }}"
+              :prop_total_page="{{ count($plans_fav) }}"
               :search_key="{{ json_encode($postuser) }}"
             ><planitem-component/>
           </section>
           <section id="tabs-3">
             <spotitem-component
-              :response="{{ json_encode($spots_fav[0]) }}"
-              :length="{{ count($spots_fav) }}"
               pagetype="mypage/favspot"
+              :response="{{ json_encode($spots_fav[0]) }}"
+              :prop_total_page="{{ count($spots_fav) }}"
               :search_key="{{ json_encode($postuser) }}"
             ><spotitem-component/>
           </section>

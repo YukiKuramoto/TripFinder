@@ -21,29 +21,26 @@
         <section class="tabs-content">
           <section id="tabs-1">
             <useritem-component
+              pagetype="users/all"
               :response="{{ json_encode($users[0]) }}"
               :login_user="{{ $login_uid }}"
-              :length="{{ json_encode(count($users)) }}"
-              pagetype="users/all"
-              parameter="all"
+              :prop_total_page="{{ json_encode(count($users)) }}"
             ></useritem-component>
           </section>
           <section id="tabs-2">
             <useritem-component
+              pagetype="users/favorite"
               :response="{{ json_encode($favorite_users[0]) }}"
               :login_user="{{ $login_uid }}"
-              :length="{{ count($favorite_users) }}"
-              pagetype="users/favorite"
-              parameter="favorite"
+              :prop_total_page="{{ count($favorite_users) }}"
             ></useritem-component>
           </section>
           <section id="tabs-3">
             <useritem-component
+              pagetype="users/follower"
               :response="{{ json_encode($follower_users[0]) }}"
               :login_user="{{ $login_uid }}"
-              :length="{{ count($follower_users) }}"
-              pagetype="users/follower"
-              parameter="follower"
+              :prop_total_page="{{ count($follower_users) }}"
             ></useritem-component>
           </section>
           </section>

@@ -13,22 +13,29 @@
 
 @section('form-content')
 
+<!-- ゲストユーザー検索ページ表示時 -->
 @if(!is_null(Auth::user()))
+  <!-- 検索キーがセットされている場合 -->
   @if(isset($search_key))
   <searchbody-component
     :prop_search_key="{{ json_encode($search_key) }}"
     :prop_login_uid="{{ Auth::user()->id }}"
   ></searchbody-component>
+  <!-- 検索キーがセットされていない場合 -->
   @else
   <searchbody-component
     :prop_login_uid="{{ Auth::user()->id }}"
   ></searchbody-component>
   @endif
+
+<!-- ログインユーザー検索ページ表示時 -->
 @else
+  <!-- 検索キーがセットされている場合 -->
   @if(isset($search_key))
   <searchbody-component
     :prop_search_key="{{ json_encode($search_key) }}"
   ></searchbody-component>
+  <!-- 検索キーがセットされていない場合 -->
   @else
   <searchbody-component
   ></searchbody-component>
