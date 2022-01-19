@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
      public function boot(UrlGenerator $url)
      {
          // 以下を追記
-         if (\App::environment('production')) {
-             \URL::forceScheme('https');
+         if (in_array(config('app.env'), ['prd', 'stg'], true)) {
+           $url->forceScheme('https');
          }
      }
 }
