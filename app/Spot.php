@@ -52,4 +52,9 @@ class Spot extends Model
       return $this->belongsToMany('App\User', 'favoritespots');
     }
 
+    public function commentUsers()
+    {
+      return $this->belongsToMany('App\User', 'spot_comment');
+    }
+
 }

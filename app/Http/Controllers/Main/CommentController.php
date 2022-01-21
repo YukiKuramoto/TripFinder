@@ -55,7 +55,7 @@ class CommentController extends Controller
       $comment = new SpotComment;
       $comment_form = $request->all();
       // dd($comment_form);
-      $spot = Spot::find($comment_form['spot_id']);
+      $spot = Spot::with('comments')->find($comment_form['spot_id']);
       $plan = Plan::find($comment_form['plan_id']);
 
       // DB登録処理
@@ -63,9 +63,6 @@ class CommentController extends Controller
       unset($comment_form['_token']);
       unset($comment_form['plan_id']);
       $comment->fill($comment_form)->save();
-
-      // Vue.js表示用に関連情報を取得
-      $this->getCommentInfo($spot);
 
       return view('comment.show', ['plan' => $plan, 'spot' => $spot]);
     }
@@ -81,10 +78,7 @@ class CommentController extends Controller
     {
       $request_form = $request->all();
       $plan = Plan::find($request_form['plan_id']);
-      $spot = Spot::find($request_form['spot_id']);
-
-      // Vue.js表示用に関連情報を取得
-      $this->getCommentInfo($spot);
+      $spot = Spot::with('comments.user')->with('user')->find($request_form['spot_id']);
 
       return view('comment.show', ['plan' => $plan, 'spot' => $spot]);
     }

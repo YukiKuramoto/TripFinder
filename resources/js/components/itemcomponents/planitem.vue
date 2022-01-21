@@ -16,7 +16,7 @@
     <div :class="'plan-item-wrapper plan-item-wrapper-' + pagetype">
       <a v-for="plan in plans" :href="'/index/' + plan.id" :class="'plan-item plan-item-' + pagetype">
         <div class="plan-image-wrapper">
-          <img class="plan-image" :src="plan.spots[0].images[0].image_path">
+          <img class="plan-image" :src="plan.images[0].image_path">
         </div>
         <div class="plan-outline-wrapper">
           <p class="plan-title">{{ plan.plan_title }}</p>

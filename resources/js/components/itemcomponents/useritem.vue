@@ -63,6 +63,8 @@ export default {
           users: '',
         }
     },
+    computed: {
+    },
     created: function(){
       // ページネーション初期値セット
       this.current_page = 1;
@@ -70,8 +72,23 @@ export default {
       this.total_page = this.prop_total_page;
       // サーバーからのレスポンスをセット
       this.users = this.response;
+      // 各ユーザーに対するフォロー状況確認
+      this.getFollowStatus(this.users);
     },
     methods: {
+      getFollowStatus: function(users){
+        // 各ユーザーに対するフォロー状況確認
+        let login_uid = this.login_user;
+        this.users.forEach((user, i) => {
+          user.followers.forEach((follower, i) => {
+            if(follower.id == login_uid){
+              user.follow_flg = true;
+            }else{
+              user.follow_flg = false;
+            }
+          });
+        });
+      },
       getNextpage: function(){
 
         // then句でVueインスタンスにアクセスできるようthatに仮代入
@@ -96,6 +113,7 @@ export default {
           that.total_page = response.data.total_page;
           // 取得結果を再セット
           that.users = response.data.response;
+          that.getFollowStatus(that.users);
         }).catch(function(error){
           console.log(error);
         });

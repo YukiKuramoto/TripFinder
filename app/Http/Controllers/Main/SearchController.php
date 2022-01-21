@@ -89,7 +89,7 @@ class SearchController extends Controller
       $response = $this->multiDescSortArray($response, 'updated_at');
 
       // Vue.js表示用に関連情報を取得
-      $response = $this->getPlans($response);
+      // $response = $this->getPlans($response);
 
       // ページネーション表示用に配列編集
       $response = $this->RemakeArray($response, self::planViewNum);
@@ -122,7 +122,7 @@ class SearchController extends Controller
       $response = $this->multiDescSortArray($response, 'updated_at');
 
       // Vue.js表示用に関連情報を取得
-      $response = $this->getSpots($response);
+      // $response = $this->getSpots($response);
       // ページネーション表示用に配列編集
       $response = $this->RemakeArray($response, self::spotViewNum);
       // リターン用レスポンスを作成
@@ -151,7 +151,7 @@ class SearchController extends Controller
       $response = $this->DBSearchService->SearchFromDB_User($search_key);
 
       // Vue.js表示用に関連情報を取得
-      $response = $this->getFollowInfo($response, Auth::id());
+      // $response = $this->getFollowInfo($response, Auth::id());
       // ページネーション表示用に配列編集
       $response = $this->RemakeArray($response, self::userViewNum);
       // リターン用レスポンスを作成

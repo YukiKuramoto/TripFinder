@@ -28,6 +28,8 @@ class UsersViewController extends Controller
 
     // ユーザー一覧画面ユーザー表示数
     const userViewNum = 6;
+    // EagerLoading時に参照するリレーション
+    const relation_user = ['plans', 'followers'];
 
 
     /**
@@ -42,18 +44,18 @@ class UsersViewController extends Controller
       $current_uid = $current_user->id;
 
       // 全ユーザ取得
-      $users = User::all();
-      $users = $this->getFollowInfo($users, $current_uid);
+      $users = User::with(self::relation_user)->get();
+      // $users = $this->getFollowInfo($users, $current_uid);
       $users = $this->RemakeArray($users, self::userViewNum);
 
       // Favoriteユーザー取得
-      $favorite_users = $current_user->follows;
-      $favorite_users = $this->getFollowInfo($favorite_users, $current_uid);
+      $favorite_users = $current_user->follows()->with(self::relation_user)->get();
+      // $favorite_users = $this->getFollowInfo($favorite_users, $current_uid);
       $favorite_users = $this->RemakeArray($favorite_users, self::userViewNum);
 
       //Followerユーザー取得
-      $follower_users = $current_user->followers;
-      $follower_users = $this->getFollowInfo($follower_users, $current_uid);
+      $follower_users = $current_user->followers()->with(self::relation_user)->get();
+      // $follower_users = $this->getFollowInfo($follower_users, $current_uid);
       $follower_users = $this->RemakeArray($follower_users,self::userViewNum);
 
       return view('users.index', [
@@ -118,9 +120,9 @@ class UsersViewController extends Controller
       $next_index = $request_form['next_index'];
 
       //　全ユーザー取得
-      $users = User::all();
+      $users = User::with(self::relation_user)->get();
       // フォロー状況取得
-      $users = $this->getFollowInfo($users, $current_uid);
+      // $users = $this->getFollowInfo($users, $current_uid);
       // ページネーション用の形式に変換
       $users = $this->RemakeArray($users, self::userViewNum);
 
@@ -146,9 +148,9 @@ class UsersViewController extends Controller
       $next_index = $request_form['next_index'];
 
       // フォローしているユーザー取得
-      $users = $current_user->follows;
+      $users = $current_user->follows()->with(self::relation_user)->get();
       // フォロー状況取得
-      $users = $this->getFollowInfo($users, $current_uid);
+      // $users = $this->getFollowInfo($users, $current_uid);
       // ページネーション用の形式に変換
       $users = $this->RemakeArray($users, self::userViewNum);
 
@@ -174,9 +176,9 @@ class UsersViewController extends Controller
       $next_index = $request_form['next_index'];
 
       // // フォロワー情報取得
-      $users = $current_user->followers;
+      $users = $current_user->followers()->with(self::relation_user)->get();
       // フォロー状況取得
-      $users = $this->getFollowInfo($users, $current_uid);
+      // $users = $this->getFollowInfo($users, $current_uid);
       // ページネーション用の形式に変換
       $users = $this->RemakeArray($users, self::userViewNum);
 

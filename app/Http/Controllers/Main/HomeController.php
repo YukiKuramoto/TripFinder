@@ -22,6 +22,9 @@ class HomeController extends Controller
     // ホーム画面表示プラン・スポット数
     const planViewNum = 3;
     const spotViewNum = 4;
+    // EagerLoading時に参照するリレーション
+    const relation_plan = ['spots', 'user', 'tags', 'favs', 'images'];
+    const relation_spot = ['user', 'tags', 'favs', 'images'];
 
 
     /**
@@ -32,18 +35,18 @@ class HomeController extends Controller
     public function index()
     {
       // 新着プラン取得処理
-      $newArrivalPlans = Plan::latest()->take(self::planViewNum)->get();
-      $this->getPlans($newArrivalPlans);
+      $newArrivalPlans = Plan::latest()->take(self::planViewNum)->with(self::relation_plan)->get();
+      // $this->getPlans($newArrivalPlans);
       $newArrivalPlans = $this->RemakeArray($newArrivalPlans,self::planViewNum);
 
       // 人気プラン取得処理
-      $popularPlans = Plan::withCount('favs')->orderBy('favs_count', 'desc')->take(self::planViewNum)->get();
-      $this->getPlans($popularPlans);
+      $popularPlans = Plan::withCount('favs')->orderBy('favs_count', 'desc')->take(self::planViewNum)->with(self::relation_plan)->get();
+      // $this->getPlans($popularPlans);
       $popularPlans = $this->RemakeArray($popularPlans,self::planViewNum);
 
       // 人気スポット取得処理
-      $popularSpots = Spot::withCount('favs')->orderBy('favs_count', 'desc')->take(self::spotViewNum)->get();
-      $this->getSpots($popularSpots);
+      $popularSpots = Spot::withCount('favs')->orderBy('favs_count', 'desc')->take(self::spotViewNum)->with(self::relation_spot)->get();
+      // $this->getSpots($popularSpots);
       $popularSpots = $this->RemakeArray($popularSpots, 4);
 
       // ホーム画面ビューをリターン

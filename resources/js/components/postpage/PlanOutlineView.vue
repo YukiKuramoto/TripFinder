@@ -43,7 +43,7 @@
             <p class="tag-name" v-for="tag in planOutline.tags">#{{ tag.name }}</p>
           </div>
           <div class="fav-button-area">
-            <a v-if="planOutline.fav_status" class="btn btn-warning plan-unfav-btn" v-bind:href="'/index/unfavplan?planId=' + planOutline.id">お気に入り登録済み</a>
+            <a v-if="fav_status" class="btn btn-warning plan-unfav-btn" v-bind:href="'/index/unfavplan?planId=' + planOutline.id">お気に入り登録済み</a>
             <a v-else class="btn btn-warning plan-fav-btn" v-bind:href="'/index/favplan?planId=' + planOutline.id">お気に入り登録</a>
           </div>
         </div>
@@ -71,11 +71,18 @@
     ],
     data() {
       return {
+        fav_status: false,
         mainImage: '',
         subImage: [],
       };
     },
     created: function(){
+      this.planOutline.favs.forEach((user, i) => {
+        if(user.id == this.login_uid){
+          this.fav_status = true;
+        }
+      });
+
       this.setImage(this.dayInfo);
     },
     methods: {

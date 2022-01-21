@@ -72,7 +72,6 @@
     },
     methods: {
       registarPlanTag: function(){
-        console.log("do");
         this.planOutline.plan_tag = document.getElementById('plantag-input').value;
       },
     }

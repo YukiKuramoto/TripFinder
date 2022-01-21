@@ -30,7 +30,7 @@
               <p class="tag-name" v-for="tag in spot.tags">#{{ tag.name }}</p>
             </div>
             <div class="spot-detail-item">
-              <a v-if="spot.fav_status" class="spot-fav-button btn btn-warning spot-unfav-btn" v-bind:href="'/index/unfavspot?planId=' + planOutline.id + '&spotId=' + spot.id">登録済み</a>
+              <a v-if="fav_status" class="spot-fav-button btn btn-warning spot-unfav-btn" v-bind:href="'/index/unfavspot?planId=' + planOutline.id + '&spotId=' + spot.id">登録済み</a>
               <a v-else class="spot-fav-button btn btn-warning" v-bind:href="'/index/favspot?planId=' + planOutline.id + '&spotId=' + spot.id">行きたいスポット</a>
               <a class="spot-fav-button btn btn-secondary" v-bind:href="'/comment/create?spot_id=' + spot.id">コメント投稿</a>
               <a v-if="postuser.id == login_uid" class="spot-fav-button btn btn-secondary" v-bind:href="'/post/spotedit/' + spot.id">編集</a>
@@ -69,12 +69,12 @@
           <p>関連サイトURL</p>
         </div>
         <div class="spot-link-contents">
-          <div v-if="spot.links.length > 0" v-for="link in spot.links" class="link-form-area">
+          <div v-if="spot.links.length > 0" v-for="(link, index) in spot.links" class="link-form-area">
               <div class="link-title-header form-row form-header">
-                {{ link.link_title }}
+                関連リンク{{ index + 1 }}
               </div>
               <div class="form-row form-content">
-                <a :href="link.link_url" target="_blank">{{ link.link_url }}</a>
+                <a :href="link.link_url" target="_blank">{{ link.link_title }}</a>
               </div>
           </div>
           <div v-if="spot.links.length == 0">
@@ -105,6 +105,7 @@
     ],
     data() {
       return {
+        fav_status: false,
         mainImage: '',
         subImage: [],
         targetImage: '',
@@ -122,6 +123,12 @@
       }
     },
     created: function(){
+      this.spot.favs.forEach((user, i) => {
+        if(user.id == this.login_uid){
+          this.fav_status = true;
+        }
+      });
+
       this.setImage(this.spot);
     },
     mounted: function(){
@@ -194,7 +201,7 @@
 <style scoped lang="scss">
 
 .item {
-  min-width: 900px;
+  // min-width: 900px;
   width: 100%;
   height: 100%;
   min-height: calc(100vh - 60px);
@@ -221,6 +228,7 @@
 
 //ここからスタート
 .spot-wrapper {
+  width: 100%;
   height: 100%;
   padding: 0 50px;
 
@@ -357,10 +365,15 @@
     margin-top: 50px;
 
     .form-row {
-      min-width: 800px;
+      // min-width: 800px;
+      width: 100%;
       margin: 0 0 -1px 0;
       padding: 8px;
       border: 1px solid rgb(85,85,85, 0.5);
+    }
+
+    a {
+      width: 100%;
     }
 
     .form-header {

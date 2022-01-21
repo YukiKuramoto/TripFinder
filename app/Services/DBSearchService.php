@@ -27,6 +27,10 @@ class DBSearchService
   |
   */
 
+    // EagerLoading時に参照するリレーション
+    const relation_plan = ['spots', 'user', 'tags', 'favs', 'images'];
+    const relation_spot = ['user', 'tags', 'favs', 'images'];
+    const relation_user = ['plans', 'followers'];
 
     /**
     * Httpリクエスト内の検索キーを元に、DBからプランを検索するfunction
@@ -70,7 +74,7 @@ class DBSearchService
       }
 
       // 作成したクエリを実行
-      $result_planDB = $query->get();
+      $result_planDB = $query->with(self::relation_plan)->get();
       // 検索結果をリターン用配列に追加
       $res = $this->array_push_eachItem($res, $result_planDB);
 
@@ -90,7 +94,7 @@ class DBSearchService
 
       // 検索結果をリターン用配列に追加
       foreach($result_tagDB as $item){
-        $res = $this->array_push_eachItem($res, $item->plans);
+        $res = $this->array_push_eachItem($res, $item->plans()->with(self::relation_plan)->get());
       }
 
       // 検索結果をリターン
@@ -133,7 +137,7 @@ class DBSearchService
       }
 
       // 作成したクエリを実行
-      $result_spotDB = $query->get();
+      $result_spotDB = $query->with(self::relation_spot)->get();
       // 検索結果をリターン用配列に追加
       $res = $this->array_push_eachItem($res, $result_spotDB);
 
@@ -152,7 +156,7 @@ class DBSearchService
 
       // 検索結果をリターン用配列に追加
       foreach($result_tagDB as $item){
-        $this->array_push_eachItem($res, $item->spots);
+        $this->array_push_eachItem($res, $item->spots()->with(self::relation_spot)->get());
       }
 
       // 検索結果をリターン
@@ -184,7 +188,7 @@ class DBSearchService
       $query->where('id', '<>', $current_uid);
 
       // 作成したクエリを実行
-      $res = $query->get();
+      $res = $query->with(self::relation_user)->get();
 
       // 検索結果をリターン
       return $res;

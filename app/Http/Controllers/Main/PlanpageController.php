@@ -32,6 +32,9 @@ class PlanpageController extends Controller
   |
   */
 
+    // EagerLoading時に参照するリレーション
+    const relation_plan = ['favs', 'tags'];
+    const relation_spot = ['tags', 'images', 'favs', 'user', 'links', 'comments.user'];
 
   /**
   * プランビュー表示用function
@@ -42,29 +45,20 @@ class PlanpageController extends Controller
     public function index($plan_id)
     {
       // プラン・ユーザーの特定、変数初期値セット
-      $plan = Plan::find($plan_id);
       $current_user_id = Auth::id();
-      $plan->tags;
       $dayInfo = [];
       $count = 0;
 
-      // ログインユーザーのプランお気に入り状況取得
-      $fav_plan = FavPlan::where('user_id', $current_user_id)->where('plan_id', $plan_id)->get();
-      $plan->fav_status = $this->decideFavStatus($fav_plan);
+      $plan = Plan::with(self::relation_plan)->find($plan_id);
+      $spots = $plan->spots()->with(self::relation_spot)->get();
 
       // Vue.js表示用オブジェクト作成処理
-      foreach($plan->spots as $index => $spot){
+      foreach($spots as $index => $spot){
 
         // Vue.js表示用に関連情報を取得
         $spot->spot_count = $index;
-        $this->getSpotsDetail($spot);
-        $this->getCommentInfo($spot);
 
-        // ログインユーザーのスポットお気に入り状況取得
-        $fav_spot = FavSpot::where('user_id', $current_user_id)->where('spot_id', $spot->id)->get();
-        $spot->fav_status = $this->decideFavStatus($fav_spot);
-
-        // Vue.js表示に使用するプラン・スポット情報を保有するオブジェクトの作成
+        // Vue.js表示に使用するプラン・スポット情報を保有するオブジェクト構造体に作り替え
         if($count < $spot->spot_day){
           $count = $spot->spot_day;
           array_push($dayInfo, ['day_count' => $spot->spot_day-1, 'spotInfo' => [$spot]]);
@@ -91,18 +85,12 @@ class PlanpageController extends Controller
     public function indexSpot($spot_id)
     {
       // スポット、ログインユーザーの取得
-      $spot = Spot::find($spot_id);
+      $spot = Spot::with(self::relation_spot)->find($spot_id);
       $current_user_id = Auth::id();
       $plan = $spot->plans;
 
       // Vue.js表示用スポット情報の取得
       $spot['spot_count'] = 0;
-      $this->getSpotsDetail($spot);
-      $this->getCommentInfo($spot);
-
-      // ログインユーザーのスポットお気に入り状況取得
-      $fav_spot = FavSpot::where('user_id', $current_user_id)->where('spot_id', $spot->id)->get();
-      $spot->fav_status = $this->decideFavStatus($fav_spot);
 
       return view('planpage.spot', ['spot' => $spot, 'plan' => $plan, 'login_uid' => $current_user_id]);
     }

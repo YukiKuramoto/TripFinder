@@ -29,6 +29,9 @@ class MypageController extends Controller
     // ホーム画面表示プラン・スポット数
     const planViewNum = 3;
     const spotViewNum = 4;
+    // EagerLoading時に参照するリレーション
+    const relation_plan = ['spots', 'user', 'tags', 'favs', 'images'];
+    const relation_spot = ['user', 'tags', 'favs', 'images'];
 
 
     /**
@@ -42,10 +45,10 @@ class MypageController extends Controller
       $user = User::find($user_id);
       $login_uid = Auth::id() != [] ? Auth::id() : 'undefined_user';
 
-      // Vue.js表示用に関連情報を取得
-      $plans = $this->getPlans($user->plans);
-      $plans_fav = $this->getPlans($user->favPlans);
-      $spots_fav = $this->getSpots($user->favSpots);
+      //トップページ用プラン情報取得
+      $plans = $user->plans()->with(self::relation_plan)->get();
+      $plans_fav = $user->favPlans()->with(self::relation_plan)->get();
+      $spots_fav = $user->favSpots()->with(self::relation_spot)->get();
 
       // ページネーション用に配列編集
       $plans = $this->RemakeArray($plans, self::planViewNum);
@@ -76,9 +79,10 @@ class MypageController extends Controller
       $postuser = $request_form['search_key'];
       $nextindex = $request_form['next_index'];
       $user = User::find($postuser['id']);
+      $plan_relation = ['spots', 'user', 'tags', 'favs', 'images'];
 
       // 投稿一覧情報取得し、Vue.js表示用に関連情報を取得
-      $plans = $this->getPlans($user->plans);
+      $plans = $user->plans()->with(self::relation_plan)->get();
       // ページネーション用に配列編集
       $plans = $this->RemakeArray($plans, self::planViewNum);
 
@@ -107,7 +111,7 @@ class MypageController extends Controller
       $user = User::find($postuser['id']);
 
       // お気に入り情報取得し、Vue.js表示用に関連情報を取得
-      $plans = $this->getPlans($user->favPlans);
+      $plans = $user->favPlans()->with(self::relation_plan)->get();
       // ページネーション用に配列編集
       $plans = $this->RemakeArray($plans, self::planViewNum);
 
@@ -134,7 +138,7 @@ class MypageController extends Controller
       $user = User::find($postuser['id']);
 
       // お気に入り情報取得し、Vue.js表示用に関連情報を取得
-      $spots = $this->getSpots($user->favSpots);
+      $spots = $user->favSpots()->with(self::relation_spot)->get();
       // ページネーション用に配列編集
       $spots = $this->RemakeArray($spots, self::spotViewNum);
 

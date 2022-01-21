@@ -18,7 +18,7 @@
             :href="'/comment/delete/?comment_id=' + comment.id + '&plan_id=' + plan.id">
             削除
           </a>
-          <p>by {{ comment.user_name }}</p>
+          <p>by {{ comment.user.name }}</p>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
       'plan',
       'comments',
       'login_uid',
-    ],
+    ]
   }
 </script>
 

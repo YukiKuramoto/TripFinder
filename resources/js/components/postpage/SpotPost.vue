@@ -136,7 +136,8 @@ import heic2any from "heic2any";
       }
     },
     beforeUpdate: function(){
-      // $('.hash-tag').tagsInput({width:'100%'});
+      // プラスボタンを押下し、スポット要素足した際にテキストボックス非表示
+      $('.hash-tag').tagsInput({width:'100%'});
     },
     updated: function(){
       this.$emit('spotUpdate', this.spot, this.spot.spot_count);
@@ -194,7 +195,6 @@ import heic2any from "heic2any";
 
           let Key = vueComponents.spot.spot_count;
 
-          console.log('OK');
           var image = new Image();
           image.onload = () => {
 
