@@ -75,66 +75,6 @@ class Controller extends BaseController
     }
 
 
-    public function getPlans($plans_all)
-    {
-
-      foreach ($plans_all as $index => $plan) {
-        $plan->spots;
-        $plan->favs;
-        $plan->tags;
-        foreach ($plan->spots as $spot) {
-          $spot->images;
-        }
-      }
-
-      return $plans_all;
-    }
-
-    public function getSpots($spots_all)
-    {
-
-      foreach ($spots_all as $index => $spot) {
-        $count = $index + 1;
-        $spot->images;
-        $spot->favs;
-        $spot->user;
-        $spot->links;
-      }
-      return $spots_all;
-
-    }
-
-
-    public function getSpotsDetail($spot)
-    {
-      // スポット詳細情報取得
-      $spot->tags;
-      $spot->images;
-      $spot->favs;
-      $spot->user;
-      $spot->links;
-    }
-
-
-    public function getFollowInfo($users, $current_user_id)
-    {
-      // dd($users);
-      foreach($users as $user){
-        // dd($user->plans);
-        $user->plans;
-        $followers = $user->followers;
-        foreach ($followers as $follower) {
-          if($follower['id'] == $current_user_id){
-            $user->follow_flg = true;
-          }else{
-            $user->follow_flg = false;
-          }
-        }
-      }
-      return $users;
-    }
-
-
     public function decideFavStatus($favObject)
     {
       if(count($favObject) == 0){
@@ -144,21 +84,6 @@ class Controller extends BaseController
       };
     }
 
-    /**
-    * コメント一覧表示Vue.js用に関連情報取得function
-    * 取得対象（ユーザー名、ユーザープロフィール画像パス）
-    *
-    * @param Object $spot   スポット情報Object
-    * @return void
-    */
-    public function getCommentInfo($spot)
-    {
-      foreach($spot->comments as $item){
-        $user = User::find($item->user_id);
-        $item->user_name = $user->name;
-        $item->user_image = $user->image_path;
-      }
-    }
 
     public function mergeTags($targetObject)
     {
