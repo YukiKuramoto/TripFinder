@@ -119,7 +119,7 @@ export default {
 .spot-item-wrapper {
   padding: 10px 0px;
   margin-top: 80px;
-  width: 900px;
+  /* width: 900px; */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
