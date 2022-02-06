@@ -14,7 +14,7 @@
           ></v-pagination>
         </div>
       </v-app>
-      <div :class="'spot-item-wrapper spot-item-wrapper-' + pagetype">
+      <div id="wrapper" :class="'spot-item-wrapper spot-item-wrapper-' + pagetype">
         <a v-for="spot in spots" :href="'/index/spot/' + spot.id" :class="'spot-item spot-item-' + pagetype">
           <div class="spot-image-outer">
             <img class="spot-image" :src="spot.images[0].image_path">
@@ -57,6 +57,12 @@ export default {
       this.total_page = this.prop_total_page;
       // サーバーからのレスポンスをセット
       this.spots = this.response;
+
+    },
+    mounted: function(){
+      if(this.pagetype == "mypage/favspot"){
+        $("#wrapper").width(580);
+      }
     },
     methods: {
       getNextpage: function(){
@@ -116,6 +122,10 @@ export default {
   padding-bottom: 50px;
 }
 
+.spot-item-wrapper-mypage {
+  width: 580px;
+}
+
 .spot-item-wrapper {
   padding: 10px 0px;
   margin-top: 80px;
@@ -125,9 +135,6 @@ export default {
   flex-wrap: wrap;
 }
 
-.spot-item-wrapper-mypage {
-  width: 580px;
-}
 
 .spot-item-wrapper-home {
   margin-top: 20px;
