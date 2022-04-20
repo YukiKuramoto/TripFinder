@@ -65,7 +65,7 @@ Route::group(['prefix' => 'comment'], function(){
 // プロフィール関連ルーティング
 Route::group(['prefix' => 'profile'], function(){
   Route::get('/edit', 'Main\ProfileController@index')->middleware('auth');
-  Route::post('/update', 'Main\ProfileController@update')->middleware('auth');
+  Route::post('/update', 'Main\ProfileController@update');
 });
 
 //ユーザーページ関連ルーティング
