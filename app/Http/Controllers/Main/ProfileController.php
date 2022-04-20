@@ -44,6 +44,7 @@ class ProfileController extends Controller
     */
     public function update(Request $request)
     {
+        dd($request);
       $user_request = $request->all();
       $current_uid = Auth::id();
       $user = User::find($user_request['user_id']);
