@@ -29,6 +29,7 @@ class ProfileController extends Controller
   */
     public function index()
     {
+        dd("test");
       $user_id = Auth::id();
       $user = User::find($user_id);
 
